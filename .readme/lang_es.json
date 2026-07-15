@@ -1,0 +1,32 @@
+{
+  "$name": "Español",
+  "text_current_lowercase": "actual",
+  "text_plugin_synopsis": "Plugin Pinyin4j para convertir chino a pinyin Hanyu",
+  "h3_languages_with_ascii": "Idiomas (Languages)",
+  "p_languages_all_supported_for_readme": "El README.md actual admite los siguientes idiomas",
+  "h3_introduction": "Introduccion",
+  "p_introduction": "El plugin AutoJs6 Pinyin4j proporciona a AutoJs6 conversion de chino a pinyin Hanyu basada en Pinyin4j. Admite salida sin tonos, con numeros de tono, y con marcas de tono.",
+  "h3_functions": "Funciones",
+  "features": [
+    "Proporciona el servicio de plugin `pinyin4j` con ID de plugin `pinyin4j`.",
+    "Admite API de AutoJs6 como `pinyin4j.of(text, options)` y `pinyin4j.asTone(text)`.",
+    "Admite configuracion de mayusculas/minusculas, tipo de tono, representacion de `ü`, y separador.",
+    "Los metadatos del plugin, las instrucciones de uso, README y CHANGELOG estan localizados en espanol/frances/ruso/arabe/japones/coreano/ingles/chino simplificado/chino tradicional de Hong Kong/chino tradicional de Taiwan.",
+    "Basado en `com.belerweb:pinyin4j`."
+  ],
+  "h3_usage": "Uso",
+  "h3_options": "Opciones",
+  "p_options_intro": "Las opciones comunes incluyen",
+  "p_as_tone_intro": "`pinyin4j.asTone(text)` convierte pinyin con numeros de tono a pinyin con marcas de tono",
+  "h3_release_history": "Historial de versiones",
+  "h5_for_more_release_history": "Para mas historial de versiones",
+  "h3_build": "Compilacion",
+  "text_release_build": "Compilacion Release",
+  "p_build_params": "Los parametros de compilacion vienen de `version.properties`; el SDK minimo actual es 24 y el SDK objetivo es 36",
+  "h3_resource_layout": "Estructura de recursos",
+  "p_resource_layout": "`strings.xml` contiene descripciones del plugin y mensajes de error localizados; `plugin_instruction.md` contiene instrucciones de uso mostradas por el host. README y CHANGELOG se generan desde fuentes JSON con `.python/generate_markdown.py`",
+  "h3_links": "Enlaces",
+  "text_link_autojs6_pinyin4j_docs": "Documentacion de AutoJs6 Pinyin4j",
+  "text_link_pinyin4j_project": "Proyecto Pinyin4j",
+  "text_link_pinyin4j_maven": "Coordenadas Maven de Pinyin4j"
+}

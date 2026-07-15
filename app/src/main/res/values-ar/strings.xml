@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="plugin_description">مكون Pinyin4j الإضافي لتحويل الصينية إلى بينيين Hanyu</string>
+    <string name="error_invalid_case_type">نوع حالة الأحرف في Pinyin4j غير صالح: %1$s</string>
+    <string name="error_invalid_tone_type">نوع النغمة في Pinyin4j غير صالح: %1$s</string>
+    <string name="error_invalid_v_char_type">نوع حرف v في Pinyin4j غير صالح: %1$s</string>
+</resources>

@@ -1,0 +1,32 @@
+{
+  "$name": "简体中文",
+  "text_current_lowercase": "当前",
+  "text_plugin_synopsis": "用于中文转汉语拼音的 Pinyin4j 插件",
+  "h3_languages_with_ascii": "语言 (Languages)",
+  "p_languages_all_supported_for_readme": "当前 README.md 支持以下语言",
+  "h3_introduction": "简介",
+  "p_introduction": "AutoJs6 Pinyin4j 插件为 AutoJs6 提供基于 Pinyin4j 的中文转汉语拼音能力, 支持无声调, 数字声调和音调符号输出.",
+  "h3_functions": "功能",
+  "features": [
+    "提供 `pinyin4j` 插件服务, 插件 ID 为 `pinyin4j`.",
+    "支持 AutoJs6 中的 `pinyin4j.of(text, options)` 和 `pinyin4j.asTone(text)`.",
+    "支持配置拼音大小写, 声调类型, `ü` 字符表示方式和分隔符.",
+    "插件信息, 使用说明, README 与 CHANGELOG 均支持西班牙语/法语/俄语/阿拉伯语/日语/韩语/英语/简体中文/香港繁体/台湾繁体.",
+    "基于 `com.belerweb:pinyin4j`."
+  ],
+  "h3_usage": "使用示例",
+  "h3_options": "选项",
+  "p_options_intro": "常用选项包括",
+  "p_as_tone_intro": "`pinyin4j.asTone(text)` 可将数字声调拼音转换为音调符号拼音",
+  "h3_release_history": "发行历史",
+  "h5_for_more_release_history": "更多发行历史可参阅",
+  "h3_build": "构建",
+  "text_release_build": "Release 构建",
+  "p_build_params": "构建参数来自 `version.properties`, 当前最低 SDK 为 24, 目标 SDK 为 36",
+  "h3_resource_layout": "资源结构",
+  "p_resource_layout": "`strings.xml` 提供插件描述和错误信息本地化; `plugin_instruction.md` 提供宿主侧展示的插件使用说明. README 与 CHANGELOG 由 `.python/generate_markdown.py` 根据 JSON 源文件生成",
+  "h3_links": "相关链接",
+  "text_link_autojs6_pinyin4j_docs": "AutoJs6 Pinyin4j 文档",
+  "text_link_pinyin4j_project": "Pinyin4j 项目",
+  "text_link_pinyin4j_maven": "Pinyin4j Maven 坐标"
+}

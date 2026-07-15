@@ -1,0 +1,32 @@
+{
+  "$name": "Русский",
+  "text_current_lowercase": "текущий",
+  "text_plugin_synopsis": "Плагин Pinyin4j для преобразования китайского текста в пиньинь Hanyu",
+  "h3_languages_with_ascii": "Языки (Languages)",
+  "p_languages_all_supported_for_readme": "Текущий README.md поддерживает следующие языки",
+  "h3_introduction": "Введение",
+  "p_introduction": "Плагин AutoJs6 Pinyin4j предоставляет AutoJs6 преобразование китайского текста в пиньинь Hanyu на базе Pinyin4j. Поддерживается вывод без тонов, с номерами тонов, и со знаками тонов.",
+  "h3_functions": "Возможности",
+  "features": [
+    "Предоставляет сервис плагина `pinyin4j` с ID плагина `pinyin4j`.",
+    "Поддерживает API AutoJs6, такие как `pinyin4j.of(text, options)` и `pinyin4j.asTone(text)`.",
+    "Поддерживает настройку регистра, типа тона, представления `ü`, и разделителя.",
+    "Метаданные плагина, инструкции по использованию, README и CHANGELOG локализованы на испанский/французский/русский/арабский/японский/корейский/английский/упрощенный китайский/гонконгский традиционный китайский/тайваньский традиционный китайский.",
+    "Основан на `com.belerweb:pinyin4j`."
+  ],
+  "h3_usage": "Использование",
+  "h3_options": "Параметры",
+  "p_options_intro": "Распространенные параметры включают",
+  "p_as_tone_intro": "`pinyin4j.asTone(text)` преобразует пиньинь с номерами тонов в пиньинь со знаками тонов",
+  "h3_release_history": "История выпусков",
+  "h5_for_more_release_history": "Больше истории выпусков",
+  "h3_build": "Сборка",
+  "text_release_build": "Сборка Release",
+  "p_build_params": "Параметры сборки берутся из `version.properties`; текущий минимальный SDK равен 24, целевой SDK равен 36",
+  "h3_resource_layout": "Структура ресурсов",
+  "p_resource_layout": "`strings.xml` содержит локализованные описания плагина и сообщения об ошибках; `plugin_instruction.md` содержит инструкции по использованию, отображаемые хостом. README и CHANGELOG генерируются из JSON исходников с помощью `.python/generate_markdown.py`",
+  "h3_links": "Ссылки",
+  "text_link_autojs6_pinyin4j_docs": "Документация AutoJs6 Pinyin4j",
+  "text_link_pinyin4j_project": "Проект Pinyin4j",
+  "text_link_pinyin4j_maven": "Maven координаты Pinyin4j"
+}

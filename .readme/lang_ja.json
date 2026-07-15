@@ -1,0 +1,32 @@
+{
+  "$name": "日本語",
+  "text_current_lowercase": "現在",
+  "text_plugin_synopsis": "中国語を漢語ピンインに変換する Pinyin4j プラグイン",
+  "h3_languages_with_ascii": "言語 (Languages)",
+  "p_languages_all_supported_for_readme": "現在の README.md は次の言語に対応しています",
+  "h3_introduction": "概要",
+  "p_introduction": "AutoJs6 Pinyin4j プラグインは AutoJs6 に Pinyin4j ベースの中国語から漢語ピンインへの変換機能を提供します. 声調なし, 数字声調, 声調記号の出力に対応します.",
+  "h3_functions": "機能",
+  "features": [
+    "プラグイン ID `pinyin4j` の `pinyin4j` プラグインサービスを提供します.",
+    "`pinyin4j.of(text, options)` と `pinyin4j.asTone(text)` などの AutoJs6 API に対応します.",
+    "ピンインの大文字小文字, 声調タイプ, `ü` の表記, 区切り文字を設定できます.",
+    "プラグインメタデータ, 使用説明, README, CHANGELOG はスペイン語/フランス語/ロシア語/アラビア語/日本語/韓国語/英語/簡体字中国語/香港繁体字/台湾繁体字にローカライズされています.",
+    "`com.belerweb:pinyin4j` を基盤にしています."
+  ],
+  "h3_usage": "使用例",
+  "h3_options": "オプション",
+  "p_options_intro": "よく使うオプションは次のとおりです",
+  "p_as_tone_intro": "`pinyin4j.asTone(text)` は数字声調ピンインを声調記号付きピンインに変換します",
+  "h3_release_history": "リリース履歴",
+  "h5_for_more_release_history": "その他のリリース履歴",
+  "h3_build": "ビルド",
+  "text_release_build": "Release ビルド",
+  "p_build_params": "ビルドパラメータは `version.properties` から取得されます. 現在の最小 SDK は 24, ターゲット SDK は 36 です",
+  "h3_resource_layout": "リソース構成",
+  "p_resource_layout": "`strings.xml` にはローカライズされたプラグイン説明とエラーメッセージが含まれます. `plugin_instruction.md` にはホスト側で表示される使用説明が含まれます. README と CHANGELOG は `.python/generate_markdown.py` により JSON ソースから生成されます",
+  "h3_links": "リンク",
+  "text_link_autojs6_pinyin4j_docs": "AutoJs6 Pinyin4j ドキュメント",
+  "text_link_pinyin4j_project": "Pinyin4j プロジェクト",
+  "text_link_pinyin4j_maven": "Pinyin4j Maven 座標"
+}

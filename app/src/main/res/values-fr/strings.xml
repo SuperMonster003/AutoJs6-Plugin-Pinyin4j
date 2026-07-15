@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="plugin_description">Plugin Pinyin4j pour convertir le chinois en pinyin Hanyu</string>
+    <string name="error_invalid_case_type">Type de casse Pinyin4j invalide: %1$s</string>
+    <string name="error_invalid_tone_type">Type de ton Pinyin4j invalide: %1$s</string>
+    <string name="error_invalid_v_char_type">Type de caractere v Pinyin4j invalide: %1$s</string>
+</resources>

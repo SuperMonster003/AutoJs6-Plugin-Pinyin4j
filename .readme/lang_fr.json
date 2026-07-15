@@ -1,0 +1,32 @@
+{
+  "$name": "Français",
+  "text_current_lowercase": "actuel",
+  "text_plugin_synopsis": "Plugin Pinyin4j pour convertir le chinois en pinyin Hanyu",
+  "h3_languages_with_ascii": "Langues (Languages)",
+  "p_languages_all_supported_for_readme": "Le README.md actuel prend en charge les langues suivantes",
+  "h3_introduction": "Introduction",
+  "p_introduction": "Le plugin AutoJs6 Pinyin4j fournit a AutoJs6 une conversion du chinois vers le pinyin Hanyu basee sur Pinyin4j. Il prend en charge une sortie sans tons, avec numeros de ton, et avec marques de ton.",
+  "h3_functions": "Fonctions",
+  "features": [
+    "Fournit le service de plugin `pinyin4j` avec l ID de plugin `pinyin4j`.",
+    "Prend en charge les API AutoJs6 comme `pinyin4j.of(text, options)` et `pinyin4j.asTone(text)`.",
+    "Prend en charge la configuration de la casse, du type de ton, de la representation de `ü`, et du separateur.",
+    "Les metadonnees du plugin, les instructions d utilisation, le README et le CHANGELOG sont localises en espagnol/francais/russe/arabe/japonais/coreen/anglais/chinois simplifie/chinois traditionnel de Hong Kong/chinois traditionnel de Taiwan.",
+    "Base sur `com.belerweb:pinyin4j`."
+  ],
+  "h3_usage": "Utilisation",
+  "h3_options": "Options",
+  "p_options_intro": "Les options courantes incluent",
+  "p_as_tone_intro": "`pinyin4j.asTone(text)` convertit le pinyin avec numeros de ton en pinyin avec marques de ton",
+  "h3_release_history": "Historique des versions",
+  "h5_for_more_release_history": "Pour plus d historique des versions",
+  "h3_build": "Construction",
+  "text_release_build": "Construction Release",
+  "p_build_params": "Les parametres de construction viennent de `version.properties`; le SDK minimum actuel est 24 et le SDK cible est 36",
+  "h3_resource_layout": "Structure des ressources",
+  "p_resource_layout": "`strings.xml` contient les descriptions du plugin et les messages d erreur localises; `plugin_instruction.md` contient les instructions d utilisation affichees par l hote. README et CHANGELOG sont generes depuis les sources JSON par `.python/generate_markdown.py`",
+  "h3_links": "Liens",
+  "text_link_autojs6_pinyin4j_docs": "Documentation AutoJs6 Pinyin4j",
+  "text_link_pinyin4j_project": "Projet Pinyin4j",
+  "text_link_pinyin4j_maven": "Coordonnees Maven de Pinyin4j"
+}

@@ -21,9 +21,11 @@ class Pinyin4jPluginService : Service() {
     private val binder = object : IPinyin4jPlugin.Stub() {
         override fun getInfo(): PluginInfo {
             return pluginInfo(
-                name = "Pinyin4j",
-                description = "Pinyin4j conversion provider for AutoJs6.",
-            )
+                name = getString(R.string.app_name),
+                description = getString(R.string.plugin_description),
+            ).apply {
+                supportedAbis = emptyArray()
+            }
         }
 
         override fun of(text: String?, options: Bundle?): String {
@@ -53,7 +55,9 @@ class Pinyin4jPluginService : Service() {
         return when (getOption(Pinyin4jOptionKeys.CASE_TYPE, "LOWERCASE")) {
             "LOWERCASE", "LOW", "L", "0" -> HanyuPinyinCaseType.LOWERCASE
             "UPPERCASE", "UP", "U", "1" -> HanyuPinyinCaseType.UPPERCASE
-            else -> throw IllegalArgumentException("Invalid case type: ${this?.getString(Pinyin4jOptionKeys.CASE_TYPE)}")
+            else -> throw IllegalArgumentException(
+                getString(R.string.error_invalid_case_type, this?.getString(Pinyin4jOptionKeys.CASE_TYPE)),
+            )
         }
     }
 
@@ -62,7 +66,9 @@ class Pinyin4jPluginService : Service() {
             "WITH_TONE_NUMBER", "WITH_NUMBER", "NUMBER", "NUM" -> HanyuPinyinToneType.WITH_TONE_NUMBER
             "WITHOUT_TONE", "NO_TONE", "NO", "FALSE", "0" -> HanyuPinyinToneType.WITHOUT_TONE
             "WITH_TONE_MARK", "WITH_MARK", "MARK", "TRUE", "1" -> HanyuPinyinToneType.WITH_TONE_MARK
-            else -> throw IllegalArgumentException("Invalid tone type: ${this?.getString(Pinyin4jOptionKeys.TONE_TYPE)}")
+            else -> throw IllegalArgumentException(
+                getString(R.string.error_invalid_tone_type, this?.getString(Pinyin4jOptionKeys.TONE_TYPE)),
+            )
         }
     }
 
@@ -72,7 +78,9 @@ class Pinyin4jPluginService : Service() {
             "WITH_U_AND_COLON", "U_AND_COLON", "U_COLON", "U:" -> HanyuPinyinVCharType.WITH_U_AND_COLON
             "WITH_V", "V" -> HanyuPinyinVCharType.WITH_V
             "WITH_U_UNICODE", "U_UNICODE", "UNICODE", "U", "Ü" -> HanyuPinyinVCharType.WITH_U_UNICODE
-            else -> throw IllegalArgumentException("Invalid v char type: ${this?.getString(Pinyin4jOptionKeys.V_CHAR_TYPE)}")
+            else -> throw IllegalArgumentException(
+                getString(R.string.error_invalid_v_char_type, this?.getString(Pinyin4jOptionKeys.V_CHAR_TYPE)),
+            )
         }
     }
 

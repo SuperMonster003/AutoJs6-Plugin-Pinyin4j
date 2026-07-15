@@ -1,0 +1,21 @@
+{
+  "changelog_label_hint": "Nota",
+  "changelog_label_feature": "Nuevo",
+  "changelog_label_fix": "Correccion",
+  "changelog_label_improvement": "Mejora",
+  "changelog_label_dependency": "Dependencia",
+  "$data": {
+    "{{ version_name_with_v }}": {
+      "released_date": "2026/07/15",
+      "feature": [
+        "Se agrego el servicio de plugin Pinyin4j con ID de plugin `pinyin4j` y motor `pinyin4j`",
+        "Se agrego descubrimiento e invocacion desde el host mediante `org.autojs.plugin.PINYIN4J`",
+        "Se admitio `pinyin4j.of(text, options)` para convertir texto chino a pinyin Hanyu con tipo de mayusculas/minusculas, tipo de tono, representacion de `ü`, y separador configurables",
+        "Se admitio `pinyin4j.asTone(text)` para convertir pinyin con numeros de tono a pinyin con marcas de tono",
+        "Se agregaron metadatos del plugin e instrucciones de uso localizadas en espanol/frances/ruso/arabe/japones/coreano/ingles/chino simplificado/chino tradicional de Hong Kong/chino tradicional de Taiwan",
+        "Se agrego generacion de README y CHANGELOG basada en JSON mediante `.python/generate_markdown.py`",
+        "Basado en `com.belerweb:pinyin4j`"
+      ]
+    }
+  }
+}

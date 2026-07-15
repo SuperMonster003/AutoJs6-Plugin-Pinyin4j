@@ -1,0 +1,21 @@
+{
+  "changelog_label_hint": "힌트",
+  "changelog_label_feature": "추가",
+  "changelog_label_fix": "수정",
+  "changelog_label_improvement": "개선",
+  "changelog_label_dependency": "의존성",
+  "$data": {
+    "{{ version_name_with_v }}": {
+      "released_date": "2026/07/15",
+      "feature": [
+        "플러그인 ID `pinyin4j`, 엔진 `pinyin4j`의 Pinyin4j 플러그인 서비스를 추가",
+        "`org.autojs.plugin.PINYIN4J`를 통한 호스트 검색 및 호출을 추가",
+        "`pinyin4j.of(text, options)`로 중국어 텍스트를 한어 병음으로 변환하도록 지원, 대소문자 유형, 성조 유형, `ü` 표기 방식, 구분자를 설정 가능",
+        "`pinyin4j.asTone(text)`로 숫자 성조 병음을 성조 기호 병음으로 변환하도록 지원",
+        "스페인어/프랑스어/러시아어/아랍어/일본어/한국어/영어/간체 중국어/홍콩 번체/대만 번체 플러그인 메타데이터와 사용 설명을 추가",
+        "`.python/generate_markdown.py`를 통한 JSON 기반 README 및 CHANGELOG 생성을 추가",
+        "`com.belerweb:pinyin4j` 기반으로 빌드"
+      ]
+    }
+  }
+}
