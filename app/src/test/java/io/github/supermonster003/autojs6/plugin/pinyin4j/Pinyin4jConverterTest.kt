@@ -58,10 +58,27 @@ class Pinyin4jConverterTest {
     }
 
     @Test
-    fun `tone number utility supports unicode v and u colon spellings`() {
+    fun `dictionary coverage uses code points and preserves unsupported characters`() {
+        assertEquals(
+            "ling-㐀-𠀀-A",
+            Pinyin4jConverter.of("〇㐀𠀀A", mapOf("sep" to "-")),
+        )
+        assertEquals("𠀀", Pinyin4jConverter.of("𠀀"))
+    }
+
+    @Test
+    fun `tone number utility supports umlaut spellings case and strict boundaries`() {
         assertEquals(
             "hàn yǔ, lǚ üè; unchanged5",
             Pinyin4jConverter.asTone("han4 yu3, lv3 u:e4; unchanged5"),
+        )
+        assertEquals(
+            "HÀN YǓ, LǙ ÜÈ; Hàn lüè lüè juè",
+            Pinyin4jConverter.asTone("HAN4 YU3, LV3 U:E4; Han4 lüe4 lve4 jue4"),
+        )
+        assertEquals(
+            "abc4 unchanged4 han5 han4x xhan4 AutoJs6",
+            Pinyin4jConverter.asTone("abc4 unchanged4 han5 han4x xhan4 AutoJs6"),
         )
     }
 
