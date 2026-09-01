@@ -4,6 +4,16 @@
 
 ******
 
+# v1.3.0
+
+###### 2026/09/01
+
+* `提示` `pinyin4j.readings()` 與 Node.js provider 需要包含 readings v1 契約的新版 AutoJs6 主機; 舊版主機仍可繼續使用 `of` 與 `as`
+* `新增` `pinyin4j.readings(text, options)` 按 Unicode 碼點逐列回傳全部有序字典讀音, 無映射輸入原樣保留為單候選
+* `新增` `romanization` / `system` 開放 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 與 Gwoyeu Romatzyh; Hanyu 支援數字/符號/無聲調, 大小寫與 `ü` 形式
+* `最佳化` 在 Binder 末尾追加 `readings` transaction 與整數 capability `pinyin4j.readings.version = 1`; 新主機僅在協商後呼叫, 對舊外掛按碼點安全回退為 Hanyu 單候選
+* `最佳化` 增加嚴格的來源文字, 矩陣與 UTF-8 JSON 上限及 Android 9/12/13/15 Binder 覆蓋; 相同外掛能力透過主機明確 `pinyin4j` capability 向 Node.js 開放
+
 # v1.2.0
 
 ###### 2026/09/01

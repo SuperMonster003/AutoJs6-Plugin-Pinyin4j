@@ -4,6 +4,16 @@
 
 ******
 
+# v1.3.0
+
+###### 2026/09/01
+
+* `힌트` `pinyin4j.readings()` 와 Node.js provider 는 readings v1 계약이 포함된 최신 AutoJs6 호스트가 필요합니다; 이전 호스트는 계속 `of` 와 `as` 를 사용할 수 있습니다
+* `추가` `pinyin4j.readings(text, options)` 는 Unicode code point 마다 모든 사전 발음을 정렬해 반환하고 미수록 입력은 단일 후보로 보존
+* `추가` `romanization` / `system` 으로 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 및 Gwoyeu Romatzyh 를 공개; Hanyu 는 숫자/기호/무성조, 대소문자 및 `ü` 형식을 지원
+* `개선` Binder 끝에 `readings` transaction 과 정수 capability `pinyin4j.readings.version = 1` 을 추가; 새 호스트는 협상 후에만 호출하고 이전 플러그인은 code point 별 Hanyu 단일 후보로 안전하게 대체
+* `개선` 소스, 행렬 및 UTF-8 JSON 의 엄격한 한도와 Android 9/12/13/15 Binder 검증을 추가; 같은 능력을 호스트의 명시적 `pinyin4j` capability 를 통해 Node.js 에 제공
+
 # v1.2.0
 
 ###### 2026/09/01

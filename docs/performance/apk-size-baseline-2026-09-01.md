@@ -2,20 +2,20 @@
 
 测量日期: `2026-09-01`
 被测 release APK: `app-release.apk`
-APK SHA-256: `90ff7d9c6d5a814fb7736caa284a370e4fb5c5173d235df777f6aeaa781a1111`
-APK 大小: `357,327` bytes (348.95 KiB)
+APK SHA-256: `c99ca76a315378dfce4f84620a5143773514c71fd705a7295e041b0b3d3fb1bc`
+APK 大小: `385,127` bytes (376.10 KiB)
 原生库条目: `0`
 
 ## ZIP 条目测量
 
 | 条目 | 源大小 | APK 内大小 | APK 占比 |
 |---|---:|---:|---:|
-| `pinyindb/multi_pinyin.txt` | 275,015 | 112,228 | 31.41% |
-| `pinyindb/pinyin_gwoyeu_mapping.xml` | 93,813 | 7,821 | 2.19% |
-| `pinyindb/pinyin_mapping.xml` | 66,603 | 6,150 | 1.72% |
-| `pinyindb/unicode_to_hanyu_pinyin.txt` | 265,545 | 93,699 | 26.22% |
-| 四份 pinyin4j 数据合计 | — | 219,898 | 61.54% |
-| `classes.dex` | 62,696 | 28,521 | 7.98% |
+| `pinyindb/multi_pinyin.txt` | 275,015 | 112,228 | 29.14% |
+| `pinyindb/pinyin_gwoyeu_mapping.xml` | 93,813 | 7,821 | 2.03% |
+| `pinyindb/pinyin_mapping.xml` | 66,603 | 6,150 | 1.60% |
+| `pinyindb/unicode_to_hanyu_pinyin.txt` | 265,545 | 93,699 | 24.33% |
+| 四份 pinyin4j 数据合计 | — | 219,898 | 57.10% |
+| `classes.dex` | 109,292 | 50,529 | 13.12% |
 
 `packagedBytes` 使用 APK ZIP 中的 `compress_size`; APK 签名块, 对齐和中央目录不属于任何单一条目, 因此各项占比不会合计到 100%.
 

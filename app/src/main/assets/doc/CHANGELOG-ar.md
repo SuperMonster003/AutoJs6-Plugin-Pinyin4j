@@ -4,6 +4,16 @@
 
 ******
 
+# v1.3.0
+
+###### 2026/09/01
+
+* `تلميح` تتطلب `pinyin4j.readings()` وprovider الخاص بـ Node.js مضيف AutoJs6 محدثا بعقد readings v1; يمكن للمضيفات القديمة متابعة استخدام `of` و`as`
+* `ميزة` تعيد `pinyin4j.readings(text, options)` كل قراءات القاموس المرتبة في صف لكل نقطة Unicode, مع حفظ الإدخال غير المدرج كمرشح واحد
+* `ميزة` يتيح `romanization` / `system` أنظمة Hanyu وTongyong وWade-Giles وMPS2 وYale وGwoyeu Romatzyh; يدعم Hanyu النغمات الرقمية أو المعلمة أو المحذوفة وحالة الأحرف وأشكال `ü`
+* `تحسين` أضيفت transaction المسماة `readings` وcapability الصحيحة `pinyin4j.readings.version = 1` في نهاية Binder; لا تستدعيها المضيفات الجديدة إلا بعد التفاوض وتتراجع بأمان إلى مرشح Hanyu واحد لكل نقطة مع الإضافات القديمة
+* `تحسين` أضيفت حدود صارمة للمصدر والمصفوفة وJSON بترميز UTF-8 مع تغطية Binder على Android 9/12/13/15; تتاح القدرة نفسها لـ Node.js عبر capability المضيف الصريحة `pinyin4j`
+
 # v1.2.0
 
 ###### 2026/09/01
