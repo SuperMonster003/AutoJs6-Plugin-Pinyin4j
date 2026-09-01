@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.os.SystemClock
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.autojs.plugin.common.api.PluginCapabilityKeys
@@ -19,13 +20,17 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.MethodSorters
+import java.util.Locale
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
 
 @RunWith(AndroidJUnit4::class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class Pinyin4jPluginServiceTest {
 
     private val context: Context
@@ -34,6 +39,7 @@ class Pinyin4jPluginServiceTest {
     private lateinit var plugin: IPinyin4jPlugin
     private lateinit var connection: ServiceConnection
     private var isBound = false
+    private var firstBindNanos = 0L
 
     @Before
     fun discoverAndBindService() {
@@ -66,9 +72,11 @@ class Pinyin4jPluginServiceTest {
         val explicitIntent = Intent(discoveryIntent).setComponent(
             ComponentName(serviceInfo.packageName, serviceInfo.name),
         )
+        val bindStarted = SystemClock.elapsedRealtimeNanos()
         isBound = context.bindService(explicitIntent, connection, Context.BIND_AUTO_CREATE)
         assertTrue("bindService returned false", isBound)
         assertTrue("Timed out waiting for the Binder service", connected.await(10, TimeUnit.SECONDS))
+        firstBindNanos = SystemClock.elapsedRealtimeNanos() - bindStarted
 
         val binder = binderReference.get()
         assertNotNull("The service returned a null Binder", binder)
@@ -82,6 +90,44 @@ class Pinyin4jPluginServiceTest {
             context.unbindService(connection)
             isBound = false
         }
+    }
+
+    @Test
+    fun aBenchmarkFirstBindAndServiceThroughput() {
+        val firstConversionStarted = SystemClock.elapsedRealtimeNanos()
+        assertEquals("han", plugin.of("汉", null))
+        val firstConversionNanos = SystemClock.elapsedRealtimeNanos() - firstConversionStarted
+
+        val singleIterations = 2_000
+        val longIterations = 50
+        val longText = "汉语拼音AutoJs6〇𠀀".repeat(64)
+        val longCodePoints = longText.codePointCount(0, longText.length)
+        repeat(500) { assertEquals("han", plugin.of("汉", null)) }
+        repeat(5) { assertTrue(plugin.of(longText, null).isNotEmpty()) }
+
+        val singleStarted = SystemClock.elapsedRealtimeNanos()
+        repeat(singleIterations) { assertEquals("han", plugin.of("汉", null)) }
+        val singleNanos = SystemClock.elapsedRealtimeNanos() - singleStarted
+
+        val longStarted = SystemClock.elapsedRealtimeNanos()
+        repeat(longIterations) { assertTrue(plugin.of(longText, null).isNotEmpty()) }
+        val longNanos = SystemClock.elapsedRealtimeNanos() - longStarted
+
+        val singleOpsPerSecond = singleIterations * 1_000_000_000.0 / singleNanos
+        val longCodePointsPerSecond = longIterations * longCodePoints * 1_000_000_000.0 / longNanos
+        println(
+            String.format(
+                Locale.US,
+                "PINYIN4J_ANDROID_BENCHMARK {\"firstBindMs\":%.3f,\"firstConversionMs\":%.3f," +
+                    "\"singleOpsPerSecond\":%.0f,\"longCodePoints\":%d," +
+                    "\"longCodePointsPerSecond\":%.0f}",
+                firstBindNanos / 1_000_000.0,
+                firstConversionNanos / 1_000_000.0,
+                singleOpsPerSecond,
+                longCodePoints,
+                longCodePointsPerSecond,
+            ),
+        )
     }
 
     @Test
@@ -120,6 +166,10 @@ class Pinyin4jPluginServiceTest {
             putString("sep", " ")
         }))
         assertEquals("hàn yǔ; nǚ", plugin.asTone("han4 yu3; nv3"))
+        assertEquals("ling-㐀-𠀀", plugin.of("〇㐀𠀀", Bundle().apply {
+            putString("separator", "-")
+        }))
+        assertEquals("HÀN; abc4", plugin.asTone("HAN4; abc4"))
 
         assertThrows(IllegalArgumentException::class.java) {
             plugin.of("汉", Bundle().apply { putString("toneType", "FIFTH_TONE") })

@@ -96,4 +96,17 @@ tasks {
     withType(JavaCompile::class.java) {
         options.encoding = "UTF-8"
     }
+
+    val benchmarkPinyin4j = register<JavaExec>("benchmarkPinyin4j") {
+        group = "verification"
+        description = "Runs the non-gating Pinyin4j JVM throughput baseline."
+        dependsOn("compileDebugUnitTestKotlin")
+        mainClass.set("io.github.supermonster003.autojs6.plugin.pinyin4j.Pinyin4jBenchmark")
+    }
+    project.afterEvaluate {
+        val debugUnitTests = named<Test>("testDebugUnitTest").get()
+        benchmarkPinyin4j.configure {
+            classpath(debugUnitTests.classpath, debugUnitTests.testClassesDirs)
+        }
+    }
 }

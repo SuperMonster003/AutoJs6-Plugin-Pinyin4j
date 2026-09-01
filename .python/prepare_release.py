@@ -25,6 +25,7 @@ ENGLISH_CHANGELOG = ROOT / "app" / "src" / "main" / "assets" / "doc" / "CHANGELO
 SIGN_PROPERTIES = ROOT / "sign.properties"
 OUTPUT_ROOT = ROOT / "app" / "releases"
 ARTIFACT_PREFIX = "autojs6-plugin-pinyin4j"
+APK_SIZE_ANALYZER = ROOT / "scripts" / "ci" / "analyze_apk_size.py"
 
 
 class ReleaseError(RuntimeError):
@@ -286,6 +287,7 @@ def prepare_release() -> None:
     run_checked([sys.executable, str(ROOT / ".python" / "generate_markdown.py"), "--check"])
     run_checked(gradle_command())
     apk = load_release_apk(version_name, version_code)
+    run_checked([sys.executable, str(APK_SIZE_ANALYZER), str(apk)])
     verify_signature(apk)
     artifact, crc32, sha256 = publish(apk, version_name)
 
