@@ -1,24 +1,37 @@
-استخدم Pinyin4j لتحويل النص الصيني إلى بينيين Hanyu:
+يضيف مكون Pinyin4j الإضافي (Pinyin4j Plugin) إلى AutoJs6 قدرة خفيفة لتحويل النص الصيني إلى بينيين Hanyu. بعد التثبيت, يمكن للبرامج النصية عبر الكائن العام `pinyin4j` تحويل النص الصيني إلى بينيين حرفا بحرف, مع ضبط حالة الأحرف وتنسيق النغمة وطريقة كتابة `ü` وفاصل المقاطع حسب الحاجة; كما تتوفر طريقة مساعدة تحول نص النغمات الرقمية إلى علامات النغمة.
 
-```js
-let text = "汉字转拼音";
-console.log(pinyin4j.of(text));
-console.log(pinyin4j.of(text, {
-    toneType: "WITH_TONE_MARK",
-    vCharType: "WITH_U_UNICODE",
-    separator: " ",
-}));
-console.log(pinyin4j.asTone("han4 zi4 zhuan3 pin1 yin1"));
+### البدء السريع
+
+التحويل الأساسي: يخرج افتراضيا بينيين بأحرف صغيرة دون نغمات, ويمكن تمرير الفاصل مباشرة كمعامل ثان:
+
+```javascript
+console.log(pinyin4j.of("汉语拼音"));                             // "hanyupinyin"
+console.log(pinyin4j.of("汉语拼音", " "));                        // "han yu pin yin"
+console.log(pinyin4j.of("汉语拼音", { tone: "MARK", sep: " " })); // "hàn yǔ pīn yīn"
+console.log(pinyin4j.as("han4 yu3 pin1 yin1"));                   // "hàn yǔ pīn yīn"
 ```
 
-تستخدم الخيارات المفاتيح `caseType`, و `toneType`, و `vCharType`, و `separator`.
+### الخيارات
 
-القيم الشائعة:
+تدعم `pinyin4j.of(text, options)` الخيارات التالية (بين القوسين أسماء المفاتيح المختصرة المتاحة):
 
 ```text
-caseType: LOWERCASE, UPPERCASE
-toneType: WITHOUT_TONE, WITH_TONE_NUMBER, WITH_TONE_MARK
-vCharType: WITH_V, WITH_U_AND_COLON, WITH_U_UNICODE
+caseType (case): LOWERCASE, UPPERCASE
+toneType (tone): WITHOUT_TONE, WITH_TONE_NUMBER, WITH_TONE_MARK
+vCharType (v): WITH_V, WITH_U_AND_COLON, WITH_U_UNICODE
+separator (sep): any string
 ```
 
-لمزيد من أمثلة الاستخدام, راجع قسم [Pinyin4j](https://docs.autojs6.com/#/pinyin4j) في وثائق AutoJs6.
+القيم غير حساسة لحالة الأحرف وتقبل أسماء مختصرة, مثل `tone: "MARK"` / `"NUMBER"` / `"NO"`; وتمرير سلسلة كمعامل ثان يعامل على أنه الفاصل.
+
+### الفحص الذاتي السريع
+
+بعد تثبيت المكون وتفعيله, شغل هذا البرنامج النصي المكون من سطر واحد:
+
+```javascript
+console.log(pinyin4j.of("拼音"));
+```
+
+ظهور `pinyin` في الإخراج يعني أن المكون يعمل بشكل صحيح.
+
+لمزيد من تفاصيل الاستخدام وشرح الخيارات, راجع [وثائق AutoJs6 Pinyin4j](https://docs.autojs6.com/#/pinyin4j) و [صفحة المشروع](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j).

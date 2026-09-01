@@ -1,10 +1,38 @@
+******
+
+### Historique Des Versions
+
+******
+
+# v1.1.0
+
+###### 2026/09/01
+
+* `Correction` Suppression du séparateur final produit avec les séparateurs non blancs et conservation exacte des caractères non chinois, y compris les espaces en début et fin de texte
+* `Correction` Normalisation des voyelles de troisième ton avec brève héritées de pinyin4j 2.5.1 vers les formes standard avec caron (par exemple `yŭ` vers `yǔ`), en minuscules comme en majuscules
+* `Amélioration` Ajout de tests unitaires JVM pour les noms et alias d'options, les valeurs abrégées, les combinaisons de sortie, les valeurs par défaut, les erreurs, la conversion des tons et les métadonnées d'exécution, ainsi que de tests Android instrumentation pour la découverte réelle du service et les allers-retours Binder
+* `Amélioration` Ajout de workflows GitHub Actions qui refusent toute dérive des documents générés, exécutent les tests unitaires, construisent l'APK debug, compilent les tests instrumentation et téléversent l'APK produit
+* `Amélioration` Ajout de `.python/prepare_release.py` pour construire et vérifier un APK universal signé, valider sa version, calculer CRC32 et SHA-256, puis générer atomiquement `SHA256SUMS.txt` et le fichier anglais `RELEASE_NOTES.md`
+* `Amélioration` Uniformiser la mise en page du README et la gestion des versions de la plateforme Gradle
+
+# v1.0.1
+
+###### 2026/08/31
+
+* `Info` Cette version n'améliore que la documentation et l'outillage associé; le comportement de conversion en pinyin et toutes les API de script restent inchangés
+* `Correction` Correction de l'usage erroné `pinyin4j.asTone(text)` présent dans les anciennes docs: l'hôte expose en réalité `pinyin4j.as(text)` (la méthode AIDL sous-jacente s'appelle toujours `asTone`)
+* `Amélioration` Refonte du README en 10 langues: ajout des sections utilisation, démarrage rapide, tableau de référence des options, API de script, auto-vérification, FAQ, permissions et sécurité, comparaison des plugins frères et interface du plugin
+* `Amélioration` Mise à niveau du générateur de docs vers l'implémentation unifiée partagée entre plugins frères: détection de dérive `--check`, validation des clés et des formes entre langues, rejet des symboles pleine largeur et contrôles d'alignement des versions
+* `Amélioration` Intégration des instructions du centre de plugins (`plugin_instruction.md`) dans la même chaîne de génération JSON multilingue, éliminant la double maintenance des sources
+* `Amélioration` Ajout de la feuille de route ROADMAP.md, avec renvois croisés bidirectionnels et comparaison avec le plugin frère Pinyin
+
 # v1.0.0
 
 ###### 2026/07/15
 
-* `Ajout` Ajout du service de plugin Pinyin4j avec l ID de plugin `pinyin4j` et le moteur `pinyin4j`, base sur `com.belerweb:pinyin4j`
-* `Ajout` Ajout de la decouverte et de l invocation par l hote via `org.autojs.plugin.PINYIN4J`
-* `Ajout` Prise en charge de `pinyin4j.of(text, options)` pour convertir le texte chinois en pinyin Hanyu avec casse, type de ton, representation de `ü`, et separateur configurables
-* `Ajout` Prise en charge de `pinyin4j.asTone(text)` pour convertir le pinyin avec numeros de ton en pinyin avec marques de ton
-* `Ajout` Ajout de metadonnees de plugin et d instructions d utilisation localisees en espagnol/francais/russe/arabe/japonais/coreen/anglais/chinois simplifie/chinois traditionnel de Hong Kong/chinois traditionnel de Taiwan
-* `Ajout` Ajout de la generation README et CHANGELOG pilotee par JSON via `.python/generate_markdown.py`
+* `Nouveauté` Service du plugin Pinyin4j: ID de plugin `pinyin4j`, découvert et appelé automatiquement par AutoJs6 via `org.autojs.plugin.PINYIN4J`, encapsulant la bibliothèque `com.belerweb:pinyin4j:2.5.1`
+* `Nouveauté` API de conversion: `pinyin4j.of(text, options)` convertit le texte chinois en pinyin Hanyu caractère par caractère; une chaîne passée en second argument sert directement de séparateur
+* `Nouveauté` API de restauration des tons: `pinyin4j.as(text)` restaure le pinyin à tons numériques (comme `han4`) en pinyin à marques de ton (comme `hàn`), via la méthode AIDL `asTone`
+* `Nouveauté` Options flexibles: alias comme `case` / `tone` / `v` / `sep` et raccourcis de valeurs comme `MARK` / `NUMBER` / `NO`, avec erreurs localisées en cas de valeur invalide
+* `Nouveauté` Ressources multilingues: métadonnées du plugin et instructions disponibles en 10 langues
+* `Nouveauté` README et CHANGELOG générés en Markdown multilingue depuis les sources JSON via `.python/generate_markdown.py`

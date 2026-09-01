@@ -25,6 +25,8 @@ android {
         versionCode = versions.appVersionCode
         versionName = versions.appVersionName
 
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
         resValue("string", "app_name", "Pinyin4j")
         resValue("string", "plugin_author", "SuperMonster003")
         resValue("string", "plugin_id", "pinyin4j")
@@ -83,34 +85,15 @@ dependencies {
     implementation(files("$rootDir/libs/common-plugin-api.aar"))
     implementation(files("$rootDir/libs/pinyin4j-api.aar"))
     implementation(libs.pinyin4j)
+
+    testImplementation(libs.junit)
+
+    androidTestImplementation(libs.test.ext.junit)
+    androidTestImplementation(libs.test.runner)
 }
 
 tasks {
     withType(JavaCompile::class.java) {
         options.encoding = "UTF-8"
-    }
-
-    register<Copy>("appendDigestToReleasedFiles") {
-        description = "Appends CRC32 digest to released APK files"
-
-        val src = "release"
-        val dst = "${src}s"
-        val ext = utils.FILE_EXTENSION_APK
-
-        if (!file(src).isDirectory) {
-            return@register
-        }
-
-        from(src); into(dst); include("*.$ext")
-
-        rename { name ->
-            val abi = name.replace(Regex("^app-(.+?)-$src(\\.$ext)$"), "$1")
-            val releasedFileNamePrefix = "${rootProject.name}-v${versions.appVersionName}-$abi"
-            utils.digestCRC32(file("${src}/$name")).let { digest ->
-                "$releasedFileNamePrefix-$digest.$ext"
-            }
-        }
-
-        doLast { println("Destination: ${file(dst)}") }
     }
 }

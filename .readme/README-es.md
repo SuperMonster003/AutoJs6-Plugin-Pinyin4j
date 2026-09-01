@@ -12,11 +12,7 @@
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-Pinyin4j?label=Release"/></a>
-    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-Pinyin4j?color=A24232&label=Issues"/></a>
-    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/commit/f8ef60df665f9475af38cca0f7f4a083956d4839"><img alt="Created" src="https://img.shields.io/date/1783216223?color=2e7d32&label=Created"/></a>
-    <br>
-    <a href="https://developer.android.com/studio/archive"><img alt="Android Studio" src="https://img.shields.io/badge/Android%20Studio-2023.3+-B64FC8"/></a>
-    <a href="https://www.jetbrains.com/idea/download/other.html"><img alt="IntelliJ IDEA" src="https://img.shields.io/badge/IntelliJ%20IDEA-2023.3+-EE4677"/></a>
+    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-Pinyin4j?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-Pinyin4j?color=534BAE&label=License"/></a>
   </p>
 </div>
@@ -42,23 +38,30 @@ El README.md actual admite los siguientes idiomas:
 
 ******
 
-### Introduccion
+### Introducción
 
 ******
 
-El plugin AutoJs6 Pinyin4j proporciona a AutoJs6 conversion de chino a pinyin Hanyu basada en Pinyin4j. Admite salida sin tonos, con numeros de tono, y con marcas de tono.
+El plugin Pinyin4j (Pinyin4j Plugin) aporta a AutoJs6 una conversión ligera de chino a pinyin Hanyu. Una vez instalado, los scripts pueden usar el objeto global `pinyin4j` para convertir texto chino a pinyin carácter por carácter, con mayúsculas o minúsculas, formato de tono, representación de `ü` y separador de sílabas configurables; también se incluye un método utilitario que convierte texto con tonos numéricos en marcas de tono.
+
+El plugin es un APK que se instala por separado y se ejecuta en su propio proceso; AutoJs6 lo descubre automáticamente mediante el mecanismo de plugins y se comunica con él por AIDL. La conversión proviene de la clásica biblioteca Java [pinyin4j](https://github.com/belerweb/pinyin4j) (`com.belerweb:pinyin4j:2.5.1`), el paquete ocupa solo unos 0.3 MB y toda la conversión ocurre localmente en el dispositivo, sin red. Desde AutoJs6 v6.8.0, el módulo `pinyin4j` del host lo implementa este plugin.
+
+Este plugin y [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin) son plugins hermanos: este ofrece una transcripción carácter por carácter simple y fiable con un tamaño mínimo, mientras que el plugin Pinyin incluye diccionarios completos y segmentación Jieba, con desambiguación de caracteres polifónicos y modo de apellidos para escenarios que priorizan la precisión. Ambos pueden instalarse a la vez; vea `Comparación De Plugins Hermanos` más abajo.
 
 ******
 
-### Funciones
+### Funciones Destacadas
 
 ******
 
-- Proporciona el servicio de plugin `pinyin4j` con ID de plugin `pinyin4j`.
-- Admite API de AutoJs6 como `pinyin4j.of(text, options)` y `pinyin4j.asTone(text)`.
-- Admite configuracion de mayusculas/minusculas, tipo de tono, representacion de `ü`, y separador.
-- Los metadatos del plugin, las instrucciones de uso, README y CHANGELOG estan localizados en espanol/frances/ruso/arabe/japones/coreano/ingles/chino simplificado/chino tradicional de Hong Kong/chino tradicional de Taiwan.
-- Basado en `com.belerweb:pinyin4j`.
+- Listo para usar: AutoJs6 lo descubre automáticamente tras la instalación, sin reiniciar el host; los scripts usan directamente el objeto global `pinyin4j`.
+- Extremadamente ligero: el paquete ocupa solo unos 0.3 MB, JVM puro sin bibliotecas nativas, compatible con todas las arquitecturas de CPU.
+- Tres formatos de tono: sin tono, tonos numéricos (`han4`) y marcas de tono (`hàn`), a elección.
+- Salida flexible: mayúsculas o minúsculas configurables, tres representaciones de `ü` (`lv` / `lu:` / `lü`) y un separador de sílabas arbitrario.
+- Utilidad de tonos: `pinyin4j.as(text)` convierte en un solo paso texto con tonos numéricos a la forma con marcas de tono.
+- Valores tolerantes: las opciones no distinguen mayúsculas de minúsculas y aceptan varios alias cortos (como `tone: "MARK"`); los valores no válidos producen mensajes de error localizados.
+- Totalmente sin conexión: la conversión usa datos incluidos en el paquete y ocurre localmente en el dispositivo, sin ninguna petición de red.
+- Multilingüe: metadatos del plugin, instrucciones, README y registro de cambios disponibles en 10 idiomas.
 
 ******
 
@@ -66,15 +69,39 @@ El plugin AutoJs6 Pinyin4j proporciona a AutoJs6 conversion de chino a pinyin Ha
 
 ******
 
-```js
-let text = "汉字转拼音";
-console.log(pinyin4j.of(text));
-console.log(pinyin4j.of(text, {
-    toneType: "WITH_TONE_MARK",
-    vCharType: "WITH_U_UNICODE",
-    separator: " ",
-}));
-console.log(pinyin4j.asTone("han4 zi4 zhuan3 pin1 yin1"));
+1. Actualice AutoJs6 a la compilación interna 3923 (6.7.1 Alpha4) o superior; desde v6.8.0 las capacidades de pinyin están totalmente delegadas en plugins, por lo que se recomienda la versión más reciente.
+2. Descargue el APK del plugin desde la página [Releases](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/releases) e instálelo en el dispositivo que ejecuta AutoJs6, o instálelo en línea directamente desde el centro de plugins de AutoJs6.
+3. Abra el centro de plugins de AutoJs6, confirme que el plugin `Pinyin4j` está reconocido, concédale la autorización y asegúrese de que está habilitado.
+4. Llame al objeto global `pinyin4j` directamente en los scripts siguiendo los ejemplos de `Inicio Rápido` más abajo; también puede ejecutar antes la `Autocomprobación Rápida` para confirmar que el plugin está activo.
+
+> El plugin se distribuye como un único paquete universal (JVM puro, sin variantes de arquitectura de CPU) y admite dispositivos con Android 7.0 (API 24) o superior. No tiene interfaz propia ni crea icono de lanzador; AutoJs6 lo descubre y lo gestiona de forma centralizada.
+
+******
+
+### Inicio Rápido
+
+******
+
+Conversión básica: por defecto produce pinyin en minúsculas y sin tonos; el segundo argumento puede ser directamente un separador:
+
+```javascript
+console.log(pinyin4j.of("汉语拼音"));                             // "hanyupinyin"
+console.log(pinyin4j.of("汉语拼音", " "));                        // "han yu pin yin"
+console.log(pinyin4j.of("汉语拼音", { tone: "MARK", sep: " " })); // "hàn yǔ pīn yīn"
+```
+
+Tonos numéricos y representaciones de `ü`:
+
+```javascript
+console.log(pinyin4j.of("旅游", { tone: "NUMBER" }));             // "lv3you2"
+console.log(pinyin4j.of("旅游", { tone: "NUMBER", v: "U:" }));    // "lu:3you2"
+console.log(pinyin4j.of("旅游", { tone: "MARK" }));               // "lǚyóu"
+```
+
+Utilidad de tonos: convertir texto con tonos numéricos en marcas de tono:
+
+```javascript
+console.log(pinyin4j.as("han4 yu3 pin1 yin1"));                   // "hàn yǔ pīn yīn"
 ```
 
 ******
@@ -83,72 +110,253 @@ console.log(pinyin4j.asTone("han4 zi4 zhuan3 pin1 yin1"));
 
 ******
 
-Las opciones comunes incluyen:
+`pinyin4j.of(text, options)` admite las siguientes opciones (alias cortos entre paréntesis):
+
+| Opción | Predeterminado | Descripción |
+|---|---|---|
+| `caseType` (`case`) | `LOWERCASE` | Mayúsculas o minúsculas de salida: `LOWERCASE` minúsculas, `UPPERCASE` mayúsculas |
+| `toneType` (`tone`) | `WITHOUT_TONE` | Formato de tono: `WITHOUT_TONE` sin tono, `WITH_TONE_NUMBER` tonos numéricos, `WITH_TONE_MARK` marcas de tono |
+| `vCharType` (`v`, `vChar`) | `WITH_V` | Cómo se escribe `ü`: `WITH_V` (`lv`), `WITH_U_AND_COLON` (`lu:`), `WITH_U_UNICODE` (`lü`); con el formato de marcas de tono cambia por defecto a `WITH_U_UNICODE` |
+| `separator` (`sep`) | `""` | Separador entre sílabas, cualquier cadena; se elimina el separador sobrante al final de la salida |
+
+Los valores no distinguen mayúsculas de minúsculas y aceptan alias cortos, como `tone: "MARK"` / `"NUMBER"` / `"NO"`, `case: "UP"` / `"LOW"`, `v: "V"` / `"U:"` / `"U"`. Pasar un valor no válido lanza una excepción con un mensaje localizado.
+
+******
+
+### API De Script
+
+******
+
+El objeto global `pinyin4j` ofrece los siguientes métodos (llamar directamente a `pinyin4j(text, options)` equivale a `pinyin4j.of`):
 
 ```text
-caseType: LOWERCASE, UPPERCASE
-toneType: WITHOUT_TONE, WITH_TONE_NUMBER, WITH_TONE_MARK
-vCharType: WITH_V, WITH_U_AND_COLON, WITH_U_UNICODE
-separator: any string
+pinyin4j(text, options?)      -> string
+pinyin4j.of(text, options?)   -> string
+pinyin4j.of(text, separator)  -> string
+pinyin4j.as(text)             -> string
 ```
 
-`pinyin4j.asTone(text)` convierte pinyin con numeros de tono a pinyin con marcas de tono.
+- `of` convierte carácter por carácter: los caracteres del bloque CJK básico (U+4E00-U+9FA5) se convierten a pinyin y el resto se conserva tal cual; cada carácter toma siempre la primera pronunciación del diccionario de pinyin4j, sin desambiguación de polifónicos.
+- El segundo argumento de `of` puede ser un objeto de opciones o directamente una cadena usada como separador.
+- `as` reemplaza las sílabas con tonos numéricos del texto (como `han4`) por su forma con marcas de tono (como `hàn`), aceptando `ü` escrita como `v` o `u:`; los fragmentos no reconocidos se conservan tal cual. Este método corresponde a `asTone` en la interfaz AIDL del plugin.
+- Los valores de las opciones no distinguen mayúsculas de minúsculas y aceptan varios alias cortos (vea `Opciones` más arriba); los valores no válidos lanzan una excepción con un mensaje localizado.
+- Todos los métodos devuelven de forma síncrona, sin espera de inicialización.
 
 ******
 
-### Historial de versiones
+### Autocomprobación Rápida
 
 ******
 
-# v1.0.0
+Tras instalar y habilitar el plugin, ejecute esta única línea:
 
-###### 2026/07/15
+```javascript
+console.log(pinyin4j.of("拼音"));
+```
 
-* `Nuevo` Se agrego el servicio de plugin Pinyin4j con ID de plugin `pinyin4j` y motor `pinyin4j`, basado en `com.belerweb:pinyin4j`
-* `Nuevo` Se agrego descubrimiento e invocacion desde el host mediante `org.autojs.plugin.PINYIN4J`
-* `Nuevo` Se admitio `pinyin4j.of(text, options)` para convertir texto chino a pinyin Hanyu con tipo de mayusculas/minusculas, tipo de tono, representacion de `ü`, y separador configurables
-* `Nuevo` Se admitio `pinyin4j.asTone(text)` para convertir pinyin con numeros de tono a pinyin con marcas de tono
-* `Nuevo` Se agregaron metadatos del plugin e instrucciones de uso localizadas en espanol/frances/ruso/arabe/japones/coreano/ingles/chino simplificado/chino tradicional de Hong Kong/chino tradicional de Taiwan
-* `Nuevo` Se agrego generacion de README y CHANGELOG basada en JSON mediante `.python/generate_markdown.py`
-
-##### Para mas historial de versiones
-
-* [CHANGELOG.md](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/.changelog/CHANGELOG-es.md)
+Si imprime `pinyin`, el plugin funciona correctamente.
 
 ******
 
-### Compilacion
+### Preguntas Frecuentes
 
 ******
+
+#### ¿Cómo confirmo que el plugin está activo?
+
+Abra el centro de plugins de AutoJs6; si el plugin `Pinyin4j` aparece y está habilitado, el host lo ha reconocido. Luego ejecute el script de `Autocomprobación Rápida` de más arriba; imprimir `pinyin` significa que funciona.
+
+#### ¿Los scripts informan de que falta el plugin o de que `pinyin4j` no está disponible?
+
+Asegúrese de que la compilación interna de AutoJs6 sea al menos 3923, y de que el plugin esté instalado, autorizado y habilitado en el centro de plugins. Desde AutoJs6 v6.8.0 el host ya no incluye la biblioteca pinyin4j; este plugin aporta la capacidad por completo.
+
+#### ¿Por qué no hay icono del plugin en la lista de aplicaciones ni en la pantalla de inicio?
+
+Es lo esperado. El plugin no tiene interfaz propia ni crea icono de lanzador; tras la instalación, AutoJs6 lo descubre y lo invoca en segundo plano, y toda interacción ocurre dentro de AutoJs6.
+
+#### ¿Las pronunciaciones de los polifónicos no son las esperadas (por ejemplo, "重庆" no se lee chongqing)?
+
+Este plugin convierte carácter por carácter y toma siempre la primera pronunciación del diccionario, sin desambiguar por el contexto de la frase; es el compromiso inherente al enfoque ligero. Para desambiguación de polifónicos, diccionarios de frases o lecturas de apellidos, use el plugin hermano [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin).
+
+#### ¿Por qué no funciona `pinyin4j.asTone(text)` de documentos o scripts antiguos?
+
+En el lado del host el método se llama `pinyin4j.as(text)`; `asTone` es el nombre del método en la interfaz AIDL del plugin, y ambos se comportan igual. Use `pinyin4j.as(text)` en los scripts.
+
+#### ¿El plugin accede a la red o solicita permisos sensibles?
+
+No. Los datos de conversión van incluidos en el paquete y la conversión ocurre localmente en el dispositivo; el manifiesto solo declara el permiso de plugin necesario para comunicarse con AutoJs6, sin solicitar red, almacenamiento ni ningún otro permiso sensible del sistema.
+
+#### ¿Cómo elijo entre este plugin y el plugin hermano Pinyin?
+
+Elija este plugin cuando solo necesite una transcripción ligera carácter por carácter y le importe el tamaño del paquete; elija [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin) cuando necesite polifónicos, segmentación, frases o lecturas de apellidos. No entran en conflicto y pueden instalarse juntos; vea `Comparación De Plugins Hermanos` más abajo.
+
+******
+
+### Permisos Y Seguridad
+
+******
+
+El plugin está diseñado para mantener su superficie de datos y permisos lo más reducida posible:
+
+- Permisos mínimos: el manifiesto solo declara el permiso de plugin de AutoJs6 (`org.autojs.permission.PLUGIN`), sin solicitar red, almacenamiento, cámara ni ningún otro permiso sensible del sistema.
+- Conversión local: el texto a convertir solo viaja dentro del dispositivo mediante Binder; los datos de conversión van completamente incluidos, todo ocurre sin conexión y ningún dato sale del dispositivo.
+- Firma y autorización: AutoJs6 verifica la firma del plugin, y el plugin debe estar autorizado y habilitado en el centro de plugins antes de que los scripts puedan llamarlo; el servicio y la entrada de activación están protegidos por el permiso de plugin, por lo que las aplicaciones de terceros no pueden invocarlos directamente.
+- Abierto y auditable: el código del plugin y la cadena de generación de documentación son totalmente de código abierto, y la conversión proviene de la biblioteca de código abierto ampliamente usada pinyin4j.
+
+Instale el plugin solo desde la página oficial [Releases](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/releases) o el centro de plugins de AutoJs6; un paquete de origen desconocido puede estar alterado aunque el nombre y el número de versión parezcan idénticos.
+
+******
+
+### Comparación De Plugins Hermanos
+
+******
+
+AutoJs6 ofrece dos plugins de pinyin oficiales con enfoques distintos; pueden instalarse a la vez:
+
+| Aspecto | [Pinyin4j](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j) | [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin) |
+|---|---|---|
+| Implementación subyacente | Biblioteca Java clásica `pinyin4j` | Diccionarios incluidos + segmentación Jieba |
+| Objeto global | `pinyin4j` | `pinyin` |
+| Polifónicos | No admitido, siempre la primera pronunciación | Admitido, puede devolver todos los candidatos |
+| Segmentación y frases | No admitida, conversión carácter por carácter | Admitida (diccionario de frases + Jieba) |
+| Modo de apellidos | No admitido | Admitido |
+| Forma de salida | Cadena con separador configurable | Arreglo 2D de candidatos (combinable con `compact()`) o cadena compacta |
+| Estilos y formatos | 3 formatos de tono + mayúsculas o minúsculas + representaciones de `ü` | 6 estilos de pinyin |
+| Tamaño del paquete | Unos 0.3 MB | Unos 6 MB (diccionarios incluidos) |
+| Ideal para | Prioriza tamaño y simplicidad: transcripción rápida carácter por carácter | Prioriza la precisión: polifónicos, frases, nombres de persona |
+
+Los dos plugins son independientes y nunca entran en conflicto; con ambos instalados, los scripts pueden llamar a `pinyin4j` y `pinyin` por separado según convenga. Vea [AutoJs6-Plugin-Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin) para los detalles del plugin Pinyin.
+
+******
+
+### Interfaz Del Plugin
+
+******
+
+La siguiente información está dirigida a los desarrolladores del host AutoJs6 y de plugins; el host usa estos identificadores para descubrir el plugin y negociar capacidades:
+
+```text
+application id: io.github.supermonster003.autojs6.plugin.pinyin4j
+plugin id: pinyin4j
+engine: pinyin4j
+variant: default
+discovery action: org.autojs.plugin.PINYIN4J
+discovery category: pinyin4j
+wake action: org.autojs.plugin.action.WAKE
+binder interface: IPinyin4jPlugin
+binder methods: getInfo / of / asTone
+minimum host build: 3923
+native library: none (pure JVM, all ABIs)
+library: com.belerweb:pinyin4j:2.5.1
+```
+
+`Pinyin4jPluginService` responde a la acción `org.autojs.plugin.PINYIN4J` (categoría `pinyin4j`) y expone 3 métodos a través de la interfaz AIDL `IPinyin4jPlugin`; las opciones de `of` se pasan mediante un `Bundle` (claves: `caseType` / `toneType` / `vCharType` / `separator`), y los valores no válidos lanzan una `IllegalArgumentException` con un mensaje localizado. Tanto el servicio como `WakeActivity` están protegidos por el permiso `org.autojs.permission.PLUGIN`, por lo que las aplicaciones de terceros no pueden invocarlos directamente.
+
+******
+
+### Hoja De Ruta
+
+******
+
+Las capacidades planificadas del plugin y su estado de finalización se mantienen como una lista marcable en ROADMAP.md, organizada por hitos con criterios de aceptación, cubriendo consultas de múltiples pronunciaciones, más sistemas de romanización, mayor cobertura de caracteres, integración continua y más. Los elementos sin marcar son intenciones y no capacidades actuales; la discusión mediante Issues es bienvenida.
+
+- [Ver ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/ROADMAP.md)
+
+******
+
+### Historial De Versiones
+
+******
+
+#### v1.1.0
+
+_2026/09/01_
+
+- `Corrección` Se eliminó el separador final producido por separadores que no son espacios y ahora se conservan exactamente los caracteres no chinos, incluidos los espacios iniciales y finales
+- `Corrección` Se normalizaron las vocales de tercer tono con breve heredadas de pinyin4j 2.5.1 a las formas estándar con caron (por ejemplo, `yŭ` a `yǔ`), tanto en minúsculas como en mayúsculas
+- `Mejora` Se añadieron pruebas unitarias JVM para nombres y alias de opciones, abreviaturas de valores, combinaciones de salida, valores predeterminados, errores, conversión de tonos y metadatos de ejecución, además de pruebas Android instrumentation para el descubrimiento real del servicio y recorridos Binder
+- `Mejora` Se añadieron flujos de GitHub Actions que rechazan diferencias en documentos generados, ejecutan pruebas unitarias, compilan el APK debug y las pruebas instrumentation, y suben el APK resultante
+- `Mejora` Se añadió `.python/prepare_release.py` para compilar y verificar un APK universal firmado, validar la versión, calcular CRC32 y SHA-256, y generar de forma atómica `SHA256SUMS.txt` y `RELEASE_NOTES.md` en inglés
+- `Mejora` Unificar el diseño del README y la gestión de versiones de la plataforma Gradle
+
+#### v1.0.1
+
+_2026/08/31_
+
+- `Pista` Esta versión solo mejora la documentación y las herramientas asociadas; el comportamiento de conversión a pinyin y todas las API de script permanecen sin cambios
+- `Corrección` Se corrigió el uso erróneo `pinyin4j.asTone(text)` presente en documentos antiguos: el host en realidad expone `pinyin4j.as(text)` (el método AIDL subyacente sigue llamándose `asTone`)
+- `Mejora` Se reelaboró el README en 10 idiomas: se añadieron secciones de uso, inicio rápido, tabla de referencia de opciones, API de script, autocomprobación, preguntas frecuentes, permisos y seguridad, comparación de plugins hermanos e interfaz del plugin
+- `Mejora` Se actualizó el generador de docs a la implementación unificada compartida entre plugins hermanos: detección de desviaciones con `--check`, validación de claves y formas entre idiomas, rechazo de símbolos de ancho completo y comprobaciones de alineación de versiones
+- `Mejora` Se incorporaron las instrucciones del centro de plugins (`plugin_instruction.md`) a la misma cadena de generación JSON multilingüe, eliminando el mantenimiento de fuentes duplicadas
+- `Mejora` Se añadió la hoja de ruta ROADMAP.md y se establecieron referencias cruzadas bidireccionales y una comparación con el plugin hermano Pinyin
+
+#### v1.0.0
+
+_2026/07/15_
+
+- `Función` Servicio del plugin Pinyin4j: ID de plugin `pinyin4j`, descubierto e invocado automáticamente por AutoJs6 mediante `org.autojs.plugin.PINYIN4J`, envolviendo la biblioteca `com.belerweb:pinyin4j:2.5.1`
+- `Función` API de conversión: `pinyin4j.of(text, options)` convierte texto chino a pinyin Hanyu carácter por carácter; pasar una cadena como segundo argumento la usa directamente como separador
+- `Función` API de restauración de tonos: `pinyin4j.as(text)` restaura pinyin con tonos numéricos (como `han4`) a pinyin con marcas de tono (como `hàn`), respaldado por el método AIDL `asTone`
+- `Función` Opciones flexibles: alias como `case` / `tone` / `v` / `sep` y atajos de valores como `MARK` / `NUMBER` / `NO`, con errores localizados al pasar valores no válidos
+- `Función` Recursos multilingües: metadatos del plugin e instrucciones disponibles en 10 idiomas
+- `Función` README y CHANGELOG generados como Markdown multilingüe desde fuentes JSON mediante `.python/generate_markdown.py`
+
+##### Para más historial de versiones
+
+* [CHANGELOG.md](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/app/src/main/assets/doc/CHANGELOG-es.md)
+
+******
+
+### Compilación
+
+******
+
+Esta sección está dirigida a desarrolladores que quieran compilar el plugin desde el código fuente.
+
+Compilar un APK debug:
 
 ```powershell
 .\gradlew.bat :app:assembleDebug
 ```
 
-Compilacion Release:
+Compilar un APK release (un único paquete universal; se firma automáticamente una vez configurada la firma en el archivo no rastreado `sign.properties`):
 
 ```powershell
 .\gradlew.bat :app:assembleRelease
 ```
 
-Los parametros de compilacion vienen de `version.properties`; el SDK minimo actual es 24 y el SDK objetivo es 36.
+Para crear un archivo de publicación verificado, ejecute `py .python/prepare_release.py`. El script comprueba los documentos generados, compila y verifica el APK universal firmado, valida los metadatos de versión, calcula CRC32 y SHA-256, y escribe atómicamente el APK, `SHA256SUMS.txt` y el archivo inglés `RELEASE_NOTES.md` en `app/releases/v<versión>`.
+
+Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 36, versión actual 1.1.0.
 
 ******
 
-### Estructura de recursos
+### Localización Y Generación De Docs
 
 ******
 
 ```text
+.readme/common.json
 .readme/lang_*.json
+.readme/template_readme.md
+.readme/template_plugin_instruction.md
 .changelog/lang_*.json
+.changelog/template_changelog.md
 .python/generate_markdown.py
-app/src/main/assets/doc/CHANGELOG*.md
+app/src/main/assets/doc/CHANGELOG-*.md
 app/src/main/res/values-*/strings.xml
 app/src/main/res/raw-*/plugin_instruction.md
 ```
 
-`strings.xml` contiene descripciones del plugin y mensajes de error localizados; `plugin_instruction.md` contiene instrucciones de uso mostradas por el host. README y CHANGELOG se generan desde fuentes JSON con `.python/generate_markdown.py`.
+`strings.xml` contiene la descripción localizada del plugin y los mensajes de error, y `plugin_instruction.md` contiene las instrucciones mostradas en el centro de plugins del host. README, registro de cambios e instrucciones se generan desde fuentes JSON: edite las fuentes bajo `.readme/` y `.changelog/`, luego ejecute `py .python/generate_markdown.py` para regenerar todos los artefactos; los artefactos generados nunca se editan a mano. Ejecute `py .python/generate_markdown.py --check` para verificar que fuentes y artefactos están sincronizados.
+
+******
+
+### Licencia
+
+******
+
+El código del proyecto está licenciado bajo la [Mozilla Public License 2.0](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/LICENSE). La conversión a pinyin proviene de la biblioteca [pinyin4j](https://github.com/belerweb/pinyin4j) (`com.belerweb:pinyin4j:2.5.1`).
 
 ******
 
@@ -156,6 +364,8 @@ app/src/main/res/raw-*/plugin_instruction.md
 
 ******
 
-- Documentacion de AutoJs6 Pinyin4j: https://docs.autojs6.com/#/pinyin4j
-- Proyecto Pinyin4j: https://github.com/belerweb/pinyin4j
-- Coordenadas Maven de Pinyin4j: https://mvnrepository.com/artifact/com.belerweb/pinyin4j
+- Documentación de AutoJs6 Pinyin4j: https://docs.autojs6.com/#/pinyin4j
+- Proyecto AutoJs6: https://github.com/SuperMonster003/AutoJs6
+- Plugin hermano Pinyin: https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin
+- Proyecto pinyin4j: https://github.com/belerweb/pinyin4j
+- Coordenadas Maven de pinyin4j: https://mvnrepository.com/artifact/com.belerweb/pinyin4j

@@ -1,10 +1,38 @@
+******
+
+### 릴리스 기록
+
+******
+
+# v1.1.0
+
+###### 2026/09/01
+
+* `수정` 공백이 아닌 구분자가 출력 끝에 남는 문제를 제거하고, 앞뒤 공백을 포함한 비한자 문자를 정확히 보존
+* `수정` pinyin4j 2.5.1 이 3성 모음에 사용하는 기존 breve 를 표준 caron 형식으로 통일 (예: `yŭ` 에서 `yǔ`), 대문자와 소문자 모두 지원
+* `개선` 옵션 정식 이름과 별칭, 값 축약형, 출력 조합, 기본값, 오류, 성조 변환, 런타임 메타데이터를 다루는 JVM 단위 테스트와 실제 서비스 검색 및 Binder 왕복을 검증하는 Android instrumentation 테스트 추가
+* `개선` 생성 문서 불일치를 차단하고 단위 테스트, debug APK 빌드, instrumentation 테스트 컴파일, APK 산출물 업로드를 수행하는 GitHub Actions 워크플로 추가
+* `개선` 서명된 universal APK 빌드 및 검증, 버전 확인, CRC32 와 SHA-256 계산, `SHA256SUMS.txt` 와 영문 `RELEASE_NOTES.md` 원자적 생성을 한 번에 수행하는 `.python/prepare_release.py` 추가
+* `개선` README 레이아웃과 Gradle 플랫폼 버전 관리 방식을 통일
+
+# v1.0.1
+
+###### 2026/08/31
+
+* `힌트` 이번 버전은 문서와 부속 도구만 개선하며, 병음 변환 동작과 모든 스크립트 API 는 그대로 유지됩니다
+* `수정` 이전 문서의 잘못된 `pinyin4j.asTone(text)` 표기를 바로잡음: 호스트가 실제로 노출하는 메서드는 `pinyin4j.as(text)` 입니다 (하부 AIDL 인터페이스의 메서드 이름은 여전히 `asTone`)
+* `개선` 10 개 언어의 README 재구성: 사용 방법, 빠른 시작, 옵션 요약표, 스크립트 API, 빠른 자가 점검, 자주 묻는 질문, 권한과 보안, 자매 플러그인 비교, 플러그인 인터페이스 등의 절을 추가
+* `개선` 문서 생성 스크립트를 동종 플러그인 공통의 통합 구현으로 업그레이드: `--check` 드리프트 감지, 언어 간 키와 구조 정렬 검증, 전각 기호 차단, 버전 정렬 검증 지원
+* `개선` 플러그인 센터 사용 설명 (`plugin_instruction.md`) 을 동일한 다국어 JSON 생성 파이프라인에 편입하여 이중 소스 유지 관리를 제거
+* `개선` ROADMAP.md 개발 로드맵을 추가하고 자매 플러그인 Pinyin 과 양방향 상호 링크 및 선택 비교를 구축
+
 # v1.0.0
 
 ###### 2026/07/15
 
-* `추가` 플러그인 ID `pinyin4j`, 엔진 `pinyin4j`의 Pinyin4j 플러그인 서비스를 추가, `com.belerweb:pinyin4j` 기반으로 빌드
-* `추가` `org.autojs.plugin.PINYIN4J`를 통한 호스트 검색 및 호출을 추가
-* `추가` `pinyin4j.of(text, options)`로 중국어 텍스트를 한어 병음으로 변환하도록 지원, 대소문자 유형, 성조 유형, `ü` 표기 방식, 구분자를 설정 가능
-* `추가` `pinyin4j.asTone(text)`로 숫자 성조 병음을 성조 기호 병음으로 변환하도록 지원
-* `추가` 스페인어/프랑스어/러시아어/아랍어/일본어/한국어/영어/간체 중국어/홍콩 번체/대만 번체 플러그인 메타데이터와 사용 설명을 추가
-* `추가` `.python/generate_markdown.py`를 통한 JSON 기반 README 및 CHANGELOG 생성을 추가
+* `추가` Pinyin4j 플러그인 서비스: 플러그인 ID 는 `pinyin4j` 이며, AutoJs6 이 `org.autojs.plugin.PINYIN4J` 를 통해 자동으로 발견하고 호출하며, `com.belerweb:pinyin4j:2.5.1` 라이브러리를 래핑
+* `추가` 병음 변환 API: `pinyin4j.of(text, options)` 가 중국어를 글자 단위로 한어 병음으로 변환하며, 두 번째 인수로 문자열을 전달하면 바로 구분자로 사용
+* `추가` 성조 복원 API: `pinyin4j.as(text)` 가 숫자 성조 병음 (예: `han4`) 을 기호 성조 병음 (예: `hàn`) 으로 복원하며, AIDL 인터페이스 메서드 `asTone` 에 대응
+* `추가` 유연한 옵션 체계: `case` / `tone` / `v` / `sep` 등의 별칭과 `MARK` / `NUMBER` / `NO` 등의 값 축약을 지원하며, 잘못된 값에는 현지화된 오류 메시지를 발생
+* `추가` 다국어 리소스: 플러그인 정보와 사용 설명이 10 개 언어를 지원
+* `추가` README 와 CHANGELOG 는 JSON 소스 파일과 `.python/generate_markdown.py` 로 다국어 Markdown 을 생성

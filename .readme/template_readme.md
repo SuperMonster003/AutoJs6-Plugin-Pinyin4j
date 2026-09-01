@@ -4,7 +4,7 @@
   <p>
     <picture>
       <source srcset="{{ repo_url }}/blob/master/app/src/main/res/mipmap-night/ic_launcher.png?raw=true" media="(prefers-color-scheme: dark)" />
-      <img src="{{ repo_url }}/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-pinyin4j-ic-launcher" border="0" width="128" />
+      <img src="{{ repo_url }}/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="{{ icon_alt }}" border="0" width="128" />
     </picture>
   </p>
 
@@ -12,12 +12,8 @@
 
   <p>
     <a href="{{ repo_url }}/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/{{ repo_slug }}?label=Release"/></a>
-    <a href="{{ repo_url }}/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/{{ repo_slug }}?color=A24232&label=Issues"/></a>
-    <a href="{{ repo_url }}/commit/f8ef60df665f9475af38cca0f7f4a083956d4839"><img alt="Created" src="https://img.shields.io/date/1783216223?color=2e7d32&label=Created"/></a>
-    <br>
-    <a href="https://developer.android.com/studio/archive"><img alt="Android Studio" src="https://img.shields.io/badge/Android%20Studio-2023.3+-B64FC8"/></a>
-    <a href="https://www.jetbrains.com/idea/download/other.html"><img alt="IntelliJ IDEA" src="https://img.shields.io/badge/IntelliJ%20IDEA-2023.3+-EE4677"/></a>
-    <a href="{{ repo_url }}/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-Pinyin4j?color=534BAE&label=License"/></a>
+    <a href="{{ repo_url }}/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/{{ repo_slug }}?color=A24232&label=Issues"/></a>
+    <a href="{{ license_url }}"><img alt="GitHub License" src="https://img.shields.io/github/license/{{ repo_slug }}?color=534BAE&label=License"/></a>
   </p>
 </div>
 
@@ -37,11 +33,15 @@
 
 ******
 
-{{ p_introduction }}
+{{ p_introduction_what }}
+
+{{ p_introduction_how }}
+
+{{ p_introduction_extra }}
 
 ******
 
-### {{ h3_functions }}
+### {{ h3_features }}
 
 ******
 
@@ -53,15 +53,36 @@
 
 ******
 
-```js
-let text = "汉字转拼音";
-console.log(pinyin4j.of(text));
-console.log(pinyin4j.of(text, {
-    toneType: "WITH_TONE_MARK",
-    vCharType: "WITH_U_UNICODE",
-    separator: " ",
-}));
-console.log(pinyin4j.asTone("han4 zi4 zhuan3 pin1 yin1"));
+{{ placeholder_usage_steps }}
+
+> {{ p_usage_note }}
+
+******
+
+### {{ h3_quick_start }}
+
+******
+
+{{ p_quick_start_basic }}:
+
+```javascript
+console.log(pinyin4j.of("汉语拼音"));                             // "hanyupinyin"
+console.log(pinyin4j.of("汉语拼音", " "));                        // "han yu pin yin"
+console.log(pinyin4j.of("汉语拼音", { tone: "MARK", sep: " " })); // "hàn yǔ pīn yīn"
+```
+
+{{ p_quick_start_tone }}:
+
+```javascript
+console.log(pinyin4j.of("旅游", { tone: "NUMBER" }));             // "lv3you2"
+console.log(pinyin4j.of("旅游", { tone: "NUMBER", v: "U:" }));    // "lu:3you2"
+console.log(pinyin4j.of("旅游", { tone: "MARK" }));               // "lǚyóu"
+```
+
+{{ p_quick_start_as }}:
+
+```javascript
+console.log(pinyin4j.as("han4 yu3 pin1 yin1"));                   // "hàn yǔ pīn yīn"
 ```
 
 ******
@@ -72,11 +93,122 @@ console.log(pinyin4j.asTone("han4 zi4 zhuan3 pin1 yin1"));
 
 {{ p_options_intro }}:
 
+| {{ th_option_name }} | {{ th_option_default }} | {{ th_option_desc }} |
+|---|---|---|
+| `caseType` (`case`) | `LOWERCASE` | {{ td_option_case }} |
+| `toneType` (`tone`) | `WITHOUT_TONE` | {{ td_option_tone }} |
+| `vCharType` (`v`, `vChar`) | `WITH_V` | {{ td_option_v }} |
+| `separator` (`sep`) | `""` | {{ td_option_separator }} |
+
+{{ p_options_note }}
+
+******
+
+### {{ h3_script_api }}
+
+******
+
+{{ p_script_api_intro }}:
+
 ```text
-{{ option_summary }}
+pinyin4j(text, options?)      -> string
+pinyin4j.of(text, options?)   -> string
+pinyin4j.of(text, separator)  -> string
+pinyin4j.as(text)             -> string
 ```
 
-{{ p_as_tone_intro }}.
+{{ placeholder_api_points }}
+
+******
+
+### {{ h3_self_check }}
+
+******
+
+{{ p_self_check_intro }}:
+
+```javascript
+console.log(pinyin4j.of("拼音"));
+```
+
+{{ p_self_check_result }}
+
+******
+
+### {{ h3_faq }}
+
+******
+
+{{ placeholder_faq }}
+
+******
+
+### {{ h3_security }}
+
+******
+
+{{ p_security_intro }}
+
+{{ placeholder_security_points }}
+
+{{ p_security_permission }}
+
+******
+
+### {{ h3_sibling }}
+
+******
+
+{{ p_sibling_intro }}:
+
+| {{ th_sibling_aspect }} | [Pinyin4j]({{ repo_url }}) | [Pinyin]({{ pinyin_repo_url }}) |
+|---|---|---|
+| {{ th_sibling_impl }} | {{ td_sibling_impl_pinyin4j }} | {{ td_sibling_impl_pinyin }} |
+| {{ th_sibling_global }} | `pinyin4j` | `pinyin` |
+| {{ th_sibling_heteronym }} | {{ td_sibling_heteronym_pinyin4j }} | {{ td_sibling_heteronym_pinyin }} |
+| {{ th_sibling_segment }} | {{ td_sibling_segment_pinyin4j }} | {{ td_sibling_segment_pinyin }} |
+| {{ th_sibling_surname }} | {{ td_sibling_surname_pinyin4j }} | {{ td_sibling_surname_pinyin }} |
+| {{ th_sibling_output }} | {{ td_sibling_output_pinyin4j }} | {{ td_sibling_output_pinyin }} |
+| {{ th_sibling_styles }} | {{ td_sibling_styles_pinyin4j }} | {{ td_sibling_styles_pinyin }} |
+| {{ th_sibling_size }} | {{ td_sibling_size_pinyin4j }} | {{ td_sibling_size_pinyin }} |
+| {{ th_sibling_scenario }} | {{ td_sibling_scenario_pinyin4j }} | {{ td_sibling_scenario_pinyin }} |
+
+{{ p_sibling_note }}
+
+******
+
+### {{ h3_plugin_interface }}
+
+******
+
+{{ p_plugin_interface }}:
+
+```text
+application id: {{ plugin_application_id }}
+plugin id: {{ plugin_id }}
+engine: {{ plugin_engine }}
+variant: {{ plugin_variant }}
+discovery action: {{ discovery_action }}
+discovery category: {{ discovery_category }}
+wake action: {{ wake_action }}
+binder interface: {{ binder_interface }}
+binder methods: getInfo / of / asTone
+minimum host build: {{ required_host_version_code }}
+native library: none (pure JVM, all ABIs)
+library: {{ pinyin4j_library_coordinates }}
+```
+
+{{ p_contract_service }}
+
+******
+
+### {{ h3_roadmap }}
+
+******
+
+{{ p_roadmap }}
+
+- [{{ text_link_roadmap }}]({{ roadmap_url }})
 
 ******
 
@@ -96,17 +228,23 @@ console.log(pinyin4j.asTone("han4 zi4 zhuan3 pin1 yin1"));
 
 ******
 
+{{ p_build_intro }}
+
+{{ p_build_debug }}:
+
 ```powershell
 .\gradlew.bat :app:assembleDebug
 ```
 
-{{ text_release_build }}:
+{{ p_build_release }}:
 
 ```powershell
 .\gradlew.bat :app:assembleRelease
 ```
 
-{{ p_build_params }}.
+{{ p_build_artifacts }}
+
+{{ p_build_params }}
 
 ******
 
@@ -115,15 +253,27 @@ console.log(pinyin4j.asTone("han4 zi4 zhuan3 pin1 yin1"));
 ******
 
 ```text
+.readme/common.json
 .readme/lang_*.json
+.readme/template_readme.md
+.readme/template_plugin_instruction.md
 .changelog/lang_*.json
+.changelog/template_changelog.md
 .python/generate_markdown.py
-app/src/main/assets/doc/CHANGELOG*.md
+app/src/main/assets/doc/CHANGELOG-*.md
 app/src/main/res/values-*/strings.xml
 app/src/main/res/raw-*/plugin_instruction.md
 ```
 
-{{ p_resource_layout }}.
+{{ p_resource_layout }}
+
+******
+
+### {{ h3_license }}
+
+******
+
+{{ p_license }}
 
 ******
 
@@ -131,6 +281,8 @@ app/src/main/res/raw-*/plugin_instruction.md
 
 ******
 
-- {{ text_link_autojs6_pinyin4j_docs }}: {{ docs_pinyin4j_url }}
-- {{ text_link_pinyin4j_project }}: {{ pinyin4j_project_url }}
+- {{ text_link_autojs6_docs_pinyin4j }}: {{ docs_pinyin4j_url }}
+- {{ text_link_autojs6 }}: {{ autojs6_url }}
+- {{ text_link_pinyin_plugin }}: {{ pinyin_repo_url }}
+- {{ text_link_pinyin4j_official }}: {{ pinyin4j_official_url }}
 - {{ text_link_pinyin4j_maven }}: {{ pinyin4j_maven_url }}

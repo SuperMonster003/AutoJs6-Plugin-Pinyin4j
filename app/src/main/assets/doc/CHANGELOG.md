@@ -1,10 +1,38 @@
+******
+
+### 发行历史
+
+******
+
+# v1.1.0
+
+###### 2026/09/01
+
+* `修复` 移除非空白分隔符导致的输出末尾残留, 并精确保留包括首尾空白在内的非汉字字符
+* `修复` 将 pinyin4j 2.5.1 使用 breve 的旧式第三声元音统一为标准 caron 形式 (如 `yŭ` 转为 `yǔ`), 同时覆盖大小写
+* `优化` 新增 JVM 单元测试, 覆盖选项标准名与别名, 取值简写, 输出组合, 默认值, 异常, 声调转换及运行时元数据; 新增 Android instrumentation 测试验证真实服务发现与 Binder 往返
+* `优化` 新增 GitHub Actions 工作流, 自动拦截生成文档漂移, 运行单元测试, 构建 debug APK, 编译 instrumentation 测试并上传 APK 产物
+* `优化` 新增 `.python/prepare_release.py`, 一键构建并验证签名 universal APK, 校验版本, 计算 CRC32 与 SHA-256, 原子生成 `SHA256SUMS.txt` 和英文 `RELEASE_NOTES.md`
+* `优化` 统一 README 版式与 Gradle 平台版本管理方式
+
+# v1.0.1
+
+###### 2026/08/31
+
+* `提示` 本版本仅改进文档与配套工程, 拼音转换行为与全部脚本 API 保持不变
+* `修复` 修正旧版文档中错误的 `pinyin4j.asTone(text)` 写法: 宿主实际暴露的方法为 `pinyin4j.as(text)` (底层 AIDL 接口方法名仍为 `asTone`)
+* `优化` 重构 10 种语言的 README: 新增使用方法, 快速上手, 选项速查表, 脚本 API, 快速自检, 常见问题, 权限与安全, 姊妹插件对比及插件接口等章节
+* `优化` 文档生成脚本升级为同族插件统一实现: 支持 `--check` 漂移检测, 跨语言键位与形状对齐校验, 全角符号拦截以及版本对齐校验
+* `优化` 插件中心使用说明 (`plugin_instruction.md`) 纳入同一套多语言 JSON 生成链路, 消除双源维护
+* `优化` 新增 ROADMAP.md 开发路线图, 并与姊妹插件 Pinyin 建立双向互链与选型对比
+
 # v1.0.0
 
 ###### 2026/07/15
 
-* `新增` Pinyin4j 插件服务, 插件 ID 为 `pinyin4j`, 引擎为 `pinyin4j`, 基于 `com.belerweb:pinyin4j`
-* `新增` 支持通过 `org.autojs.plugin.PINYIN4J` 发现并调用插件
-* `新增` 支持 `pinyin4j.of(text, options)` 将中文文本转换为汉语拼音, 并可配置大小写, 声调类型, `ü` 字符表示方式和分隔符
-* `新增` 支持 `pinyin4j.asTone(text)` 将数字声调拼音转换为音调符号拼音
-* `新增` 插件信息和使用说明的多语言资源: 西班牙语/法语/俄语/阿拉伯语/日语/韩语/英语/简体中文/香港繁体/台湾繁体
-* `新增` README 和 CHANGELOG 由 JSON 源文件与 `.python/generate_markdown.py` 生成
+* `新增` Pinyin4j 插件服务: 插件 ID 为 `pinyin4j`, 由 AutoJs6 通过 `org.autojs.plugin.PINYIN4J` 自动发现并调用, 封装 `com.belerweb:pinyin4j:2.5.1` 库
+* `新增` 拼音转换 API: `pinyin4j.of(text, options)` 将中文逐字转换为汉语拼音, 第二参数传入字符串时直接作为分隔符
+* `新增` 声调还原 API: `pinyin4j.as(text)` 将数字声调拼音 (如 `han4`) 还原为符号声调拼音 (如 `hàn`), 对应 AIDL 接口方法 `asTone`
+* `新增` 灵活的选项体系: 支持 `case` / `tone` / `v` / `sep` 等别名与 `MARK` / `NUMBER` / `NO` 等取值简写, 非法取值抛出本地化错误提示
+* `新增` 多语言资源: 插件信息与使用说明覆盖 10 种语言
+* `新增` README 与 CHANGELOG 由 JSON 源文件与 `.python/generate_markdown.py` 生成多语言 Markdown

@@ -1,19 +1,47 @@
 {
-  "changelog_label_hint": "Nota",
-  "changelog_label_feature": "Nuevo",
-  "changelog_label_fix": "Correccion",
+  "changelog_label_hint": "Pista",
+  "changelog_label_feature": "Función",
+  "changelog_label_fix": "Corrección",
   "changelog_label_improvement": "Mejora",
   "changelog_label_dependency": "Dependencia",
   "$data": {
-    "{{ version_name_with_v }}": {
+    "v1.1.0": {
+      "released_date": "2026/09/01",
+      "fix": [
+        "Se eliminó el separador final producido por separadores que no son espacios y ahora se conservan exactamente los caracteres no chinos, incluidos los espacios iniciales y finales",
+        "Se normalizaron las vocales de tercer tono con breve heredadas de pinyin4j 2.5.1 a las formas estándar con caron (por ejemplo, `yŭ` a `yǔ`), tanto en minúsculas como en mayúsculas"
+      ],
+      "improvement": [
+        "Se añadieron pruebas unitarias JVM para nombres y alias de opciones, abreviaturas de valores, combinaciones de salida, valores predeterminados, errores, conversión de tonos y metadatos de ejecución, además de pruebas Android instrumentation para el descubrimiento real del servicio y recorridos Binder",
+        "Se añadieron flujos de GitHub Actions que rechazan diferencias en documentos generados, ejecutan pruebas unitarias, compilan el APK debug y las pruebas instrumentation, y suben el APK resultante",
+        "Se añadió `.python/prepare_release.py` para compilar y verificar un APK universal firmado, validar la versión, calcular CRC32 y SHA-256, y generar de forma atómica `SHA256SUMS.txt` y `RELEASE_NOTES.md` en inglés",
+        "Unificar el diseño del README y la gestión de versiones de la plataforma Gradle"
+      ]
+    },
+    "v1.0.1": {
+      "released_date": "2026/08/31",
+      "hint": [
+        "Esta versión solo mejora la documentación y las herramientas asociadas; el comportamiento de conversión a pinyin y todas las API de script permanecen sin cambios"
+      ],
+      "fix": [
+        "Se corrigió el uso erróneo `pinyin4j.asTone(text)` presente en documentos antiguos: el host en realidad expone `pinyin4j.as(text)` (el método AIDL subyacente sigue llamándose `asTone`)"
+      ],
+      "improvement": [
+        "Se reelaboró el README en 10 idiomas: se añadieron secciones de uso, inicio rápido, tabla de referencia de opciones, API de script, autocomprobación, preguntas frecuentes, permisos y seguridad, comparación de plugins hermanos e interfaz del plugin",
+        "Se actualizó el generador de docs a la implementación unificada compartida entre plugins hermanos: detección de desviaciones con `--check`, validación de claves y formas entre idiomas, rechazo de símbolos de ancho completo y comprobaciones de alineación de versiones",
+        "Se incorporaron las instrucciones del centro de plugins (`plugin_instruction.md`) a la misma cadena de generación JSON multilingüe, eliminando el mantenimiento de fuentes duplicadas",
+        "Se añadió la hoja de ruta ROADMAP.md y se establecieron referencias cruzadas bidireccionales y una comparación con el plugin hermano Pinyin"
+      ]
+    },
+    "v1.0.0": {
       "released_date": "2026/07/15",
       "feature": [
-        "Se agrego el servicio de plugin Pinyin4j con ID de plugin `pinyin4j` y motor `pinyin4j`, basado en `com.belerweb:pinyin4j`",
-        "Se agrego descubrimiento e invocacion desde el host mediante `org.autojs.plugin.PINYIN4J`",
-        "Se admitio `pinyin4j.of(text, options)` para convertir texto chino a pinyin Hanyu con tipo de mayusculas/minusculas, tipo de tono, representacion de `ü`, y separador configurables",
-        "Se admitio `pinyin4j.asTone(text)` para convertir pinyin con numeros de tono a pinyin con marcas de tono",
-        "Se agregaron metadatos del plugin e instrucciones de uso localizadas en espanol/frances/ruso/arabe/japones/coreano/ingles/chino simplificado/chino tradicional de Hong Kong/chino tradicional de Taiwan",
-        "Se agrego generacion de README y CHANGELOG basada en JSON mediante `.python/generate_markdown.py`"
+        "Servicio del plugin Pinyin4j: ID de plugin `pinyin4j`, descubierto e invocado automáticamente por AutoJs6 mediante `org.autojs.plugin.PINYIN4J`, envolviendo la biblioteca `com.belerweb:pinyin4j:2.5.1`",
+        "API de conversión: `pinyin4j.of(text, options)` convierte texto chino a pinyin Hanyu carácter por carácter; pasar una cadena como segundo argumento la usa directamente como separador",
+        "API de restauración de tonos: `pinyin4j.as(text)` restaura pinyin con tonos numéricos (como `han4`) a pinyin con marcas de tono (como `hàn`), respaldado por el método AIDL `asTone`",
+        "Opciones flexibles: alias como `case` / `tone` / `v` / `sep` y atajos de valores como `MARK` / `NUMBER` / `NO`, con errores localizados al pasar valores no válidos",
+        "Recursos multilingües: metadatos del plugin e instrucciones disponibles en 10 idiomas",
+        "README y CHANGELOG generados como Markdown multilingüe desde fuentes JSON mediante `.python/generate_markdown.py`"
       ]
     }
   }
