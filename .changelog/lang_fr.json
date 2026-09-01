@@ -5,6 +5,22 @@
   "changelog_label_improvement": "Amélioration",
   "changelog_label_dependency": "Dépendance",
   "$data": {
+    "v1.2.0": {
+      "released_date": "2026/09/01",
+      "hint": [
+        "Les prononciations multiples et les six systèmes de romanisation existent actuellement seulement comme noyau testé côté plugin et proposition de contrat; `pinyin4j.readings()` ne sera pas une API de script publique avant la mise à niveau de l'AIDL et des routes hôte AutoJs6"
+      ],
+      "fix": [
+        "`of` ne supprime plus les trous du dictionnaire et ne scinde plus les caractères des plans supplémentaires: il parcourt les points de code Unicode, convertit chaque entrée réelle dont `〇`, conserve toute entrée non mappée intacte et aligne les séparateurs sur les points de code",
+        "`pinyin4j.as(text)` ne convertit désormais que les syllabes numériques complètes et valides, conserve les fragments invalides ou intégrés à des caractères alphanumériques, gère la casse et `v` / `u:` / `ü`, et traite correctement les graphies `ue` simples comme `jue4` -> `juè`"
+      ],
+      "improvement": [
+        "Couverture réelle du dictionnaire figée par un test BMP exhaustif: 20 378 mappages, dont 20 377 dans U+4E00-U+9FA5 et le dernier pour `〇`; les 525 trous de l'ancienne plage et une empreinte SHA-256 du corpus sont aussi contrôlés",
+        "Ajout d'un noyau testé de toutes les prononciations candidates pour Hanyu, Tongyong, Wade-Giles, MPS2, Yale et Gwoyeu Romatzyh, ainsi que d'une proposition documentée pour un AIDL JSON additif, la négociation de capacité et le repli vers l'ancienne implémentation",
+        "Ajout d'un registre des risques de pinyin4j 2.5.1 avec empreintes binaires et sources, constats sur l'amont et les métadonnées de licence, limites connues et barrières de mise à niveau ou de fork",
+        "Ajout de bases reproductibles de performances JVM et du point d'entrée Android Service/AIDL, d'un analyseur ZIP/ressources du release APK et d'une comparaison de sélection des plugins fondée sur des mesures"
+      ]
+    },
     "v1.1.0": {
       "released_date": "2026/09/01",
       "fix": [

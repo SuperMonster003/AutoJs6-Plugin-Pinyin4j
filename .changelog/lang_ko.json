@@ -5,6 +5,22 @@
   "changelog_label_improvement": "개선",
   "changelog_label_dependency": "의존성",
   "$data": {
+    "v1.2.0": {
+      "released_date": "2026/09/01",
+      "hint": [
+        "다중 발음과 6개 로마자 표기 체계는 현재 테스트된 플러그인 코어와 계약 제안으로만 존재합니다. AutoJs6 AIDL 과 호스트 경로가 업그레이드되기 전까지 `pinyin4j.readings()` 는 공개 스크립트 API 가 아닙니다"
+      ],
+      "fix": [
+        "`of` 가 사전의 빈 문자나 보충 평면 문자를 누락 또는 분할하지 않도록 수정했습니다. Unicode code point 단위로 순회하고, `〇` 를 포함한 실제 매핑을 모두 변환하며, 미수록 입력을 온전히 보존하고 구분자를 code point 에 맞춥니다",
+        "`pinyin4j.as(text)` 는 완전하고 유효한 숫자 성조 음절만 변환하며, 잘못됐거나 영숫자 안에 붙은 조각을 보존합니다. 대소문자와 `v` / `u:` / `ü` 를 처리하고 `jue4` -> `juè` 같은 일반 `ue` 표기도 올바르게 변환합니다"
+      ],
+      "improvement": [
+        "BMP 전체 순회 테스트로 사전의 실제 범위를 고정했습니다. 매핑은 20,378개이며 20,377개가 U+4E00-U+9FA5, 나머지는 `〇` 입니다. 이전 범위 안의 525개 빈 항목과 말뭉치 SHA-256 도 회귀 검사합니다",
+        "Hanyu, Tongyong, Wade-Giles, MPS2, Yale, Gwoyeu Romatzyh 의 모든 후보를 처리하는 테스트된 코어와 추가형 JSON AIDL, 기능 협상, 구 구현 폴백 계약 제안을 추가했습니다",
+        "pinyin4j 2.5.1 바이너리/소스 해시, 업스트림과 라이선스 메타데이터 조사, 알려진 경계, 업그레이드 또는 fork 게이트를 담은 위험 목록을 추가했습니다",
+        "재현 가능한 JVM 및 Android Service/AIDL 진입점 성능 기준, release APK ZIP/리소스 크기 분석기, 실측 기반 자매 플러그인 선택 비교를 추가했습니다"
+      ]
+    },
     "v1.1.0": {
       "released_date": "2026/09/01",
       "fix": [

@@ -44,7 +44,7 @@
 
 Pinyin4j 外掛 (Pinyin4j Plugin) 為 AutoJs6 提供輕量的中文轉漢語拼音能力. 安裝後, 腳本可透過全域物件 `pinyin4j` 將中文文字逐字轉換為拼音, 並按需設定大小寫, 聲調格式, `ü` 的表示方式與音節分隔符號; 另提供將數字聲調文字轉換為聲調符號的實用方法.
 
-外掛是一個獨立安裝的 APK, 在自身處理程序中執行, 由 AutoJs6 透過外掛機制自動發現並以 AIDL 通訊. 轉換能力來自經典 Java 程式庫 [pinyin4j](https://github.com/belerweb/pinyin4j) (`com.belerweb:pinyin4j:2.5.1`), 安裝套件僅約 0.3 MB, 轉換完全在裝置本地完成, 無需網路. 自 AutoJs6 v6.8.0 起, 主程式的 `pinyin4j` 模組由本外掛提供實作.
+外掛是一個獨立安裝的 APK, 在自身處理程序中執行, 由 AutoJs6 透過外掛機制自動發現並以 AIDL 通訊. 轉換能力來自經典 Java 程式庫 [pinyin4j](https://github.com/belerweb/pinyin4j) (`com.belerweb:pinyin4j:2.5.1`), release 實測僅 349 KiB, 轉換完全在裝置本地完成, 無需網路. 自 AutoJs6 v6.8.0 起, 主程式的 `pinyin4j` 模組由本外掛提供實作.
 
 本外掛與 [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin) 互為姊妹外掛: 本外掛以極小體積提供簡單可靠的逐字注音; Pinyin 外掛內建完整字典與 Jieba 分詞, 支援多音字消歧與姓氏模式, 適合追求讀音準確性的場景. 兩者可同時安裝, 詳見下方 `姊妹外掛比較`.
 
@@ -55,7 +55,7 @@ Pinyin4j 外掛 (Pinyin4j Plugin) 為 AutoJs6 提供輕量的中文轉漢語拼�
 ******
 
 - 開箱即用: 安裝後由 AutoJs6 自動發現, 無需重新啟動主程式, 腳本直接使用全域物件 `pinyin4j`.
-- 極致輕量: 安裝套件僅約 0.3 MB, 純 JVM 實作, 不含任何原生程式庫, 適用於全部 CPU 架構.
+- 極致輕量: release 實測僅 349 KiB, 純 JVM 實作, 不含任何原生程式庫, 適用於全部 CPU 架構.
 - 三種聲調格式: 無聲調, 數字聲調 (`han4`) 與聲調符號 (`hàn`), 按需選用.
 - 靈活輸出: 可設定大小寫, `ü` 的三種表示方式 (`lv` / `lu:` / `lü`) 與任意音節分隔符號.
 - 聲調工具: `pinyin4j.as(text)` 將數字聲調文字一步轉換為聲調符號形式.
@@ -136,11 +136,11 @@ pinyin4j.of(text, separator)  -> string
 pinyin4j.as(text)             -> string
 ```
 
-- `of` 逐字轉換: 基本漢字區 (U+4E00-U+9FA5) 內的字元轉換為拼音, 其餘字元原樣保留; 每個字固定取 pinyin4j 詞典的第一讀音, 不做多音字消歧.
+- `of` 按 Unicode code point 逐字轉換: 直接查詢 pinyin4j 2.5.1 詞典, 可轉換其實際收錄的 20,378 個 BMP 字元 (含 `〇`); 無詞條和補充平面字元完整原樣保留, 每字仍取第一讀音且不做語境消歧.
 - `of` 的第二參數既可以是選項物件, 也可以直接傳一個字串作為分隔符號.
-- `as` 將文字中的數字聲調音節 (如 `han4`) 替換為聲調符號形式 (如 `hàn`), 相容以 `v` 或 `u:` 表示的 `ü`, 無法識別的片段原樣保留; 該方法對應外掛 AIDL 介面中的 `asTone`.
+- `as` 只轉換邊界完整且被詞表識別的 `0`-`4` 數字聲調音節, 正確處理大小寫以及 `v` / `u:` / `ü`; 無效音節, 數字 `5` 和相鄰字母數字片段原樣保留. 該方法對應外掛 AIDL 介面中的 `asTone`.
 - 選項取值不區分大小寫並支援多種簡寫 (見上方 `選項`), 非法取值會拋出包含在地化訊息的例外.
-- 全部方法同步回傳, 無需初始化等待.
+- 全部方法同步回傳; 首次轉換會延遲載入 pinyin4j 詞表, 因此比穩態呼叫慢, 實測資料見轉換效能基線.
 
 ******
 
@@ -222,7 +222,8 @@ AutoJs6 官方提供兩個拼音外掛, 各有側重, 可同時安裝:
 | 姓氏模式 | 不支援 | 支援 |
 | 輸出形式 | 字串, 可設定分隔符號 | 二維候選陣列 (可 `compact()` 組合) 或緊湊字串 |
 | 風格與格式 | 3 種聲調格式 + 大小寫 + `ü` 表示方式 | 6 種拼音風格 |
-| 安裝套件體積 | 約 0.3 MB | 約 6 MB (內建字典) |
+| 安裝套件體積 | 349 KiB ([release 實測基線](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/performance/apk-size-baseline-2026-09-01.md)) | 5.95 MiB ([full release 實測](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/size/packaging-strategy-2026-09-01.md), 內建字典) |
+| 效能特徵 | 輕量逐字路徑; [JVM/Android 實測基線](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/performance/conversion-baseline-2026-09-01.md) | [分詞器實測](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/benchmarks/segmenter-reuse-2026-09-01.md); 字典, 分詞與多音字能力較重, 效能隨模式變化 |
 | 適用場景 | 體積與簡單性優先: 快速逐字注音 | 讀音準確性優先: 多音字, 詞組, 人名 |
 
 兩個外掛互不依賴也互不衝突; 同時安裝後, 腳本可按需分別呼叫 `pinyin4j` 與 `pinyin`. Pinyin 外掛詳見 [AutoJs6-Plugin-Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin).
@@ -258,7 +259,7 @@ library: com.belerweb:pinyin4j:2.5.1
 
 ******
 
-外掛的能力規劃與完成情況以可勾選清單維護在 ROADMAP.md 中, 按里程碑組織並附驗收條件, 涵蓋多讀音查詢, 更多羅馬化體系, 字元覆蓋範圍與持續整合等方向. 未勾選條目表示規劃意向而非目前版本能力, 歡迎透過 Issues 參與討論.
+ROADMAP.md 以證據清單記錄里程碑. M3 已完成 Unicode 覆蓋, 聲調邊界及多讀音/六種羅馬化體系的外掛端核心與契約方案, 但公開介面仍等待宿主 AIDL 協同; M4 的依賴風險, 效能, 體積與選型基線已完成. 未勾選條目不代表目前可用能力.
 
 - [檢視 ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/ROADMAP.md)
 
@@ -267,6 +268,18 @@ library: com.belerweb:pinyin4j:2.5.1
 ### 發行歷史
 
 ******
+
+#### v1.2.0
+
+_2026/09/01_
+
+- `提示` 多讀音與六種羅馬化體系目前僅作為經過測試的外掛端核心和契約方案; 在 AutoJs6 AIDL 與宿主路由升級前, `pinyin4j.readings()` 不是公開腳本 API
+- `修復` `of` 不再遺失字典空洞字元或拆分補充平面字元: 現按 Unicode code point 走訪, 轉換包括 `〇` 在內的全部實際詞條, 完整保留無詞條輸入並讓分隔符號與 code point 對齊
+- `修復` `pinyin4j.as(text)` 現只轉換完整有效的數字聲調音節, 保留無效或嵌入英數字的片段, 支援大小寫及 `v` / `u:` / `ü`, 並正確處理 `jue4` -> `juè` 一類普通 `ue` 拼寫
+- `最佳化` 以窮舉 BMP 測試固定字典真實涵蓋範圍: 共 20,378 個映射, 其中 20,377 個位於 U+4E00-U+9FA5, 另一個為 `〇`; 舊範圍內 525 個空洞和語料 SHA-256 指紋也納入回歸
+- `最佳化` 新增經過測試的全部候選讀音核心, 涵蓋 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 與 Gwoyeu Romatzyh, 並記錄追加式 JSON AIDL, 能力協商和舊實作回退方案
+- `最佳化` 新增 pinyin4j 2.5.1 風險清單, 記錄二進位與原始碼雜湊, 上游和授權中繼資料問題, 已知邊界及升級或分支門禁
+- `最佳化` 新增可重測的 JVM 與 Android Service/AIDL 入口效能基線, release APK ZIP/資源體積分析器, 並用實測資料更新姊妹外掛選型對比
 
 #### v1.1.0
 
@@ -289,17 +302,6 @@ _2026/08/31_
 - `最佳化` 文件產生腳本升級為同族外掛統一實作: 支援 `--check` 漂移偵測, 跨語言鍵位與形狀對齊驗證, 全形符號攔截以及版本對齊驗證
 - `最佳化` 外掛中心使用說明 (`plugin_instruction.md`) 納入同一套多語言 JSON 產生鏈路, 消除雙源維護
 - `最佳化` 新增 ROADMAP.md 開發路線圖, 並與姊妹外掛 Pinyin 建立雙向連結與選型比較
-
-#### v1.0.0
-
-_2026/07/15_
-
-- `新增` Pinyin4j 外掛服務: 外掛 ID 為 `pinyin4j`, 由 AutoJs6 透過 `org.autojs.plugin.PINYIN4J` 自動發現並呼叫, 封裝 `com.belerweb:pinyin4j:2.5.1` 程式庫
-- `新增` 拼音轉換 API: `pinyin4j.of(text, options)` 將中文逐字轉換為漢語拼音, 第二參數傳入字串時直接作為分隔符號
-- `新增` 聲調還原 API: `pinyin4j.as(text)` 將數字聲調拼音 (如 `han4`) 還原為符號聲調拼音 (如 `hàn`), 對應 AIDL 介面方法 `asTone`
-- `新增` 靈活的選項體系: 支援 `case` / `tone` / `v` / `sep` 等別名與 `MARK` / `NUMBER` / `NO` 等取值簡寫, 非法取值拋出在地化錯誤提示
-- `新增` 多語言資源: 外掛資訊與使用說明覆蓋 10 種語言
-- `新增` README 與 CHANGELOG 由 JSON 來源檔與 `.python/generate_markdown.py` 產生多語言 Markdown
 
 ##### 更多發行歷史可參閱
 
@@ -327,7 +329,7 @@ _2026/07/15_
 
 產生已驗證的發佈歸檔可執行 `py .python/prepare_release.py`. 指令碼會檢查產生文件, 建置並驗證已簽署 universal APK, 驗證版本中繼資料, 計算 CRC32 與 SHA-256, 並將 APK, `SHA256SUMS.txt` 及英文 `RELEASE_NOTES.md` 以原子方式寫入 `app/releases/v<版本號>`.
 
-建置參數集中於 `version.properties`: 最低 SDK 24 (Android 7.0), 目標 SDK 36, 目前版本 1.1.0.
+建置參數集中於 `version.properties`: 最低 SDK 24 (Android 7.0), 目標 SDK 36, 目前版本 1.2.0.
 
 ******
 

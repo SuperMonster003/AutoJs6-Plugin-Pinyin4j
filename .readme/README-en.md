@@ -44,7 +44,7 @@ The README.md is currently available in the following languages:
 
 The Pinyin4j Plugin brings lightweight Chinese-to-Hanyu-Pinyin conversion to AutoJs6. Once installed, scripts can use the global object `pinyin4j` to convert Chinese text to pinyin character by character, with configurable letter case, tone format, `ü` representation and syllable separator; a utility method for turning tone-number text into tone marks is also included.
 
-The plugin is a separately installed APK running in its own process; AutoJs6 discovers it automatically through the plugin mechanism and communicates with it via AIDL. Conversion is powered by the classic Java library [pinyin4j](https://github.com/belerweb/pinyin4j) (`com.belerweb:pinyin4j:2.5.1`). The package is only about 0.3 MB, and all conversion happens locally on the device with no network access. Since AutoJs6 v6.8.0, the host's `pinyin4j` module is implemented by this plugin.
+The plugin is a separately installed APK running in its own process; AutoJs6 discovers it automatically through the plugin mechanism and communicates with it via AIDL. Conversion is powered by the classic Java library [pinyin4j](https://github.com/belerweb/pinyin4j) (`com.belerweb:pinyin4j:2.5.1`). The measured release is only 349 KiB, and all conversion happens locally on the device with no network access. Since AutoJs6 v6.8.0, the host's `pinyin4j` module is implemented by this plugin.
 
 This plugin and [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin) are sister plugins: this one offers simple and reliable per-character transcription at a tiny size, while the Pinyin plugin ships full dictionaries and Jieba segmentation, supporting heteronym disambiguation and a surname mode for accuracy-focused scenarios. Both can be installed side by side; see `Sister Plugin Comparison` below.
 
@@ -55,7 +55,7 @@ This plugin and [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyi
 ******
 
 - Works out of the box: automatically discovered by AutoJs6 after installation, no host restart needed; scripts use the global object `pinyin4j` directly.
-- Extremely lightweight: the package is only about 0.3 MB, pure JVM with no native libraries, compatible with all CPU architectures.
+- Extremely lightweight: the measured release is only 349 KiB, pure JVM with no native libraries, compatible with all CPU architectures.
 - Three tone formats: no tone, tone numbers (`han4`) and tone marks (`hàn`), selectable as needed.
 - Flexible output: configurable letter case, three `ü` representations (`lv` / `lu:` / `lü`) and an arbitrary syllable separator.
 - Tone utility: `pinyin4j.as(text)` converts tone-number text into the tone-mark form in one step.
@@ -136,11 +136,11 @@ pinyin4j.of(text, separator)  -> string
 pinyin4j.as(text)             -> string
 ```
 
-- `of` converts character by character: characters within the basic CJK block (U+4E00-U+9FA5) become pinyin while all other characters are kept as-is; each character always takes the first pronunciation from the pinyin4j dictionary, with no heteronym disambiguation.
+- `of` iterates Unicode code points and queries the pinned pinyin4j 2.5.1 dictionary directly: all 20,378 mapped BMP characters (including `〇`) convert, while unmapped and supplementary-plane code points remain intact. It still chooses only the first pronunciation, with no contextual disambiguation.
 - The second argument of `of` can be either an options object or a plain string used as the separator.
-- `as` replaces tone-number syllables in the text (such as `han4`) with their tone-mark form (such as `hàn`), accepting `ü` written as `v` or `u:`; unrecognized fragments are kept as-is. This method corresponds to `asTone` in the plugin's AIDL interface.
+- `as` converts only complete recognized syllables with tone digits `0`-`4`, preserves input case, and accepts `v`, `u:`, or `ü`; invalid syllables, tone digit `5`, and fragments adjacent to letters or digits remain unchanged. This method corresponds to `asTone` in the plugin's AIDL interface.
 - Option values are case-insensitive and accept several short aliases (see `Options` above); invalid values throw an exception with a localized message.
-- All methods return synchronously, with no initialization wait.
+- All methods return synchronously; the first conversion lazily loads the pinyin4j dictionary and is therefore slower than steady-state calls, as documented in the conversion benchmark.
 
 ******
 
@@ -222,7 +222,8 @@ AutoJs6 offers two official pinyin plugins with different focuses; they can be i
 | Surname mode | Not supported | Supported |
 | Output form | String with configurable separator | 2D candidate array (combinable via `compact()`) or compact string |
 | Styles & formats | 3 tone formats + letter case + `ü` representations | 6 pinyin styles |
-| Package size | About 0.3 MB | About 6 MB (bundled dictionaries) |
+| Package size | 349 KiB ([measured release baseline](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/performance/apk-size-baseline-2026-09-01.md)) | 5.95 MiB ([measured full release](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/size/packaging-strategy-2026-09-01.md), bundled dictionaries) |
+| Performance profile | Lightweight character path; [measured JVM/Android baseline](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/performance/conversion-baseline-2026-09-01.md) | [Measured segmenter run](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/benchmarks/segmenter-reuse-2026-09-01.md); heavier dictionary, segmentation, and heteronym path, varying by mode |
 | Best for | Size and simplicity first: quick per-character transcription | Accuracy first: heteronyms, phrases, person names |
 
 The two plugins are independent and never conflict; with both installed, scripts may call `pinyin4j` and `pinyin` separately as needed. See [AutoJs6-Plugin-Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin) for details on the Pinyin plugin.
@@ -258,7 +259,7 @@ library: com.belerweb:pinyin4j:2.5.1
 
 ******
 
-The plugin's capability planning and completion status are maintained as a checkable list in ROADMAP.md, organized by milestones with acceptance criteria, covering multi-pronunciation queries, additional romanization systems, wider character coverage, continuous integration and more. Unchecked items represent intent rather than current capabilities; discussion via Issues is welcome.
+ROADMAP.md tracks evidence by milestone. M3 now has plugin-side Unicode coverage, tone-boundary behavior, and the multi-pronunciation/six-system core plus a proposed contract, while the public API still awaits coordinated host AIDL work. M4 dependency-risk, performance, size, and selection baselines are complete. Unchecked items are not current capabilities.
 
 - [View ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/ROADMAP.md)
 
@@ -267,6 +268,18 @@ The plugin's capability planning and completion status are maintained as a check
 ### Release History
 
 ******
+
+#### v1.2.0
+
+_2026/09/01_
+
+- `Hint` Multi-pronunciation and six-system romanization currently exist only as a tested plugin-side core and contract proposal; `pinyin4j.readings()` is not a public script API until the AutoJs6 AIDL and host routes are upgraded
+- `Fixed` `of` no longer drops dictionary holes or splits supplementary-plane characters: it now iterates Unicode code points, converts every actual mapping including `〇`, preserves all unmapped input intact, and aligns separators with code points
+- `Fixed` `pinyin4j.as(text)` now converts only complete valid numbered syllables, preserves invalid or alphanumeric-embedded fragments, handles letter case and `v` / `u:` / `ü`, and correctly treats plain `ue` spellings such as `jue4` -> `juè`
+- `Improved` Pinned actual dictionary coverage with an exhaustive BMP test: 20,378 mappings, of which 20,377 are in U+4E00-U+9FA5 and the other is `〇`; the 525 holes in the old range and a corpus SHA-256 fingerprint are also regression-checked
+- `Improved` Added a tested all-candidate core for Hanyu, Tongyong, Wade-Giles, MPS2, Yale, and Gwoyeu Romatzyh, plus a documented append-only JSON AIDL, capability-negotiation, and old-implementation fallback proposal
+- `Improved` Added a pinyin4j 2.5.1 risk register with binary and source hashes, upstream and license-metadata findings, known boundaries, and upgrade or fork gates
+- `Improved` Added reproducible JVM and Android Service/AIDL entry-point performance baselines, a release APK ZIP/resource size analyzer, and a sister-plugin selection comparison grounded in measurements
 
 #### v1.1.0
 
@@ -289,17 +302,6 @@ _2026/08/31_
 - `Improved` Upgraded the docs generator to the unified implementation shared across sibling plugins: `--check` drift detection, cross-language key and shape validation, fullwidth symbol rejection and version alignment checks
 - `Improved` Brought the Plugin Center instructions (`plugin_instruction.md`) into the same multilingual JSON generation pipeline, eliminating double-source maintenance
 - `Improved` Added the ROADMAP.md development roadmap and established bidirectional cross-references and a comparison with the sibling plugin Pinyin
-
-#### v1.0.0
-
-_2026/07/15_
-
-- `Added` Pinyin4j plugin service: plugin ID `pinyin4j`, automatically discovered and invoked by AutoJs6 via `org.autojs.plugin.PINYIN4J`, wrapping the `com.belerweb:pinyin4j:2.5.1` library
-- `Added` Conversion API: `pinyin4j.of(text, options)` converts Chinese text to Hanyu Pinyin character by character; passing a string as the second argument uses it directly as the separator
-- `Added` Tone restoring API: `pinyin4j.as(text)` restores number-toned Pinyin (such as `han4`) to mark-toned Pinyin (such as `hàn`), backed by the AIDL method `asTone`
-- `Added` Flexible options: aliases such as `case` / `tone` / `v` / `sep` and value shortcuts such as `MARK` / `NUMBER` / `NO`, with localized errors thrown on invalid values
-- `Added` Multilingual resources: plugin info and instructions available in 10 languages
-- `Added` README and CHANGELOG generated as multilingual Markdown from JSON sources via `.python/generate_markdown.py`
 
 ##### For more release history, refer to
 
@@ -327,7 +329,7 @@ Build a release APK (single universal package; signed automatically once signing
 
 For a verified release archive, run `py .python/prepare_release.py`. It checks generated docs, builds and verifies the signed universal APK, validates version metadata, calculates CRC32 and SHA-256, and atomically writes the APK, `SHA256SUMS.txt` and English `RELEASE_NOTES.md` under `app/releases/v<version>`.
 
-Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 36, current version 1.1.0.
+Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 36, current version 1.2.0.
 
 ******
 

@@ -171,6 +171,7 @@ console.log(pinyin4j.of("拼音"));
 | {{ th_sibling_output }} | {{ td_sibling_output_pinyin4j }} | {{ td_sibling_output_pinyin }} |
 | {{ th_sibling_styles }} | {{ td_sibling_styles_pinyin4j }} | {{ td_sibling_styles_pinyin }} |
 | {{ th_sibling_size }} | {{ td_sibling_size_pinyin4j }} | {{ td_sibling_size_pinyin }} |
+| {{ th_sibling_performance }} | {{ td_sibling_performance_pinyin4j }} | {{ td_sibling_performance_pinyin }} |
 | {{ th_sibling_scenario }} | {{ td_sibling_scenario_pinyin4j }} | {{ td_sibling_scenario_pinyin }} |
 
 {{ p_sibling_note }}

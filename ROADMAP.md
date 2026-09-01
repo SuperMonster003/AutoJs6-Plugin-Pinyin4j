@@ -17,8 +17,8 @@
 | M0 基线插件 | 已完成 | Pinyin4j 转换服务与多语言资源 | 插件/发布 |
 | M1 文档与发布体验 | 已完成 | 用户导向文档, 文档自动生成与校验, v1.0.1 | 发布 |
 | M2 工程化与持续集成 | 已完成 | JVM/真机 Binder 测试, 构建与文档 CI, 可追溯发布物料 | 测试/CI/发布 |
-| M3 转换能力增强 | 规划中 | 多音字接口, 其他罗马化体系, 字符覆盖, 边界行为固化 | API/插件/宿主 |
-| M4 依赖与生态演进 | 规划中 | 上游冻结风险应对, 性能与体积基线, 选型指引维护 | 依赖/测试/发布 |
+| M3 转换能力增强 | 部分完成 | Unicode/asTone 已发布, 多读音与六体系核心/契约已就绪, 公共 API 待宿主协同 | API/插件/宿主 |
+| M4 依赖与生态演进 | 已完成 | 上游风险清单, 性能与体积基线, 实测选型指引 | 依赖/测试/发布 |
 
 依赖顺序:
 
@@ -52,30 +52,33 @@ M0 ──> M1 ──> M2 ──> M3 (契约条目需与宿主协同)
 ## M2: 工程化与持续集成 (v1.1.0, 已完成)
 
 - [x] (测试) 单元测试基础设施与首批 JVM 用例: `app/src/test/` 下 11 个用例覆盖选项标准名/别名/取值简写等价性, 非法取值, case x tone x v 代表矩阵, 默认值与 MARK 时 Unicode ü, 分隔符/非汉字边界, 声调还原及 `PluginRuntimeInfo` 字段拼装; 转换核心拆至 `Pinyin4jConverter.kt`, Binder 契约保持不变.
-- [x] (测试) instrumentation 用例: `Pinyin4jPluginServiceTest` 通过 `org.autojs.plugin.PINYIN4J` + `pinyin4j` 发现并绑定真实 Binder 服务, 断言 `getInfo()` 全部运行时字段, 对 of/asTone 往返并覆盖 null, 中英混排, 标准键/别名, 自定义分隔符和异常输入; 已在 Android 15 真机执行通过.
+- [x] (测试) instrumentation 用例: `Pinyin4jPluginServiceTest` 通过 `org.autojs.plugin.PINYIN4J` + `pinyin4j` 发现并绑定真实 Service, 经 AIDL 接口断言 `getInfo()` 全部运行时字段, 对 of/asTone 往返并覆盖 null, 中英混排, 标准键/别名, 自定义分隔符和异常输入; 已在 Android 15 真机执行通过. 测试与 Service 同包同进程, 因此验证 Service/AIDL 入口但不冒充 AutoJs6 跨包 Binder 互操作.
 - [x] (CI) GitHub Actions 文档工作流 `.github/workflows/markdown.yml`: push/PR/手动运行 `generate_markdown.py --check`, 阻止 JSON 源与 36 份生成产物漂移.
 - [x] (CI) GitHub Actions 构建流水线 `.github/workflows/build.yml`: push/PR/手动运行 `:app:testDebugUnitTest`, `:app:assembleDebug` 与 `:app:assembleDebugAndroidTest`, 上传 debug APK, 失败时保留测试报告; 平台版本插件迁移到可从公共仓库冷启动的永久 ID `io.github.supermonster003.autojs6-platform-versions` 1.6.0.
 - [x] (发布) Release 产物脚本化: `.python/prepare_release.py` 一键校验文档, 构建并经 `apksigner` 验证签名 universal APK, 对齐 `version.properties`/APK 元数据, 计算 CRC32/SHA-256, 再以同目录临时文件 + `os.replace` 原子生成 APK, `SHA256SUMS.txt` 及基于英文 CHANGELOG 的 `RELEASE_NOTES.md`; v1.1.0 物料已实跑生成并复核哈希.
 
 验收条件: 主分支每次提交自动完成构建, 单元测试与文档校验; instrumentation 测试可在连接设备上执行; 发布产物由脚本生成, 已验证签名且哈希可追溯. (已满足)
 
-## M3: 转换能力增强 (规划中)
+## M3: 转换能力增强 (v1.2.0, 部分完成)
 
-- [ ] (API/契约升级) 多音字读音接口评估: pinyin4j 的 `toHanyuPinyinStringArray` 本身返回全部候选读音, 当前插件仅取首个; 评估新增按字符返回候选数组的只读接口或 heteronym 选项, 先升级 AIDL 契约与宿主路由并保留旧宿主的单读音回退, 再更新文档与对比表.
-- [ ] (API/契约升级) 其他罗马化体系评估: pinyin4j 原生支持通用拼音, 威妥玛 (Wade-Giles), 注音二式 (MPS2), 耶鲁 (Yale) 与国语罗马字 (Gwoyeu Romatzyh); 评估以显式体系参数暴露, 明确这些体系不适用现有 toneType/vCharType 选项时的行为与降级策略.
-- [ ] (插件) 字符覆盖范围核查: 当前入口显式限定 U+4E00-U+9FA5; 核查 pinyin4j 词表对扩展区与兼容区汉字的实际覆盖, 如有数据支撑则放宽入口范围, 并为无读音字符明确回退行为; 以语料测试固定边界.
-- [ ] (插件/测试) `asTone` 边界行为固化: 明确混合文本, 非法音节, u:/v 写法与大小写输入的处理预期并以测试固化; 设计意向为对无法解析的片段保持原样输出而非中断.
-- [ ] (宿主先行) Node.js 运行时支持: 宿主侧 `pinyin4j` 目前为 Rhino 专属; 待宿主完成调用路由后复用同一插件能力, 并更新 FAQ.
+- [x] (插件/测试) 多音字插件侧核心 (2026-09-01): `Pinyin4jReadings` 按 Unicode code point 返回有序候选, 默认 Hanyu 候选保留数字声调以免不同读音在去调后错误合并; 非词典字符的核心候选为空, 传输行固定回退为 `[source]`. JVM 用例固定 `重` / `间` 候选顺序, 非 BMP 回退及候选传输形状, 当前公开 `of()` 仍只取第一读音且不做语境消歧.
+- [x] (API/契约方案) 多读音公共接口评估 (2026-09-01): `docs/api/advanced-conversion-contract.md` 建议在 AIDL 末尾追加 `readings(text, options)` 并返回 JSON 二维字符串数组, 以 `pinyin4j.readings.version = 1` 能力完成新旧协商; 明确旧插件按 code point 包装单候选回退, 非 Hanyu 体系不伪装降级, Rhino 与 Node 共用参数归一化和 JSON 解析.
+- [ ] (API/宿主/契约升级) 发布多读音接口: 等待 AutoJs6 的 `pinyin4j-api` AAR, Android 宿主能力协商, Rhino augment 与 Node provider 同步升级后, 再实现本插件 Binder JSON 方法和真实跨版本互操作测试. v1.2.0 不公开 `pinyin4j.readings()`.
+- [x] (插件/测试) 六种罗马化体系核心 (2026-09-01): 已固定 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 与 Gwoyeu Romatzyh 对 `间` 的完整候选矩阵和体系别名/非法值行为; 非 Hanyu 输出忠实保留 pinyin4j 映射表正字法, Hanyu 的 case/tone/v 格式选项单独测试.
+- [ ] (API/宿主) 发布罗马化体系选项: 待上述 `readings()` 契约落地后才向脚本开放 `romanization` / `system`; 非 Hanyu 体系必须拒绝显式 Hanyu 专属格式选项, 不静默忽略或伪造格式.
+- [x] (插件/测试) 字符覆盖范围核查与修复 (2026-09-01): 穷举 BMP 得到 pinyin4j 2.5.1 共 20,378 个有效映射, 其中 20,377 个位于 U+4E00-U+9FA5, 唯一范围外映射为 U+3007 `〇`; 旧范围 20,902 个 code point 中 525 个无词条, 扩展 A, 兼容区及补充平面无有效映射. `of()` 现直接查询实际词条并按 code point 回退, 因而可转换 `〇`, 不再让无词条字符消失, 也不拆 UTF-16 代理对; 穷举数量, 分区分布与语料 SHA-256 均由测试固定.
+- [x] (插件/测试) `asTone` 边界行为固化 (2026-09-01): 仅转换边界完整且属于固定拼音音节集的 `0`-`4` 数字声调 token; 支持大小写和 `v` / `u:` / `ü`, 按 a/e/ou/末元音规则放置声调, `jue4` 正确得到 `juè`; 非法音节, 数字 `5` 及嵌入字母数字的片段保持原样, 不因局部失败中断整段文本.
+- [ ] (宿主先行) Node.js 运行时支持: 宿主当前只有 `pinyin4j` fixture/type 子集, 尚无面向真实 Android 插件 Binder 的公开 Node provider; 待宿主完成受限调用路由后复用同一插件能力并更新 FAQ, 本仓库不以测试 fixture 冒充已支持.
 
-验收条件: 每项能力先有 API 契约与旧实现回退测试, 再修改宿主与插件; 未发布的宿主能力不提前标记为插件现有功能.
+验收条件: v1.2.0 的 Unicode 与 `asTone` 行为已由 JVM/真机 Service/AIDL 测试满足; 多读音和六体系已有插件侧核心, 契约及旧实现回退方案, 但公共 API 与 Node 路由在宿主协同完成前保持未勾选且不写入现有功能列表. (部分满足)
 
-## M4: 依赖与生态演进 (规划中)
+## M4: 依赖与生态演进 (v1.2.0, 已完成)
 
-- [ ] (依赖) 上游冻结风险应对: `com.belerweb:pinyin4j:2.5.1` 上游已长期停止更新; 建立已知问题清单 (读音数据勘误, 词表覆盖), 制定应对预案: 优先保持坐标锁定不动, 如需修正数据再评估维护性分叉或仓库内源码内嵌, 并保留可逐字节比对的迁移证据.
-- [ ] (测试) 体积与性能基线: 记录 APK 体积, 冷绑定耗时, 单字与长文本转换吞吐, 作为后续任何依赖调整的回归防线.
-- [ ] (发布) 姊妹插件选型指引维护: 随双方能力演进同步更新对比表 (词级分词, 多音字, 体积, 速度), 确保两个仓库的对比结论不过期.
+- [x] (依赖/测试) 上游冻结风险应对 (2026-09-01): `docs/dependency/pinyin4j-2.5.1-risk-register.md` 锁定 Maven 坐标及二进制/源码 JAR SHA-256, 记录 Maven Central 发布状态, GitHub 上游活动, POM 与源码头许可证元数据不一致, 覆盖/多音字/第三声/其他体系边界及升级或维护性分叉的七项门禁; `Pinyin4jCoverageTest` 以全部 BMP 映射语料指纹提供逐字节级回归锚点.
+- [x] (测试/发布) 体积与性能基线 (2026-09-01): `benchmarkPinyin4j` 可复测首次词表初始化, 稳态单字和 832 code point 长文本吞吐; Android 15 真机 instrumentation 记录 Service 绑定, 首次 Service/AIDL 转换及稳态吞吐, 并明确 instrumentation 已启动进程且同包同进程, 不把该值冒充完整冷启动或跨包 Binder 成本. `scripts/ci/analyze_apk_size.py` 校验 release APK, 四份 pinyin4j 数据, DEX 与零原生库并生成条目级体积报告; 证据见 `docs/performance/`.
+- [x] (发布) 姊妹插件选型指引维护 (2026-09-01): 10 种语言对比表同步当前能力, 实测 release 体积与可复测性能资料; Pinyin 的 5.95 MiB full 包, 分词器基准及其模式差异链接到姊妹仓库原始报告. 两套基准输入和设备不同, 因此只呈现各自数据与能力成本, 不制造不可比的速度倍数.
 
-验收条件: 任何依赖调整均有逐字节或语料级差分证据; 对比文档与实际能力保持同步.
+验收条件: 依赖制品和完整词典语料均有指纹; release 体积与 JVM/Android 性能可由仓库命令复测; 对比文档区分可比事实与测量边界. (已满足)
 
 ## 边界 (非目标)
 

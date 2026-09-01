@@ -4,6 +4,18 @@
 
 ******
 
+# v1.2.0
+
+###### 2026/09/01
+
+* `Hint` Multi-pronunciation and six-system romanization currently exist only as a tested plugin-side core and contract proposal; `pinyin4j.readings()` is not a public script API until the AutoJs6 AIDL and host routes are upgraded
+* `Fixed` `of` no longer drops dictionary holes or splits supplementary-plane characters: it now iterates Unicode code points, converts every actual mapping including `〇`, preserves all unmapped input intact, and aligns separators with code points
+* `Fixed` `pinyin4j.as(text)` now converts only complete valid numbered syllables, preserves invalid or alphanumeric-embedded fragments, handles letter case and `v` / `u:` / `ü`, and correctly treats plain `ue` spellings such as `jue4` -> `juè`
+* `Improved` Pinned actual dictionary coverage with an exhaustive BMP test: 20,378 mappings, of which 20,377 are in U+4E00-U+9FA5 and the other is `〇`; the 525 holes in the old range and a corpus SHA-256 fingerprint are also regression-checked
+* `Improved` Added a tested all-candidate core for Hanyu, Tongyong, Wade-Giles, MPS2, Yale, and Gwoyeu Romatzyh, plus a documented append-only JSON AIDL, capability-negotiation, and old-implementation fallback proposal
+* `Improved` Added a pinyin4j 2.5.1 risk register with binary and source hashes, upstream and license-metadata findings, known boundaries, and upgrade or fork gates
+* `Improved` Added reproducible JVM and Android Service/AIDL entry-point performance baselines, a release APK ZIP/resource size analyzer, and a sister-plugin selection comparison grounded in measurements
+
 # v1.1.0
 
 ###### 2026/09/01

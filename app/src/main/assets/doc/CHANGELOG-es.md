@@ -4,6 +4,18 @@
 
 ******
 
+# v1.2.0
+
+###### 2026/09/01
+
+* `Pista` Las pronunciaciones múltiples y los seis sistemas de romanización existen por ahora solo como núcleo probado del plugin y propuesta de contrato; `pinyin4j.readings()` no será una API pública de scripts hasta actualizar el AIDL y las rutas del host AutoJs6
+* `Corrección` `of` ya no descarta los huecos del diccionario ni divide caracteres de planos suplementarios: ahora recorre puntos de código Unicode, convierte cada entrada real incluido `〇`, conserva intacta toda entrada sin mapeo y alinea los separadores con los puntos de código
+* `Corrección` `pinyin4j.as(text)` ahora convierte solo sílabas numéricas completas y válidas, conserva fragmentos no válidos o incrustados en texto alfanumérico, maneja mayúsculas y minúsculas junto con `v` / `u:` / `ü`, y trata correctamente grafías `ue` simples como `jue4` -> `juè`
+* `Mejora` Se fijó la cobertura real del diccionario con una prueba BMP exhaustiva: 20,378 mapeos, 20,377 en U+4E00-U+9FA5 y el restante para `〇`; también se comprueban los 525 huecos del rango anterior y una huella SHA-256 del corpus
+* `Mejora` Se añadió un núcleo probado con todos los candidatos para Hanyu, Tongyong, Wade-Giles, MPS2, Yale y Gwoyeu Romatzyh, más una propuesta documentada de AIDL JSON aditivo, negociación de capacidad y retorno a la implementación anterior
+* `Mejora` Se añadió un registro de riesgos de pinyin4j 2.5.1 con hashes del binario y las fuentes, hallazgos sobre el upstream y los metadatos de licencia, límites conocidos y puertas para actualizar o crear un fork
+* `Mejora` Se añadieron bases reproducibles de rendimiento JVM y del punto de entrada Android Service/AIDL, un analizador ZIP/de recursos del release APK y una comparación para elegir plugin basada en mediciones
+
 # v1.1.0
 
 ###### 2026/09/01
