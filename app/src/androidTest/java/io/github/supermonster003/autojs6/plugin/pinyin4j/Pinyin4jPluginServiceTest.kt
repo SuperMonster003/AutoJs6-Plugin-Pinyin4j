@@ -12,6 +12,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.autojs.plugin.common.api.PluginCapabilityKeys
 import org.autojs.plugin.pinyin4j.api.IPinyin4jPlugin
+import org.autojs.plugin.pinyin4j.api.Pinyin4jOptionKeys
+import org.autojs.plugin.pinyin4j.api.Pinyin4jPluginCapabilityKeys
 import org.autojs.plugin.pinyin4j.api.Pinyin4jPluginIds
 import org.junit.After
 import org.junit.Assert.assertArrayEquals
@@ -156,6 +158,10 @@ class Pinyin4jPluginServiceTest {
             PluginRuntimeInfo.REQUIRES_HOST_VERSION,
             capabilities.getInt(PluginCapabilityKeys.REQUIRES_HOST_VERSION),
         )
+        assertEquals(
+            Pinyin4jPluginCapabilityKeys.READINGS_VERSION_1,
+            capabilities.getInt(Pinyin4jPluginCapabilityKeys.READINGS_VERSION),
+        )
 
         assertEquals("", plugin.of(null, null))
         assertEquals("han-A-!", plugin.of("汉A!", Bundle().apply {
@@ -170,9 +176,32 @@ class Pinyin4jPluginServiceTest {
             putString("separator", "-")
         }))
         assertEquals("HÀN; abc4", plugin.asTone("HAN4; abc4"))
+        assertEquals(
+            "[[\"zhong4\",\"chong2\"],[\"A\"],[\"𠀀\"]]",
+            plugin.readings("重A𠀀", null),
+        )
+        assertEquals(
+            "[[\"HǍO\",\"HÀO\"]]",
+            plugin.readings("好", Bundle().apply {
+                putString(Pinyin4jOptionKeys.CASE_TYPE, "UPPERCASE")
+                putString(Pinyin4jOptionKeys.TONE_TYPE, "WITH_TONE_MARK")
+            }),
+        )
+        assertEquals(
+            "[[\"chien1\",\"chien4\"]]",
+            plugin.readings("间", Bundle().apply {
+                putString(Pinyin4jOptionKeys.ROMANIZATION, "WADE_GILES")
+            }),
+        )
 
         assertThrows(IllegalArgumentException::class.java) {
             plugin.of("汉", Bundle().apply { putString("toneType", "FIFTH_TONE") })
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            plugin.readings("间", Bundle().apply {
+                putString(Pinyin4jOptionKeys.ROMANIZATION, "YALE")
+                putString(Pinyin4jOptionKeys.TONE_TYPE, "WITH_TONE_NUMBER")
+            })
         }
     }
 

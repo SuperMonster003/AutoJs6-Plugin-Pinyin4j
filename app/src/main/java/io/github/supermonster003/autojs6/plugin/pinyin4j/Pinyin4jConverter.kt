@@ -19,7 +19,11 @@ internal object PinyinOptionNames {
     const val V = "v"
     const val SEP = "sep"
 
-    val ALL = listOf(CASE_TYPE, CASE, TONE_TYPE, TONE, V_CHAR_TYPE, V_CHAR, V, SEPARATOR, SEP)
+    val CASE_TYPE_KEYS = listOf(CASE_TYPE, CASE)
+    val TONE_TYPE_KEYS = listOf(TONE_TYPE, TONE)
+    val V_CHAR_TYPE_KEYS = listOf(V_CHAR_TYPE, V_CHAR, V)
+    val SEPARATOR_KEYS = listOf(SEPARATOR, SEP)
+    val ALL = CASE_TYPE_KEYS + TONE_TYPE_KEYS + V_CHAR_TYPE_KEYS + SEPARATOR_KEYS
 }
 
 internal enum class PinyinOptionKind {

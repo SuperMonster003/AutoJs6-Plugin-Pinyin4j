@@ -6,6 +6,7 @@ import android.os.Bundle
 import org.autojs.plugin.common.api.PluginCapabilityKeys
 import org.autojs.plugin.common.api.PluginInfo
 import org.autojs.plugin.pinyin4j.api.Pinyin4jPluginIds
+import org.autojs.plugin.pinyin4j.api.Pinyin4jPluginCapabilityKeys
 
 internal data class PluginRuntimeInfo(
     val name: String,
@@ -19,6 +20,7 @@ internal data class PluginRuntimeInfo(
     val versionDate: String,
     val supportedAbis: List<String> = emptyList(),
     val requiresHostVersion: Int = REQUIRES_HOST_VERSION,
+    val readingsVersion: Int = Pinyin4jPluginCapabilityKeys.READINGS_VERSION_1,
 ) {
     fun toPluginInfo(): PluginInfo = PluginInfo().apply {
         name = this@PluginRuntimeInfo.name
@@ -33,6 +35,7 @@ internal data class PluginRuntimeInfo(
         supportedAbis = this@PluginRuntimeInfo.supportedAbis.toTypedArray()
         capabilities = Bundle().apply {
             putInt(PluginCapabilityKeys.REQUIRES_HOST_VERSION, requiresHostVersion)
+            putInt(Pinyin4jPluginCapabilityKeys.READINGS_VERSION, readingsVersion)
         }
     }
 

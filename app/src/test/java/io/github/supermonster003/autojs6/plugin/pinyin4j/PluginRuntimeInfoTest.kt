@@ -1,6 +1,7 @@
 package io.github.supermonster003.autojs6.plugin.pinyin4j
 
 import org.autojs.plugin.pinyin4j.api.Pinyin4jPluginIds
+import org.autojs.plugin.pinyin4j.api.Pinyin4jPluginCapabilityKeys
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -33,5 +34,6 @@ class PluginRuntimeInfoTest {
         assertTrue(info.supportedAbis.isEmpty())
         assertEquals(3923, info.requiresHostVersion)
         assertEquals(PluginRuntimeInfo.REQUIRES_HOST_VERSION, info.requiresHostVersion)
+        assertEquals(Pinyin4jPluginCapabilityKeys.READINGS_VERSION_1, info.readingsVersion)
     }
 }
