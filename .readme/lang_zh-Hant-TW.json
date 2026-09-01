@@ -5,16 +5,17 @@
   "h3_languages_with_ascii": "語言 (Languages)",
   "p_languages_all_supported_for_readme": "目前 README.md 支援以下語言",
   "h3_introduction": "簡介",
-  "p_introduction_what": "Pinyin4j 外掛 (Pinyin4j Plugin) 為 AutoJs6 提供輕量的中文轉漢語拼音能力. 安裝後, 腳本可透過全域物件 `pinyin4j` 將中文文字逐字轉換為拼音, 並按需設定大小寫, 聲調格式, `ü` 的表示方式與音節分隔符號; 另提供將數字聲調文字轉換為聲調符號的實用方法.",
-  "p_introduction_how": "外掛是一個獨立安裝的 APK, 在自身處理程序中執行, 由 AutoJs6 透過外掛機制自動發現並以 AIDL 通訊. 轉換能力來自經典 Java 程式庫 [pinyin4j]({{ pinyin4j_official_url }}) (`{{ pinyin4j_library_coordinates }}`), release 實測僅 349 KiB, 轉換完全在裝置本地完成, 無需網路. 自 AutoJs6 v6.8.0 起, 主程式的 `pinyin4j` 模組由本外掛提供實作.",
+  "p_introduction_what": "Pinyin4j 外掛 (Pinyin4j Plugin) 為 AutoJs6 提供輕量逐字羅馬化能力. 腳本既可輸出格式化的漢語拼音字串, 也可按 Unicode 碼點查詢 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 或 Gwoyeu Romatzyh 的全部字典讀音矩陣, 並可將數字聲調文字轉換為聲調符號.",
+  "p_introduction_how": "外掛是一個獨立安裝的 APK, 在自身處理程序中執行, 由 AutoJs6 透過外掛機制自動發現並以 AIDL 通訊. 轉換能力來自經典 Java 程式庫 [pinyin4j]({{ pinyin4j_official_url }}) (`{{ pinyin4j_library_coordinates }}`), release 實測僅 376 KiB, 轉換完全在裝置本地完成, 無需網路. 自 AutoJs6 v6.8.0 起, 主程式的 `pinyin4j` 模組由本外掛提供實作.",
   "p_introduction_extra": "本外掛與 [Pinyin]({{ pinyin_repo_url }}) 互為姊妹外掛: 本外掛以極小體積提供簡單可靠的逐字注音; Pinyin 外掛內建完整字典與 Jieba 分詞, 支援多音字消歧與姓氏模式, 適合追求讀音準確性的場景. 兩者可同時安裝, 詳見下方 `姊妹外掛比較`.",
   "h3_features": "功能亮點",
   "features": [
     "開箱即用: 安裝後由 AutoJs6 自動發現, 無需重新啟動主程式, 腳本直接使用全域物件 `pinyin4j`.",
-    "極致輕量: release 實測僅 349 KiB, 純 JVM 實作, 不含任何原生程式庫, 適用於全部 CPU 架構.",
+    "極致輕量: release 實測僅 376 KiB, 純 JVM 實作, 不含任何原生程式庫, 適用於全部 CPU 架構.",
     "三種聲調格式: 無聲調, 數字聲調 (`han4`) 與聲調符號 (`hàn`), 按需選用.",
     "靈活輸出: 可設定大小寫, `ü` 的三種表示方式 (`lv` / `lu:` / `lü`) 與任意音節分隔符號.",
     "聲調工具: `pinyin4j.as(text)` 將數字聲調文字一步轉換為聲調符號形式.",
+    "全讀音與六體系: `pinyin4j.readings(text, options)` 為每個 Unicode 碼點回傳一列有序候選, 支援 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 與 Gwoyeu Romatzyh.",
     "取值寬鬆: 選項不區分大小寫並支援多種簡寫別名 (如 `tone: \"MARK\"`), 非法取值給出在地化錯誤提示.",
     "完全離線: 轉換基於內建資料在裝置本地完成, 不發起任何網路請求.",
     "多語言: 外掛資訊, 使用說明, README 與更新日誌覆蓋 10 種語言."
@@ -31,6 +32,7 @@
   "p_quick_start_basic": "基礎轉換: 預設輸出小寫無聲調拼音, 第二參數可直接傳分隔符號",
   "p_quick_start_tone": "數字聲調與 `ü` 的表示方式",
   "p_quick_start_as": "聲調工具: 將數字聲調文字轉換為聲調符號",
+  "p_quick_start_readings": "全部候選讀音與其他羅馬化體系",
   "h3_options": "選項",
   "p_options_intro": "`pinyin4j.of(text, options)` 支援以下選項 (括號內為可用簡寫鍵名)",
   "th_option_name": "選項",
@@ -45,6 +47,8 @@
   "p_script_api_intro": "`pinyin4j` 全域物件提供以下方法 (直接呼叫 `pinyin4j(text, options)` 等價於 `pinyin4j.of`)",
   "api_points": [
     "`of` 按 Unicode code point 逐字轉換: 直接查詢 pinyin4j 2.5.1 詞典, 可轉換其實際收錄的 20,378 個 BMP 字元 (含 `〇`); 無詞條和補充平面字元完整原樣保留, 每字仍取第一讀音且不做語境消歧.",
+    "`readings` 回傳按 Unicode 碼點逐列對齊的有序 `string[][]`. Hanyu 預設小寫數字聲調並支援既有 case/tone/v 選項; `romanization` (或 `system`) 可選擇 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 或 Gwoyeu Romatzyh. 非 Hanyu 體系拒絕明確 Hanyu 專屬格式選項, 分隔符號不適用於矩陣.",
+    "AutoJs6 透過 `pinyin4j.readings.version = 1` 協商能力: 舊外掛可安全產生 Hanyu 單候選列, 非 Hanyu 請求需要新版外掛. Node.js 可透過具備明確 `pinyin4j` capability 的 `autojs6:bridge.callAutoJs` 非同步呼叫相同 provider.",
     "`of` 的第二參數既可以是選項物件, 也可以直接傳一個字串作為分隔符號.",
     "`as` 只轉換邊界完整且被詞表識別的 `0`-`4` 數字聲調音節, 正確處理大小寫以及 `v` / `u:` / `ü`; 無效音節, 數字 `5` 和相鄰字母數字片段原樣保留. 該方法對應外掛 AIDL 介面中的 `asTone`.",
     "選項取值不區分大小寫並支援多種簡寫 (見上方 `選項`), 非法取值會拋出包含在地化訊息的例外.",
@@ -69,7 +73,7 @@
     },
     {
       "q": "多音字讀音不符合預期 (如 \"重慶\" 未讀作 chongqing)?",
-      "a": "本外掛按單字轉換, 每個字固定取詞典的第一讀音, 不結合詞組語境消歧, 這是輕量方案的固有取捨. 需要多音字消歧, 詞組詞典或姓氏讀音時, 請使用姊妹外掛 [Pinyin]({{ pinyin_repo_url }})."
+      "a": "`pinyin4j.of` 仍按單字轉換並固定取字典首個讀音. 使用 `pinyin4j.readings` 可取得每個字的全部字典候選, 但不會結合詞組語境自動選擇. 需要語境消歧, 詞組字典或姓氏讀音時, 請使用姊妹外掛 [Pinyin]({{ pinyin_repo_url }})."
     },
     {
       "q": "文件或舊腳本中的 `pinyin4j.asTone(text)` 為什麼無法使用?",
@@ -81,7 +85,7 @@
     },
     {
       "q": "與姊妹外掛 Pinyin 如何選擇?",
-      "a": "只需輕量逐字注音且在意安裝套件體積時選擇本外掛; 需要多音字, 分詞, 詞組或姓氏讀音時選擇 [Pinyin]({{ pinyin_repo_url }}). 兩者互不衝突, 可同時安裝, 詳見下方 `姊妹外掛比較`."
+      "a": "只需輕量逐字注音或全部候選清單且在意安裝套件體積時選擇本外掛; 需要多音字語境消歧, 分詞, 詞組字典或姓氏讀音時選擇 [Pinyin]({{ pinyin_repo_url }}). 兩者互不衝突, 可同時安裝, 詳見下方 `姊妹外掛比較`."
     }
   ],
   "h3_security": "權限與安全",
@@ -108,17 +112,17 @@
   "th_sibling_scenario": "適用場景",
   "td_sibling_impl_pinyin4j": "經典 Java 程式庫 `pinyin4j`",
   "td_sibling_impl_pinyin": "內建字典 + Jieba 分詞",
-  "td_sibling_heteronym_pinyin4j": "不支援, 固定取首個讀音",
+  "td_sibling_heteronym_pinyin4j": "`readings` 回傳全部候選, 不做語境消歧",
   "td_sibling_heteronym_pinyin": "支援, 可回傳全部候選",
   "td_sibling_segment_pinyin4j": "不支援, 逐字轉換",
   "td_sibling_segment_pinyin": "支援 (詞組詞典 + Jieba)",
   "td_sibling_surname_pinyin4j": "不支援",
   "td_sibling_surname_pinyin": "支援",
-  "td_sibling_output_pinyin4j": "字串, 可設定分隔符號",
+  "td_sibling_output_pinyin4j": "格式化字串或按 Unicode 對齊的候選矩陣",
   "td_sibling_output_pinyin": "二維候選陣列 (可 `compact()` 組合) 或緊湊字串",
-  "td_sibling_styles_pinyin4j": "3 種聲調格式 + 大小寫 + `ü` 表示方式",
+  "td_sibling_styles_pinyin4j": "6 種羅馬化體系; Hanyu 支援 3 種聲調 + 大小寫 + `ü` 形式",
   "td_sibling_styles_pinyin": "6 種拼音風格",
-  "td_sibling_size_pinyin4j": "349 KiB ([release 實測基線]({{ repo_url }}/blob/master/docs/performance/apk-size-baseline-2026-09-01.md))",
+  "td_sibling_size_pinyin4j": "376 KiB ([release 實測基線]({{ repo_url }}/blob/master/docs/performance/apk-size-baseline-2026-09-01.md))",
   "td_sibling_size_pinyin": "5.95 MiB ([full release 實測]({{ pinyin_repo_url }}/blob/master/docs/size/packaging-strategy-2026-09-01.md), 內建字典)",
   "td_sibling_performance_pinyin4j": "輕量逐字路徑; [JVM/Android 實測基線]({{ repo_url }}/blob/master/docs/performance/conversion-baseline-2026-09-01.md)",
   "td_sibling_performance_pinyin": "[分詞器實測]({{ pinyin_repo_url }}/blob/master/docs/benchmarks/segmenter-reuse-2026-09-01.md); 字典, 分詞與多音字能力較重, 效能隨模式變化",
@@ -127,9 +131,9 @@
   "p_sibling_note": "兩個外掛互不依賴也互不衝突; 同時安裝後, 腳本可按需分別呼叫 `pinyin4j` 與 `pinyin`. Pinyin 外掛詳見 [AutoJs6-Plugin-Pinyin]({{ pinyin_repo_url }}).",
   "h3_plugin_interface": "外掛介面",
   "p_plugin_interface": "以下資訊面向 AutoJs6 主程式與外掛開發者, 主程式透過這些識別碼發現外掛並完成能力協商",
-  "p_contract_service": "`Pinyin4jPluginService` 回應 `{{ discovery_action }}` action (category `{{ discovery_category }}`), 透過 AIDL 介面 `{{ binder_interface }}` 公開 3 個方法; `of` 的選項經 `Bundle` 傳遞 (鍵: `caseType` / `toneType` / `vCharType` / `separator`), 非法取值拋出包含在地化訊息的 `IllegalArgumentException`. 服務與 `WakeActivity` 均受 `org.autojs.permission.PLUGIN` 權限保護, 第三方應用程式無法直接呼叫.",
+  "p_contract_service": "`Pinyin4jPluginService` 回應 `{{ discovery_action }}` action (category `{{ discovery_category }}`), 透過 `{{ binder_interface }}` 公開 4 個方法. `readings` 追加於末尾以維持 transaction 順序, 回傳嚴格有界的 JSON 矩陣, 並以整數 capability `pinyin4j.readings.version = 1` 宣告; 舊主機繼續使用 `of` 與 `asTone`. 非法選項拋出 `IllegalArgumentException`. 服務與 `WakeActivity` 均受 `org.autojs.permission.PLUGIN` 權限保護, 第三方應用程式無法直接呼叫.",
   "h3_roadmap": "開發路線圖",
-  "p_roadmap": "ROADMAP.md 以證據清單記錄里程碑. M3 已完成 Unicode 覆蓋, 聲調邊界及多讀音/六種羅馬化體系的外掛端核心與契約方案, 但公開介面仍等待宿主 AIDL 協同; M4 的依賴風險, 效能, 體積與選型基線已完成. 未勾選條目不代表目前可用能力.",
+  "p_roadmap": "ROADMAP.md 以證據清單記錄里程碑. M3 已在 v1.3.0 完成: Unicode 與聲調邊界, 全讀音矩陣, 六種羅馬化體系, 追加式 AIDL 能力協商, Rhino 與 Node.js 主機路由以及舊外掛 Hanyu 回退均已實作並測試. M4 的依賴風險, 效能, 體積與選型基線維持完成.",
   "text_link_roadmap": "檢視 ROADMAP.md",
   "h3_release_history": "發行歷史",
   "h5_for_more_release_history": "更多發行歷史可參閱",

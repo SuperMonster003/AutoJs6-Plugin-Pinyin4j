@@ -1,4 +1,4 @@
-Pinyin4j 플러그인 (Pinyin4j Plugin) 은 AutoJs6 에 가벼운 중국어-한어 병음 변환 기능을 제공합니다. 설치 후 스크립트는 전역 객체 `pinyin4j` 를 통해 중국어 텍스트를 글자 단위로 병음으로 변환할 수 있으며, 대소문자, 성조 형식, `ü` 표기 방식, 음절 구분자를 필요에 따라 설정할 수 있습니다. 또한 숫자 성조 텍스트를 성조 기호로 변환하는 유틸리티 메서드도 제공합니다.
+Pinyin4j 플러그인은 AutoJs6 에 경량 글자 단위 로마자 변환을 제공합니다. 스크립트는 형식화된 Hanyu Pinyin 문자열을 만들고, Unicode code point 별로 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 또는 Gwoyeu Romatzyh 의 모든 사전 발음을 행렬로 조회하며, 숫자 성조를 성조 기호로 변환할 수 있습니다.
 
 ### 빠른 시작
 
@@ -8,6 +8,7 @@ Pinyin4j 플러그인 (Pinyin4j Plugin) 은 AutoJs6 에 가벼운 중국어-한�
 console.log(pinyin4j.of("汉语拼音"));                             // "hanyupinyin"
 console.log(pinyin4j.of("汉语拼音", " "));                        // "han yu pin yin"
 console.log(pinyin4j.of("汉语拼音", { tone: "MARK", sep: " " })); // "hàn yǔ pīn yīn"
+console.log(JSON.stringify(pinyin4j.readings("重A𠀀")));             // [["zhong4","chong2"],["A"],["𠀀"]]
 console.log(pinyin4j.as("han4 yu3 pin1 yin1"));                   // "hàn yǔ pīn yīn"
 ```
 

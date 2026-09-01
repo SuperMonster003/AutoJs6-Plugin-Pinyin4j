@@ -1,4 +1,4 @@
-يضيف مكون Pinyin4j الإضافي (Pinyin4j Plugin) إلى AutoJs6 قدرة خفيفة لتحويل النص الصيني إلى بينيين Hanyu. بعد التثبيت, يمكن للبرامج النصية عبر الكائن العام `pinyin4j` تحويل النص الصيني إلى بينيين حرفا بحرف, مع ضبط حالة الأحرف وتنسيق النغمة وطريقة كتابة `ü` وفاصل المقاطع حسب الحاجة; كما تتوفر طريقة مساعدة تحول نص النغمات الرقمية إلى علامات النغمة.
+يضيف مكون Pinyin4j الإضافي إلى AutoJs6 كتابة لاتينية خفيفة حرفا بحرف. تستطيع البرامج النصية إنتاج سلسلة Hanyu Pinyin منسقة, والاستعلام عن كل قراءات القاموس كمصفوفة مصطفة حسب نقاط Unicode في Hanyu أو Tongyong أو Wade-Giles أو MPS2 أو Yale أو Gwoyeu Romatzyh, وتحويل النغمات الرقمية إلى علامات.
 
 ### البدء السريع
 
@@ -8,6 +8,7 @@
 console.log(pinyin4j.of("汉语拼音"));                             // "hanyupinyin"
 console.log(pinyin4j.of("汉语拼音", " "));                        // "han yu pin yin"
 console.log(pinyin4j.of("汉语拼音", { tone: "MARK", sep: " " })); // "hàn yǔ pīn yīn"
+console.log(JSON.stringify(pinyin4j.readings("重A𠀀")));             // [["zhong4","chong2"],["A"],["𠀀"]]
 console.log(pinyin4j.as("han4 yu3 pin1 yin1"));                   // "hàn yǔ pīn yīn"
 ```
 

@@ -5,16 +5,17 @@
   "h3_languages_with_ascii": "言語 (Languages)",
   "p_languages_all_supported_for_readme": "現在の README.md は次の言語に対応しています",
   "h3_introduction": "概要",
-  "p_introduction_what": "Pinyin4j プラグイン (Pinyin4j Plugin) は AutoJs6 に軽量な中国語から漢語ピンインへの変換機能を提供します. インストール後は, スクリプトからグローバルオブジェクト `pinyin4j` を通じて中国語テキストを 1 文字ずつピンインに変換でき, 大文字小文字, 声調形式, `ü` の表記方法, 音節区切り文字を必要に応じて設定できます. さらに, 数字声調テキストを声調記号に変換するユーティリティメソッドも用意されています.",
-  "p_introduction_how": "プラグインは単独でインストールされる APK として自身のプロセスで動作し, AutoJs6 がプラグイン機構により自動的に検出して AIDL で通信します. 変換機能は定番の Java ライブラリ [pinyin4j]({{ pinyin4j_official_url }}) (`{{ pinyin4j_library_coordinates }}`) によるもので, release 実測はわずか 349 KiB, 変換はすべて端末ローカルで完結しネットワークは不要です. AutoJs6 v6.8.0 以降, ホストの `pinyin4j` モジュールは本プラグインが実装を提供します.",
+  "p_introduction_what": "Pinyin4j プラグインは AutoJs6 に軽量な文字単位ローマ字変換を提供します. スクリプトは整形済み Hanyu Pinyin 文字列に加え, Unicode code point ごとに Hanyu, Tongyong, Wade-Giles, MPS2, Yale, Gwoyeu Romatzyh の全辞書読みを行列で取得でき, 数字声調を声調記号へ変換できます.",
+  "p_introduction_how": "プラグインは単独でインストールされる APK として自身のプロセスで動作し, AutoJs6 がプラグイン機構により自動的に検出して AIDL で通信します. 変換機能は定番の Java ライブラリ [pinyin4j]({{ pinyin4j_official_url }}) (`{{ pinyin4j_library_coordinates }}`) によるもので, release 実測はわずか 376 KiB, 変換はすべて端末ローカルで完結しネットワークは不要です. AutoJs6 v6.8.0 以降, ホストの `pinyin4j` モジュールは本プラグインが実装を提供します.",
   "p_introduction_extra": "本プラグインと [Pinyin]({{ pinyin_repo_url }}) は姉妹プラグインの関係にあります: 本プラグインは極小サイズでシンプルかつ確実な 1 文字ごとの注音を提供し, Pinyin プラグインは完全な辞書と Jieba 分かち書きを内蔵して多音字の曖昧性解消や姓モードに対応し, 読みの正確性を重視する場面に適しています. 両者は同時にインストールでき, 詳しくは下の `姉妹プラグイン比較` を参照してください.",
   "h3_features": "機能ハイライト",
   "features": [
     "すぐに使える: インストール後は AutoJs6 が自動的に検出し, ホストの再起動は不要で, スクリプトからグローバルオブジェクト `pinyin4j` をそのまま使用できます.",
-    "徹底した軽量さ: release 実測はわずか 349 KiB, 純粋な JVM 実装でネイティブライブラリを一切含まず, すべての CPU アーキテクチャに対応します.",
+    "徹底した軽量さ: release 実測はわずか 376 KiB, 純粋な JVM 実装でネイティブライブラリを一切含まず, すべての CPU アーキテクチャに対応します.",
     "3 つの声調形式: 声調なし, 数字声調 (`han4`), 声調記号 (`hàn`) から必要に応じて選べます.",
     "柔軟な出力: 大文字小文字, `ü` の 3 種類の表記方法 (`lv` / `lu:` / `lü`), 任意の音節区切り文字を設定できます.",
     "声調ユーティリティ: `pinyin4j.as(text)` が数字声調テキストを一度に声調記号形式へ変換します.",
+    "全読みと 6 体系: `pinyin4j.readings(text, options)` は Unicode code point ごとに順序付き候補行を返し, Hanyu, Tongyong, Wade-Giles, MPS2, Yale, Gwoyeu Romatzyh に対応します.",
     "寛容な値指定: オプションは大文字小文字を区別せず複数の短縮エイリアス (例: `tone: \"MARK\"`) に対応し, 不正な値にはローカライズされたエラーメッセージを表示します.",
     "完全オフライン: 変換は内蔵データに基づいて端末ローカルで完結し, ネットワークリクエストを一切発行しません.",
     "多言語対応: プラグイン情報, 使用説明, README, 更新履歴が 10 言語で提供されます."
@@ -31,6 +32,7 @@
   "p_quick_start_basic": "基本の変換: 既定では小文字の声調なしピンインを出力し, 第 2 引数には区切り文字を直接渡せます",
   "p_quick_start_tone": "数字声調と `ü` の表記方法",
   "p_quick_start_as": "声調ユーティリティ: 数字声調テキストを声調記号に変換",
+  "p_quick_start_readings": "全候補読みと別のローマ字体系",
   "h3_options": "オプション",
   "p_options_intro": "`pinyin4j.of(text, options)` は次のオプションに対応しています (括弧内は利用できる短縮キー名)",
   "th_option_name": "オプション",
@@ -45,6 +47,8 @@
   "p_script_api_intro": "グローバルオブジェクト `pinyin4j` は次のメソッドを提供します (`pinyin4j(text, options)` の直接呼び出しは `pinyin4j.of` と等価です)",
   "api_points": [
     "`of` は Unicode code point 単位で固定済み pinyin4j 2.5.1 辞書を直接照会します. 実際に収録された 20,378 個の BMP 文字 (`〇` を含む) を変換し, 未収録文字と補助平面の code point は完全な形で保持します. 読みは引き続き最初の候補だけを使い, 文脈による曖昧性解消は行いません.",
+    "`readings` は Unicode code point ごとに 1 行を対応させた順序付き `string[][]` を返します. Hanyu は小文字の数字声調が既定で既存の case/tone/v オプションに対応し, `romanization` (または `system`) で Hanyu, Tongyong, Wade-Giles, MPS2, Yale, Gwoyeu Romatzyh を選べます. Hanyu 以外は Hanyu 専用の明示的整形オプションを拒否し, 行列に区切り文字は適用されません.",
+    "AutoJs6 は `pinyin4j.readings.version = 1` を交渉します. 旧プラグインは Hanyu の単一候補行へ安全にフォールバックし, 他体系には新プラグインが必要です. Node.js は明示的な `pinyin4j` capability を伴う `autojs6:bridge.callAutoJs` から同じ provider を非同期呼び出しできます.",
     "`of` の第 2 引数にはオプションオブジェクトのほか, 区切り文字として文字列を直接渡すこともできます.",
     "`as` は境界が完全で辞書に認識された `0`-`4` の数字声調音節だけを変換し, 入力の大文字小文字を保ちながら `v` / `u:` / `ü` を扱います. 不正な音節, 数字 `5`, 英数字に隣接する断片はそのままです. このメソッドはプラグイン AIDL インターフェースの `asTone` に対応します.",
     "オプションの値は大文字小文字を区別せず複数の短縮形に対応します (上の `オプション` を参照). 不正な値はローカライズされたメッセージ付きの例外をスローします.",
@@ -69,7 +73,7 @@
     },
     {
       "q": "多音字の読みが期待どおりではありません (例: \"重庆\" が chongqing と読まれない)?",
-      "a": "本プラグインは単字単位で変換し, 各文字は常に辞書の最初の読みを取り, 語句の文脈による曖昧性解消は行いません. これは軽量方式ならではのトレードオフです. 多音字の曖昧性解消, 語句辞書, 姓の読みが必要な場合は, 姉妹プラグイン [Pinyin]({{ pinyin_repo_url }}) をご利用ください."
+      "a": "`pinyin4j.of` は引き続き各文字の最初の辞書読みを使います. `pinyin4j.readings` なら各文字の全辞書候補を取得できますが, 語句文脈から自動選択はしません. 文脈による曖昧性解消, 語句辞書, 姓の読みが必要な場合は姉妹プラグイン [Pinyin]({{ pinyin_repo_url }}) をご利用ください."
     },
     {
       "q": "ドキュメントや古いスクリプトにある `pinyin4j.asTone(text)` が使えないのはなぜですか?",
@@ -81,7 +85,7 @@
     },
     {
       "q": "姉妹プラグイン Pinyin とはどう使い分ければよいですか?",
-      "a": "軽量な 1 文字ごとの注音だけが必要でインストールパッケージのサイズを重視する場合は本プラグインを, 多音字, 分かち書き, 語句, 姓の読みが必要な場合は [Pinyin]({{ pinyin_repo_url }}) を選んでください. 両者は競合せず同時にインストールでき, 詳しくは下の `姉妹プラグイン比較` を参照してください."
+      "a": "軽量な 1 文字ごとの注音または全候補一覧で十分で, インストールパッケージのサイズを重視する場合は本プラグインを, 多音字の文脈的な曖昧性解消, 分かち書き, 語句辞書, 姓の読みが必要な場合は [Pinyin]({{ pinyin_repo_url }}) を選んでください. 両者は競合せず同時にインストールでき, 詳しくは下の `姉妹プラグイン比較` を参照してください."
     }
   ],
   "h3_security": "権限とセキュリティ",
@@ -108,17 +112,17 @@
   "th_sibling_scenario": "適した用途",
   "td_sibling_impl_pinyin4j": "定番の Java ライブラリ `pinyin4j`",
   "td_sibling_impl_pinyin": "内蔵辞書 + Jieba 分かち書き",
-  "td_sibling_heteronym_pinyin4j": "非対応, 常に最初の読みを取得",
+  "td_sibling_heteronym_pinyin4j": "`readings` で全候補, 文脈による曖昧性解消なし",
   "td_sibling_heteronym_pinyin": "対応, 全候補を返却可能",
   "td_sibling_segment_pinyin4j": "非対応, 1 文字ずつ変換",
   "td_sibling_segment_pinyin": "対応 (語句辞書 + Jieba)",
   "td_sibling_surname_pinyin4j": "非対応",
   "td_sibling_surname_pinyin": "対応",
-  "td_sibling_output_pinyin4j": "文字列, 区切り文字を設定可能",
+  "td_sibling_output_pinyin4j": "整形文字列または Unicode 対応候補行列",
   "td_sibling_output_pinyin": "2 次元候補配列 (`compact()` で組み合わせ可能) またはコンパクト文字列",
-  "td_sibling_styles_pinyin4j": "3 つの声調形式 + 大文字小文字 + `ü` の表記方法",
+  "td_sibling_styles_pinyin4j": "6 体系; Hanyu は 3 声調形式 + 大小文字 + `ü` 表記",
   "td_sibling_styles_pinyin": "6 種類のピンインスタイル",
-  "td_sibling_size_pinyin4j": "349 KiB ([release 実測基準]({{ repo_url }}/blob/master/docs/performance/apk-size-baseline-2026-09-01.md))",
+  "td_sibling_size_pinyin4j": "376 KiB ([release 実測基準]({{ repo_url }}/blob/master/docs/performance/apk-size-baseline-2026-09-01.md))",
   "td_sibling_size_pinyin": "5.95 MiB ([full release 実測]({{ pinyin_repo_url }}/blob/master/docs/size/packaging-strategy-2026-09-01.md), 内蔵辞書)",
   "td_sibling_performance_pinyin4j": "軽量な文字単位処理; [JVM/Android 実測基準]({{ repo_url }}/blob/master/docs/performance/conversion-baseline-2026-09-01.md)",
   "td_sibling_performance_pinyin": "[分かち書き実測]({{ pinyin_repo_url }}/blob/master/docs/benchmarks/segmenter-reuse-2026-09-01.md); 辞書, 分かち書き, 多音字処理がより重く, モードにより性能が変化",
@@ -127,9 +131,9 @@
   "p_sibling_note": "2 つのプラグインは互いに依存せず競合もしません. 同時にインストールすれば, スクリプトから必要に応じて `pinyin4j` と `pinyin` をそれぞれ呼び出せます. Pinyin プラグインの詳細は [AutoJs6-Plugin-Pinyin]({{ pinyin_repo_url }}) を参照してください.",
   "h3_plugin_interface": "プラグインインターフェース",
   "p_plugin_interface": "以下の情報は AutoJs6 ホストとプラグイン開発者向けです. ホストはこれらの識別子でプラグインを検出し, 機能ネゴシエーションを行います",
-  "p_contract_service": "`Pinyin4jPluginService` は `{{ discovery_action }}` action (category `{{ discovery_category }}`) に応答し, AIDL インターフェース `{{ binder_interface }}` を通じて 3 つのメソッドを公開します. `of` のオプションは `Bundle` で渡され (キー: `caseType` / `toneType` / `vCharType` / `separator`), 不正な値はローカライズされたメッセージ付きの `IllegalArgumentException` をスローします. サービスと `WakeActivity` はいずれも `org.autojs.permission.PLUGIN` 権限で保護され, サードパーティアプリから直接呼び出せません.",
+  "p_contract_service": "`Pinyin4jPluginService` は `{{ discovery_action }}` (category `{{ discovery_category }}`) に応答し, `{{ binder_interface }}` で 4 メソッドを公開します. `readings` は transaction 順序維持のため末尾へ追加され, 厳格に上限付けした JSON 行列を返し, 整数 capability `pinyin4j.readings.version = 1` で宣言されます. 旧ホストは `of` と `asTone` を継続利用します. 不正オプションは `IllegalArgumentException` になります. サービスと `WakeActivity` は `org.autojs.permission.PLUGIN` で保護されます.",
   "h3_roadmap": "開発ロードマップ",
-  "p_roadmap": "ROADMAP.md はマイルストーンごとの証拠を管理します. M3 では Unicode 範囲, 声調境界, 複数読み/6 体系のプラグイン側コアと契約案が完成しましたが, 公開 API はホストとの AIDL 連携待ちです. M4 の依存リスク, 性能, サイズ, 選択基準は完成済みです. 未チェック項目は現行機能ではありません.",
+  "p_roadmap": "ROADMAP.md はマイルストーンごとの証拠を管理します. M3 は v1.3.0 で完成しました. Unicode/声調境界, 全読み行列, 6 体系, 追加式 AIDL 交渉, Rhino/Node.js ルート, 旧プラグインの Hanyu フォールバックは実装/試験済みです. M4 の依存リスク, 性能, サイズ, 選択基準も完成済みです.",
   "text_link_roadmap": "ROADMAP.md を見る",
   "h3_release_history": "リリース履歴",
   "h5_for_more_release_history": "その他のリリース履歴は以下を参照",

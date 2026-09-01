@@ -17,13 +17,13 @@
 | M0 基线插件 | 已完成 | Pinyin4j 转换服务与多语言资源 | 插件/发布 |
 | M1 文档与发布体验 | 已完成 | 用户导向文档, 文档自动生成与校验, v1.0.1 | 发布 |
 | M2 工程化与持续集成 | 已完成 | JVM/真机 Binder 测试, 构建与文档 CI, 可追溯发布物料 | 测试/CI/发布 |
-| M3 转换能力增强 | 部分完成 | Unicode/asTone 已发布, 多读音与六体系核心/契约已就绪, 公共 API 待宿主协同 | API/插件/宿主 |
+| M3 转换能力增强 | 已完成 | Unicode/asTone, 全读音矩阵, 六体系, Rhino/Node 与新旧插件协商 | API/插件/宿主 |
 | M4 依赖与生态演进 | 已完成 | 上游风险清单, 性能与体积基线, 实测选型指引 | 依赖/测试/发布 |
 
 依赖顺序:
 
 ```text
-M0 ──> M1 ──> M2 ──> M3 (契约条目需与宿主协同)
+M0 ──> M1 ──> M2 ──> M3 (v1.3.0 完成宿主协同)
         └──────────> M4 (依赖/基线项可与 M2/M3 并行)
 ```
 
@@ -59,18 +59,18 @@ M0 ──> M1 ──> M2 ──> M3 (契约条目需与宿主协同)
 
 验收条件: 主分支每次提交自动完成构建, 单元测试与文档校验; instrumentation 测试可在连接设备上执行; 发布产物由脚本生成, 已验证签名且哈希可追溯. (已满足)
 
-## M3: 转换能力增强 (v1.2.0, 部分完成)
+## M3: 转换能力增强 (v1.2.0-v1.3.0, 已完成)
 
 - [x] (插件/测试) 多音字插件侧核心 (2026-09-01): `Pinyin4jReadings` 按 Unicode code point 返回有序候选, 默认 Hanyu 候选保留数字声调以免不同读音在去调后错误合并; 非词典字符的核心候选为空, 传输行固定回退为 `[source]`. JVM 用例固定 `重` / `间` 候选顺序, 非 BMP 回退及候选传输形状, 当前公开 `of()` 仍只取第一读音且不做语境消歧.
-- [x] (API/契约方案) 多读音公共接口评估 (2026-09-01): `docs/api/advanced-conversion-contract.md` 建议在 AIDL 末尾追加 `readings(text, options)` 并返回 JSON 二维字符串数组, 以 `pinyin4j.readings.version = 1` 能力完成新旧协商; 明确旧插件按 code point 包装单候选回退, 非 Hanyu 体系不伪装降级, Rhino 与 Node 共用参数归一化和 JSON 解析.
-- [ ] (API/宿主/契约升级) 发布多读音接口: 等待 AutoJs6 的 `pinyin4j-api` AAR, Android 宿主能力协商, Rhino augment 与 Node provider 同步升级后, 再实现本插件 Binder JSON 方法和真实跨版本互操作测试. v1.2.0 不公开 `pinyin4j.readings()`.
+- [x] (API/契约) 多读音公共接口 (2026-09-01): AutoJs6 `pinyin4j-api` 在 AIDL 末尾追加 `readings(text, options)` 并返回严格 JSON 二维字符串数组, 以 `pinyin4j.readings.version = 1` 完成新旧协商; 共享契约同时固定 16,384 个源 code point, 512 KiB JSON, 每行 64 个候选和每个候选 64 个 code point 的上限 (`docs/api/advanced-conversion-contract.md`).
+- [x] (API/宿主/契约升级) 发布多读音接口 (v1.3.0): 插件使用新版 `pinyin4j-api.aar` 实现 Binder JSON 事务并宣告 readings v1; AutoJs6 宿主在 capability 存在时调用新事务, 旧插件仅对 Hanyu 按 code point 调用 `of()` 并包装单候选行, 非 Hanyu 明确拒绝; Rhino 公开 `pinyin4j.readings()` 并对返回矩阵执行行数, 类型, 候选数和大小校验.
 - [x] (插件/测试) 六种罗马化体系核心 (2026-09-01): 已固定 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 与 Gwoyeu Romatzyh 对 `间` 的完整候选矩阵和体系别名/非法值行为; 非 Hanyu 输出忠实保留 pinyin4j 映射表正字法, Hanyu 的 case/tone/v 格式选项单独测试.
-- [ ] (API/宿主) 发布罗马化体系选项: 待上述 `readings()` 契约落地后才向脚本开放 `romanization` / `system`; 非 Hanyu 体系必须拒绝显式 Hanyu 专属格式选项, 不静默忽略或伪造格式.
+- [x] (API/宿主) 发布罗马化体系选项 (v1.3.0): `pinyin4j.readings(text, { romanization })` 及别名 `system` 公开六种体系; Hanyu 默认数字声调并支持 case/tone/v, 非 Hanyu 显式传入 Hanyu 专属格式选项会在宿主和插件两层拒绝, separator 对二维矩阵始终不适用.
 - [x] (插件/测试) 字符覆盖范围核查与修复 (2026-09-01): 穷举 BMP 得到 pinyin4j 2.5.1 共 20,378 个有效映射, 其中 20,377 个位于 U+4E00-U+9FA5, 唯一范围外映射为 U+3007 `〇`; 旧范围 20,902 个 code point 中 525 个无词条, 扩展 A, 兼容区及补充平面无有效映射. `of()` 现直接查询实际词条并按 code point 回退, 因而可转换 `〇`, 不再让无词条字符消失, 也不拆 UTF-16 代理对; 穷举数量, 分区分布与语料 SHA-256 均由测试固定.
 - [x] (插件/测试) `asTone` 边界行为固化 (2026-09-01): 仅转换边界完整且属于固定拼音音节集的 `0`-`4` 数字声调 token; 支持大小写和 `v` / `u:` / `ü`, 按 a/e/ou/末元音规则放置声调, `jue4` 正确得到 `juè`; 非法音节, 数字 `5` 及嵌入字母数字的片段保持原样, 不因局部失败中断整段文本.
-- [ ] (宿主先行) Node.js 运行时支持: 宿主当前只有 `pinyin4j` fixture/type 子集, 尚无面向真实 Android 插件 Binder 的公开 Node provider; 待宿主完成受限调用路由后复用同一插件能力并更新 FAQ, 本仓库不以测试 fixture 冒充已支持.
+- [x] (宿主/测试) Node.js 运行时支持 (v1.3.0): AutoJs6 注册显式 `pinyin4j` capability 和 provider, 通过公开 `autojs6:bridge.callAutoJs` 提供异步 `of` / `as` / `readings`; Node 请求复用 Android 插件宿主和同一参数归一化, 仅允许严格 JSON 值通过桥, 并由 provider 注册表, permission manifest, broker declaration 与端到端运行时测试覆盖.
 
-验收条件: v1.2.0 的 Unicode 与 `asTone` 行为已由 JVM/真机 Service/AIDL 测试满足; 多读音和六体系已有插件侧核心, 契约及旧实现回退方案, 但公共 API 与 Node 路由在宿主协同完成前保持未勾选且不写入现有功能列表. (部分满足)
+验收条件: Unicode 与 `asTone` 行为由 JVM/真机 Service/AIDL 测试固定; 新版插件在 Android 9/12/13/15 真机完成 Binder capability 与 Hanyu/非 Hanyu readings 往返, 宿主在同四台设备完成原生协商, 旧插件回退, 恶意矩阵拒绝和 Node 路由定向测试; 公共文档, 离线文档与 TypeScript 声明同步. (已满足)
 
 ## M4: 依赖与生态演进 (v1.2.0, 已完成)
 

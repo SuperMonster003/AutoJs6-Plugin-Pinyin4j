@@ -42,9 +42,9 @@
 
 ******
 
-Pinyin4j 插件 (Pinyin4j Plugin) 为 AutoJs6 提供轻量的中文转汉语拼音能力. 安装后, 脚本可通过全局对象 `pinyin4j` 将中文文本逐字转换为拼音, 并按需配置大小写, 声调格式, `ü` 的表示方式与音节分隔符; 另提供将数字声调文本转换为声调符号的实用方法.
+Pinyin4j 插件 (Pinyin4j Plugin) 为 AutoJs6 提供轻量逐字罗马化能力. 脚本既可输出格式化的汉语拼音字符串, 也可按 Unicode 码点查询 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 或 Gwoyeu Romatzyh 的全部词典读音矩阵, 并可将数字声调文本转换为声调符号.
 
-插件是一个独立安装的 APK, 运行于自身进程, 由 AutoJs6 通过插件机制自动发现并以 AIDL 通信. 转换能力来自经典 Java 库 [pinyin4j](https://github.com/belerweb/pinyin4j) (`com.belerweb:pinyin4j:2.5.1`), release 实测仅 349 KiB, 转换完全在设备本地完成, 无需网络. 自 AutoJs6 v6.8.0 起, 宿主的 `pinyin4j` 模块由本插件提供实现.
+插件是一个独立安装的 APK, 运行于自身进程, 由 AutoJs6 通过插件机制自动发现并以 AIDL 通信. 转换能力来自经典 Java 库 [pinyin4j](https://github.com/belerweb/pinyin4j) (`com.belerweb:pinyin4j:2.5.1`), release 实测仅 376 KiB, 转换完全在设备本地完成, 无需网络. 自 AutoJs6 v6.8.0 起, 宿主的 `pinyin4j` 模块由本插件提供实现.
 
 本插件与 [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin) 互为姊妹插件: 本插件以极小体积提供简单可靠的逐字注音; Pinyin 插件内置完整字典与 Jieba 分词, 支持多音字消歧与姓氏模式, 适合追求读音准确性的场景. 两者可同时安装, 详见下方 `姊妹插件对比`.
 
@@ -55,10 +55,11 @@ Pinyin4j 插件 (Pinyin4j Plugin) 为 AutoJs6 提供轻量的中文转汉语拼�
 ******
 
 - 开箱即用: 安装后由 AutoJs6 自动发现, 无需重启宿主, 脚本直接使用全局对象 `pinyin4j`.
-- 极致轻量: release 实测仅 349 KiB, 纯 JVM 实现, 不含任何原生库, 适配全部 CPU 架构.
+- 极致轻量: release 实测仅 376 KiB, 纯 JVM 实现, 不含任何原生库, 适配全部 CPU 架构.
 - 三种声调格式: 无声调, 数字声调 (`han4`) 与声调符号 (`hàn`), 按需选用.
 - 灵活输出: 可配置大小写, `ü` 的三种表示方式 (`lv` / `lu:` / `lü`) 与任意音节分隔符.
 - 声调工具: `pinyin4j.as(text)` 将数字声调文本一步转换为声调符号形式.
+- 全读音与六体系: `pinyin4j.readings(text, options)` 为每个 Unicode 码点返回一行有序候选, 支持 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 与 Gwoyeu Romatzyh.
 - 取值宽松: 选项大小写不敏感并支持多种简写别名 (如 `tone: "MARK"`), 非法取值给出本地化错误提示.
 - 完全离线: 转换基于内置数据在设备本地完成, 不发起任何网络请求.
 - 多语言: 插件信息, 使用说明, README 与更新日志覆盖 10 种语言.
@@ -104,6 +105,16 @@ console.log(pinyin4j.of("旅游", { tone: "MARK" }));               // "lǚyóu"
 console.log(pinyin4j.as("han4 yu3 pin1 yin1"));                   // "hàn yǔ pīn yīn"
 ```
 
+全部候选读音与其他罗马化体系:
+
+```javascript
+console.log(pinyin4j.readings("重A𠀀"));
+// [["zhong4", "chong2"], ["A"], ["𠀀"]]
+
+console.log(pinyin4j.readings("间", { system: "WADE_GILES" }));
+// [["chien1", "chien4"]]
+```
+
 ******
 
 ### 选项
@@ -134,9 +145,12 @@ pinyin4j(text, options?)      -> string
 pinyin4j.of(text, options?)   -> string
 pinyin4j.of(text, separator)  -> string
 pinyin4j.as(text)             -> string
+pinyin4j.readings(text, options?) -> string[][]
 ```
 
 - `of` 按 Unicode code point 逐字转换: 直接查询 pinyin4j 2.5.1 词典, 可转换其实际收录的 20,378 个 BMP 字符 (含 `〇`); 无词条和补充平面字符完整原样保留, 每字仍取第一读音且不做语境消歧.
+- `readings` 返回按 Unicode 码点逐行对齐的有序 `string[][]`. Hanyu 默认小写数字声调并支持既有 case/tone/v 选项; `romanization` (或 `system`) 可选择 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 或 Gwoyeu Romatzyh. 非 Hanyu 体系拒绝显式 Hanyu 专属格式选项, 分隔符不适用于矩阵.
+- AutoJs6 通过 `pinyin4j.readings.version = 1` 协商能力: 旧插件可安全生成 Hanyu 单候选行, 非 Hanyu 请求需要新版插件. Node.js 可通过带显式 `pinyin4j` capability 的 `autojs6:bridge.callAutoJs` 异步调用同一 provider.
 - `of` 的第二参数既可以是选项对象, 也可以直接传一个字符串作为分隔符.
 - `as` 只转换边界完整且被词表识别的 `0`-`4` 数字声调音节, 正确处理大小写以及 `v` / `u:` / `ü`; 无效音节, 数字 `5` 和相邻字母数字片段原样保留. 该方法对应插件 AIDL 接口中的 `asTone`.
 - 选项取值大小写不敏感并支持多种简写 (见上方 `选项`), 非法取值会抛出带本地化文案的异常.
@@ -176,7 +190,7 @@ console.log(pinyin4j.of("拼音"));
 
 #### 多音字读音不符合预期 (如 "重庆" 未读作 chongqing)?
 
-本插件按单字转换, 每个字固定取词典的第一读音, 不结合词组语境消歧, 这是轻量方案的固有取舍. 需要多音字消歧, 词组词典或姓氏读音时, 请使用姊妹插件 [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin).
+`pinyin4j.of` 仍按单字转换并固定取词典首个读音. 使用 `pinyin4j.readings` 可取得每个字的全部词典候选, 但不会结合词组语境自动选择. 需要语境消歧, 词组词典或姓氏读音时, 请使用姊妹插件 [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin).
 
 #### 文档或旧脚本中的 `pinyin4j.asTone(text)` 为什么不可用?
 
@@ -188,7 +202,7 @@ console.log(pinyin4j.of("拼音"));
 
 #### 与姊妹插件 Pinyin 如何选择?
 
-只需轻量逐字注音且在意安装包体积时选择本插件; 需要多音字, 分词, 词组或姓氏读音时选择 [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin). 两者互不冲突, 可同时安装, 详见下方 `姊妹插件对比`.
+只需轻量逐字注音或全部候选列表且在意安装包体积时选择本插件; 需要多音字语境消歧, 分词, 词组词典或姓氏读音时选择 [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin). 两者互不冲突, 可同时安装, 详见下方 `姊妹插件对比`.
 
 ******
 
@@ -217,12 +231,12 @@ AutoJs6 官方提供两个拼音插件, 各有侧重, 可同时安装:
 |---|---|---|
 | 底层实现 | 经典 Java 库 `pinyin4j` | 内置字典 + Jieba 分词 |
 | 全局对象 | `pinyin4j` | `pinyin` |
-| 多音字 | 不支持, 固定取首个读音 | 支持, 可返回全部候选 |
+| 多音字 | `readings` 返回全部候选, 不做语境消歧 | 支持, 可返回全部候选 |
 | 分词与词组 | 不支持, 逐字转换 | 支持 (词组词典 + Jieba) |
 | 姓氏模式 | 不支持 | 支持 |
-| 输出形式 | 字符串, 可配置分隔符 | 二维候选数组 (可 `compact()` 组合) 或紧凑字符串 |
-| 风格与格式 | 3 种声调格式 + 大小写 + `ü` 表示方式 | 6 种拼音风格 |
-| 安装包体积 | 349 KiB ([release 实测基线](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/performance/apk-size-baseline-2026-09-01.md)) | 5.95 MiB ([full release 实测](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/size/packaging-strategy-2026-09-01.md), 内置字典) |
+| 输出形式 | 格式化字符串或按 Unicode 对齐的候选矩阵 | 二维候选数组 (可 `compact()` 组合) 或紧凑字符串 |
+| 风格与格式 | 6 种罗马化体系; Hanyu 支持 3 种声调 + 大小写 + `ü` 形式 | 6 种拼音风格 |
+| 安装包体积 | 376 KiB ([release 实测基线](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/performance/apk-size-baseline-2026-09-01.md)) | 5.95 MiB ([full release 实测](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/size/packaging-strategy-2026-09-01.md), 内置字典) |
 | 性能特征 | 轻量逐字路径; [JVM/Android 实测基线](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/performance/conversion-baseline-2026-09-01.md) | [分词器实测](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/benchmarks/segmenter-reuse-2026-09-01.md); 词典, 分词与多音字能力更重, 性能随模式变化 |
 | 适用场景 | 体积与简单性优先: 快速逐字注音 | 读音准确性优先: 多音字, 词组, 人名 |
 
@@ -245,13 +259,13 @@ discovery action: org.autojs.plugin.PINYIN4J
 discovery category: pinyin4j
 wake action: org.autojs.plugin.action.WAKE
 binder interface: IPinyin4jPlugin
-binder methods: getInfo / of / asTone
+binder methods: getInfo / of / asTone / readings
 minimum host build: 3923
 native library: none (pure JVM, all ABIs)
 library: com.belerweb:pinyin4j:2.5.1
 ```
 
-`Pinyin4jPluginService` 响应 `org.autojs.plugin.PINYIN4J` action (category `pinyin4j`), 通过 AIDL 接口 `IPinyin4jPlugin` 暴露 3 个方法; `of` 的选项经 `Bundle` 传递 (键: `caseType` / `toneType` / `vCharType` / `separator`), 非法取值抛出带本地化文案的 `IllegalArgumentException`. 服务与 `WakeActivity` 均受 `org.autojs.permission.PLUGIN` 权限保护, 第三方应用无法直接调用.
+`Pinyin4jPluginService` 响应 `org.autojs.plugin.PINYIN4J` action (category `pinyin4j`), 通过 `IPinyin4jPlugin` 暴露 4 个方法. `readings` 追加在末尾以保持 transaction 顺序, 返回严格有界的 JSON 矩阵, 并以整数 capability `pinyin4j.readings.version = 1` 宣告; 旧宿主继续使用 `of` 与 `asTone`. 非法选项抛出 `IllegalArgumentException`. 服务与 `WakeActivity` 均受 `org.autojs.permission.PLUGIN` 权限保护, 第三方应用无法直接调用.
 
 ******
 
@@ -259,7 +273,7 @@ library: com.belerweb:pinyin4j:2.5.1
 
 ******
 
-ROADMAP.md 以证据清单记录里程碑. M3 已完成 Unicode 覆盖, 声调边界及多读音/六种罗马化体系的插件侧核心与契约方案, 但公开接口仍等待宿主 AIDL 协同; M4 的依赖风险, 性能, 体积与选型基线已完成. 未勾选条目不代表当前可用能力.
+ROADMAP.md 以证据清单记录里程碑. M3 已在 v1.3.0 完成: Unicode 与声调边界, 全读音矩阵, 六种罗马化体系, 追加式 AIDL 能力协商, Rhino 与 Node.js 宿主路由以及旧插件 Hanyu 回退均已实现并测试. M4 的依赖风险, 性能, 体积与选型基线保持完成.
 
 - [查看 ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/ROADMAP.md)
 
@@ -268,6 +282,16 @@ ROADMAP.md 以证据清单记录里程碑. M3 已完成 Unicode 覆盖, 声调�
 ### 发行历史
 
 ******
+
+#### v1.3.0
+
+_2026/09/01_
+
+- `提示` `pinyin4j.readings()` 与 Node.js provider 需要包含 readings v1 契约的新版 AutoJs6 宿主; 旧版宿主仍可继续使用 `of` 与 `as`
+- `新增` `pinyin4j.readings(text, options)` 按 Unicode 码点逐行返回全部有序词典读音, 无映射输入原样保留为单候选
+- `新增` `romanization` / `system` 开放 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 与 Gwoyeu Romatzyh; Hanyu 支持数字/符号/无声调, 大小写与 `ü` 形式
+- `优化` 在 Binder 末尾追加 `readings` transaction 与整数 capability `pinyin4j.readings.version = 1`; 新宿主仅在协商后调用, 对旧插件按码点安全回退为 Hanyu 单候选
+- `优化` 增加严格的源文本, 矩阵与 UTF-8 JSON 上限及 Android 9/12/13/15 Binder 覆盖; 同一插件能力通过宿主显式 `pinyin4j` capability 向 Node.js 开放
 
 #### v1.2.0
 
@@ -291,17 +315,6 @@ _2026/09/01_
 - `优化` 新增 GitHub Actions 工作流, 自动拦截生成文档漂移, 运行单元测试, 构建 debug APK, 编译 instrumentation 测试并上传 APK 产物
 - `优化` 新增 `.python/prepare_release.py`, 一键构建并验证签名 universal APK, 校验版本, 计算 CRC32 与 SHA-256, 原子生成 `SHA256SUMS.txt` 和英文 `RELEASE_NOTES.md`
 - `优化` 统一 README 版式与 Gradle 平台版本管理方式
-
-#### v1.0.1
-
-_2026/08/31_
-
-- `提示` 本版本仅改进文档与配套工程, 拼音转换行为与全部脚本 API 保持不变
-- `修复` 修正旧版文档中错误的 `pinyin4j.asTone(text)` 写法: 宿主实际暴露的方法为 `pinyin4j.as(text)` (底层 AIDL 接口方法名仍为 `asTone`)
-- `优化` 重构 10 种语言的 README: 新增使用方法, 快速上手, 选项速查表, 脚本 API, 快速自检, 常见问题, 权限与安全, 姊妹插件对比及插件接口等章节
-- `优化` 文档生成脚本升级为同族插件统一实现: 支持 `--check` 漂移检测, 跨语言键位与形状对齐校验, 全角符号拦截以及版本对齐校验
-- `优化` 插件中心使用说明 (`plugin_instruction.md`) 纳入同一套多语言 JSON 生成链路, 消除双源维护
-- `优化` 新增 ROADMAP.md 开发路线图, 并与姊妹插件 Pinyin 建立双向互链与选型对比
 
 ##### 更多发行历史可参阅
 
@@ -329,7 +342,7 @@ _2026/08/31_
 
 生成已验证的发布归档可运行 `py .python/prepare_release.py`. 脚本会检查生成文档, 构建并验证签名 universal APK, 校验版本元数据, 计算 CRC32 与 SHA-256, 并将 APK, `SHA256SUMS.txt` 及英文 `RELEASE_NOTES.md` 原子写入 `app/releases/v<版本号>`.
 
-构建参数集中于 `version.properties`: 最低 SDK 24 (Android 7.0), 目标 SDK 36, 当前版本 1.2.0.
+构建参数集中于 `version.properties`: 最低 SDK 24 (Android 7.0), 目标 SDK 36, 当前版本 1.3.0.
 
 ******
 

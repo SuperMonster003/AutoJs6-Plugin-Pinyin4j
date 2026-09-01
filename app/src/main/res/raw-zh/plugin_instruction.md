@@ -1,4 +1,4 @@
-Pinyin4j 插件 (Pinyin4j Plugin) 为 AutoJs6 提供轻量的中文转汉语拼音能力. 安装后, 脚本可通过全局对象 `pinyin4j` 将中文文本逐字转换为拼音, 并按需配置大小写, 声调格式, `ü` 的表示方式与音节分隔符; 另提供将数字声调文本转换为声调符号的实用方法.
+Pinyin4j 插件 (Pinyin4j Plugin) 为 AutoJs6 提供轻量逐字罗马化能力. 脚本既可输出格式化的汉语拼音字符串, 也可按 Unicode 码点查询 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 或 Gwoyeu Romatzyh 的全部词典读音矩阵, 并可将数字声调文本转换为声调符号.
 
 ### 快速上手
 
@@ -8,6 +8,7 @@ Pinyin4j 插件 (Pinyin4j Plugin) 为 AutoJs6 提供轻量的中文转汉语拼�
 console.log(pinyin4j.of("汉语拼音"));                             // "hanyupinyin"
 console.log(pinyin4j.of("汉语拼音", " "));                        // "han yu pin yin"
 console.log(pinyin4j.of("汉语拼音", { tone: "MARK", sep: " " })); // "hàn yǔ pīn yīn"
+console.log(JSON.stringify(pinyin4j.readings("重A𠀀")));             // [["zhong4","chong2"],["A"],["𠀀"]]
 console.log(pinyin4j.as("han4 yu3 pin1 yin1"));                   // "hàn yǔ pīn yīn"
 ```
 

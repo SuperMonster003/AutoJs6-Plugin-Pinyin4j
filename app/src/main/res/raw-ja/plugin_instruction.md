@@ -1,4 +1,4 @@
-Pinyin4j プラグイン (Pinyin4j Plugin) は AutoJs6 に軽量な中国語から漢語ピンインへの変換機能を提供します. インストール後は, スクリプトからグローバルオブジェクト `pinyin4j` を通じて中国語テキストを 1 文字ずつピンインに変換でき, 大文字小文字, 声調形式, `ü` の表記方法, 音節区切り文字を必要に応じて設定できます. さらに, 数字声調テキストを声調記号に変換するユーティリティメソッドも用意されています.
+Pinyin4j プラグインは AutoJs6 に軽量な文字単位ローマ字変換を提供します. スクリプトは整形済み Hanyu Pinyin 文字列に加え, Unicode code point ごとに Hanyu, Tongyong, Wade-Giles, MPS2, Yale, Gwoyeu Romatzyh の全辞書読みを行列で取得でき, 数字声調を声調記号へ変換できます.
 
 ### クイックスタート
 
@@ -8,6 +8,7 @@ Pinyin4j プラグイン (Pinyin4j Plugin) は AutoJs6 に軽量な中国語か�
 console.log(pinyin4j.of("汉语拼音"));                             // "hanyupinyin"
 console.log(pinyin4j.of("汉语拼音", " "));                        // "han yu pin yin"
 console.log(pinyin4j.of("汉语拼音", { tone: "MARK", sep: " " })); // "hàn yǔ pīn yīn"
+console.log(JSON.stringify(pinyin4j.readings("重A𠀀")));             // [["zhong4","chong2"],["A"],["𠀀"]]
 console.log(pinyin4j.as("han4 yu3 pin1 yin1"));                   // "hàn yǔ pīn yīn"
 ```
 

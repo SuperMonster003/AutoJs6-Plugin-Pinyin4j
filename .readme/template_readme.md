@@ -85,6 +85,16 @@ console.log(pinyin4j.of("旅游", { tone: "MARK" }));               // "lǚyóu"
 console.log(pinyin4j.as("han4 yu3 pin1 yin1"));                   // "hàn yǔ pīn yīn"
 ```
 
+{{ p_quick_start_readings }}:
+
+```javascript
+console.log(pinyin4j.readings("重A𠀀"));
+// [["zhong4", "chong2"], ["A"], ["𠀀"]]
+
+console.log(pinyin4j.readings("间", { system: "WADE_GILES" }));
+// [["chien1", "chien4"]]
+```
+
 ******
 
 ### {{ h3_options }}
@@ -115,6 +125,7 @@ pinyin4j(text, options?)      -> string
 pinyin4j.of(text, options?)   -> string
 pinyin4j.of(text, separator)  -> string
 pinyin4j.as(text)             -> string
+pinyin4j.readings(text, options?) -> string[][]
 ```
 
 {{ placeholder_api_points }}
@@ -193,7 +204,7 @@ discovery action: {{ discovery_action }}
 discovery category: {{ discovery_category }}
 wake action: {{ wake_action }}
 binder interface: {{ binder_interface }}
-binder methods: getInfo / of / asTone
+binder methods: getInfo / of / asTone / readings
 minimum host build: {{ required_host_version_code }}
 native library: none (pure JVM, all ABIs)
 library: {{ pinyin4j_library_coordinates }}

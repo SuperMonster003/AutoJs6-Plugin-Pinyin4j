@@ -5,16 +5,17 @@
   "h3_languages_with_ascii": "Idiomas (Languages)",
   "p_languages_all_supported_for_readme": "El README.md actual admite los siguientes idiomas",
   "h3_introduction": "Introducción",
-  "p_introduction_what": "El plugin Pinyin4j (Pinyin4j Plugin) aporta a AutoJs6 una conversión ligera de chino a pinyin Hanyu. Una vez instalado, los scripts pueden usar el objeto global `pinyin4j` para convertir texto chino a pinyin carácter por carácter, con mayúsculas o minúsculas, formato de tono, representación de `ü` y separador de sílabas configurables; también se incluye un método utilitario que convierte texto con tonos numéricos en marcas de tono.",
-  "p_introduction_how": "El plugin es un APK que se instala por separado y se ejecuta en su propio proceso; AutoJs6 lo descubre automáticamente mediante el mecanismo de plugins y se comunica con él por AIDL. La conversión proviene de la clásica biblioteca Java [pinyin4j]({{ pinyin4j_official_url }}) (`{{ pinyin4j_library_coordinates }}`), el release medido ocupa solo 349 KiB y toda la conversión ocurre localmente en el dispositivo, sin red. Desde AutoJs6 v6.8.0, el módulo `pinyin4j` del host lo implementa este plugin.",
+  "p_introduction_what": "El plugin Pinyin4j aporta a AutoJs6 una romanización ligera carácter por carácter. Los scripts pueden producir una cadena Hanyu Pinyin formateada, consultar todas las pronunciaciones del diccionario como matriz alineada por puntos de código Unicode en Hanyu, Tongyong, Wade-Giles, MPS2, Yale o Gwoyeu Romatzyh, y convertir tonos numéricos en marcas de tono.",
+  "p_introduction_how": "El plugin es un APK que se instala por separado y se ejecuta en su propio proceso; AutoJs6 lo descubre automáticamente mediante el mecanismo de plugins y se comunica con él por AIDL. La conversión proviene de la clásica biblioteca Java [pinyin4j]({{ pinyin4j_official_url }}) (`{{ pinyin4j_library_coordinates }}`), el release medido ocupa solo 376 KiB y toda la conversión ocurre localmente en el dispositivo, sin red. Desde AutoJs6 v6.8.0, el módulo `pinyin4j` del host lo implementa este plugin.",
   "p_introduction_extra": "Este plugin y [Pinyin]({{ pinyin_repo_url }}) son plugins hermanos: este ofrece una transcripción carácter por carácter simple y fiable con un tamaño mínimo, mientras que el plugin Pinyin incluye diccionarios completos y segmentación Jieba, con desambiguación de caracteres polifónicos y modo de apellidos para escenarios que priorizan la precisión. Ambos pueden instalarse a la vez; vea `Comparación De Plugins Hermanos` más abajo.",
   "h3_features": "Funciones Destacadas",
   "features": [
     "Listo para usar: AutoJs6 lo descubre automáticamente tras la instalación, sin reiniciar el host; los scripts usan directamente el objeto global `pinyin4j`.",
-    "Extremadamente ligero: el release medido ocupa solo 349 KiB, JVM puro sin bibliotecas nativas, compatible con todas las arquitecturas de CPU.",
+    "Extremadamente ligero: el release medido ocupa solo 376 KiB, JVM puro sin bibliotecas nativas, compatible con todas las arquitecturas de CPU.",
     "Tres formatos de tono: sin tono, tonos numéricos (`han4`) y marcas de tono (`hàn`), a elección.",
     "Salida flexible: mayúsculas o minúsculas configurables, tres representaciones de `ü` (`lv` / `lu:` / `lü`) y un separador de sílabas arbitrario.",
     "Utilidad de tonos: `pinyin4j.as(text)` convierte en un solo paso texto con tonos numéricos a la forma con marcas de tono.",
+    "Todas las lecturas y seis sistemas: `pinyin4j.readings(text, options)` devuelve una fila ordenada de candidatos por punto de código Unicode y admite Hanyu, Tongyong, Wade-Giles, MPS2, Yale y Gwoyeu Romatzyh.",
     "Valores tolerantes: las opciones no distinguen mayúsculas de minúsculas y aceptan varios alias cortos (como `tone: \"MARK\"`); los valores no válidos producen mensajes de error localizados.",
     "Totalmente sin conexión: la conversión usa datos incluidos en el paquete y ocurre localmente en el dispositivo, sin ninguna petición de red.",
     "Multilingüe: metadatos del plugin, instrucciones, README y registro de cambios disponibles en 10 idiomas."
@@ -31,6 +32,7 @@
   "p_quick_start_basic": "Conversión básica: por defecto produce pinyin en minúsculas y sin tonos; el segundo argumento puede ser directamente un separador",
   "p_quick_start_tone": "Tonos numéricos y representaciones de `ü`",
   "p_quick_start_as": "Utilidad de tonos: convertir texto con tonos numéricos en marcas de tono",
+  "p_quick_start_readings": "Todas las lecturas candidatas y otros sistemas de romanización",
   "h3_options": "Opciones",
   "p_options_intro": "`pinyin4j.of(text, options)` admite las siguientes opciones (alias cortos entre paréntesis)",
   "th_option_name": "Opción",
@@ -45,6 +47,8 @@
   "p_script_api_intro": "El objeto global `pinyin4j` ofrece los siguientes métodos (llamar directamente a `pinyin4j(text, options)` equivale a `pinyin4j.of`)",
   "api_points": [
     "`of` recorre puntos de código Unicode y consulta directamente el diccionario fijado de pinyin4j 2.5.1: convierte los 20,378 caracteres BMP con entrada (incluido `〇`) y conserva intactos los puntos sin entrada o de planos suplementarios. Sigue eligiendo solo la primera pronunciación, sin desambiguación contextual.",
+    "`readings` devuelve un `string[][]` ordenado con una fila por punto de código Unicode. Hanyu usa por defecto minúsculas y tonos numéricos, y admite las opciones case/tone/v existentes; `romanization` (o `system`) selecciona Hanyu, Tongyong, Wade-Giles, MPS2, Yale o Gwoyeu Romatzyh. Los demás sistemas rechazan opciones de formato exclusivas de Hanyu y los separadores no se aplican a matrices.",
+    "AutoJs6 negocia `pinyin4j.readings.version = 1`: los plugins antiguos producen de forma segura filas Hanyu de un solo candidato, mientras que los demás sistemas requieren el plugin nuevo. Node.js puede llamar al mismo provider de forma asíncrona mediante `autojs6:bridge.callAutoJs` con la capacidad explícita `pinyin4j`.",
     "El segundo argumento de `of` puede ser un objeto de opciones o directamente una cadena usada como separador.",
     "`as` convierte solo sílabas completas reconocidas con dígitos de tono de `0` a `4`, conserva mayúsculas y minúsculas, y acepta `v`, `u:` o `ü`; las sílabas no válidas, el dígito `5` y los fragmentos pegados a letras o cifras quedan sin cambios. Este método corresponde a `asTone` en la interfaz AIDL del plugin.",
     "Los valores de las opciones no distinguen mayúsculas de minúsculas y aceptan varios alias cortos (vea `Opciones` más arriba); los valores no válidos lanzan una excepción con un mensaje localizado.",
@@ -69,7 +73,7 @@
     },
     {
       "q": "¿Las pronunciaciones de los polifónicos no son las esperadas (por ejemplo, \"重庆\" no se lee chongqing)?",
-      "a": "Este plugin convierte carácter por carácter y toma siempre la primera pronunciación del diccionario, sin desambiguar por el contexto de la frase; es el compromiso inherente al enfoque ligero. Para desambiguación de polifónicos, diccionarios de frases o lecturas de apellidos, use el plugin hermano [Pinyin]({{ pinyin_repo_url }})."
+      "a": "`pinyin4j.of` sigue tomando la primera pronunciación de cada carácter. Use `pinyin4j.readings` para obtener todos los candidatos del diccionario, pero no utiliza el contexto de la frase para elegir entre ellos. Para desambiguación contextual, diccionarios de frases o lecturas de apellidos, use el plugin hermano [Pinyin]({{ pinyin_repo_url }})."
     },
     {
       "q": "¿Por qué no funciona `pinyin4j.asTone(text)` de documentos o scripts antiguos?",
@@ -81,7 +85,7 @@
     },
     {
       "q": "¿Cómo elijo entre este plugin y el plugin hermano Pinyin?",
-      "a": "Elija este plugin cuando solo necesite una transcripción ligera carácter por carácter y le importe el tamaño del paquete; elija [Pinyin]({{ pinyin_repo_url }}) cuando necesite polifónicos, segmentación, frases o lecturas de apellidos. No entran en conflicto y pueden instalarse juntos; vea `Comparación De Plugins Hermanos` más abajo."
+      "a": "Elija este plugin cuando baste una transcripción ligera carácter por carácter o la lista completa de candidatos y le importe el tamaño del paquete; elija [Pinyin]({{ pinyin_repo_url }}) cuando necesite desambiguación contextual de polifónicos, segmentación, diccionarios de frases o lecturas de apellidos. No entran en conflicto y pueden instalarse juntos; vea `Comparación De Plugins Hermanos` más abajo."
     }
   ],
   "h3_security": "Permisos Y Seguridad",
@@ -108,17 +112,17 @@
   "th_sibling_scenario": "Ideal para",
   "td_sibling_impl_pinyin4j": "Biblioteca Java clásica `pinyin4j`",
   "td_sibling_impl_pinyin": "Diccionarios incluidos + segmentación Jieba",
-  "td_sibling_heteronym_pinyin4j": "No admitido, siempre la primera pronunciación",
+  "td_sibling_heteronym_pinyin4j": "Todos los candidatos mediante `readings`, sin desambiguación contextual",
   "td_sibling_heteronym_pinyin": "Admitido, puede devolver todos los candidatos",
   "td_sibling_segment_pinyin4j": "No admitida, conversión carácter por carácter",
   "td_sibling_segment_pinyin": "Admitida (diccionario de frases + Jieba)",
   "td_sibling_surname_pinyin4j": "No admitido",
   "td_sibling_surname_pinyin": "Admitido",
-  "td_sibling_output_pinyin4j": "Cadena con separador configurable",
+  "td_sibling_output_pinyin4j": "Cadena formateada o matriz de candidatos alineada por Unicode",
   "td_sibling_output_pinyin": "Arreglo 2D de candidatos (combinable con `compact()`) o cadena compacta",
-  "td_sibling_styles_pinyin4j": "3 formatos de tono + mayúsculas o minúsculas + representaciones de `ü`",
+  "td_sibling_styles_pinyin4j": "6 sistemas; Hanyu ofrece 3 tonos + mayúsculas/minúsculas + formas de `ü`",
   "td_sibling_styles_pinyin": "6 estilos de pinyin",
-  "td_sibling_size_pinyin4j": "349 KiB ([medición release]({{ repo_url }}/blob/master/docs/performance/apk-size-baseline-2026-09-01.md))",
+  "td_sibling_size_pinyin4j": "376 KiB ([medición release]({{ repo_url }}/blob/master/docs/performance/apk-size-baseline-2026-09-01.md))",
   "td_sibling_size_pinyin": "5.95 MiB ([release full medida]({{ pinyin_repo_url }}/blob/master/docs/size/packaging-strategy-2026-09-01.md), diccionarios incluidos)",
   "td_sibling_performance_pinyin4j": "Ruta ligera por carácter; [mediciones JVM/Android]({{ repo_url }}/blob/master/docs/performance/conversion-baseline-2026-09-01.md)",
   "td_sibling_performance_pinyin": "[Medición del segmentador]({{ pinyin_repo_url }}/blob/master/docs/benchmarks/segmenter-reuse-2026-09-01.md); diccionario, segmentación y polifónicos más pesados, variables según el modo",
@@ -127,9 +131,9 @@
   "p_sibling_note": "Los dos plugins son independientes y nunca entran en conflicto; con ambos instalados, los scripts pueden llamar a `pinyin4j` y `pinyin` por separado según convenga. Vea [AutoJs6-Plugin-Pinyin]({{ pinyin_repo_url }}) para los detalles del plugin Pinyin.",
   "h3_plugin_interface": "Interfaz Del Plugin",
   "p_plugin_interface": "La siguiente información está dirigida a los desarrolladores del host AutoJs6 y de plugins; el host usa estos identificadores para descubrir el plugin y negociar capacidades",
-  "p_contract_service": "`Pinyin4jPluginService` responde a la acción `{{ discovery_action }}` (categoría `{{ discovery_category }}`) y expone 3 métodos a través de la interfaz AIDL `{{ binder_interface }}`; las opciones de `of` se pasan mediante un `Bundle` (claves: `caseType` / `toneType` / `vCharType` / `separator`), y los valores no válidos lanzan una `IllegalArgumentException` con un mensaje localizado. Tanto el servicio como `WakeActivity` están protegidos por el permiso `org.autojs.permission.PLUGIN`, por lo que las aplicaciones de terceros no pueden invocarlos directamente.",
+  "p_contract_service": "`Pinyin4jPluginService` responde a `{{ discovery_action }}` (categoría `{{ discovery_category }}`) y expone 4 métodos mediante `{{ binder_interface }}`. `readings` se añade al final para conservar el orden de transacciones, devuelve una matriz JSON estrictamente acotada y se anuncia con la capacidad entera `pinyin4j.readings.version = 1`; los hosts antiguos siguen usando `of` y `asTone`. Las opciones inválidas lanzan `IllegalArgumentException`. El servicio y `WakeActivity` están protegidos por `org.autojs.permission.PLUGIN`.",
   "h3_roadmap": "Hoja De Ruta",
-  "p_roadmap": "ROADMAP.md registra la evidencia por hitos. M3 ya cuenta en el plugin con cobertura Unicode, límites de tonos y el núcleo de pronunciaciones múltiples para seis sistemas junto con un contrato propuesto, pero la API pública aún espera la coordinación AIDL del host. Las bases M4 de riesgo de dependencias, rendimiento, tamaño y selección están completas. Los elementos sin marcar no son capacidades actuales.",
+  "p_roadmap": "ROADMAP.md registra la evidencia por hitos. M3 se completó en v1.3.0: límites Unicode y de tonos, matrices de todas las lecturas, seis sistemas, negociación AIDL aditiva, rutas Rhino y Node.js y fallback Hanyu para plugins antiguos están implementados y probados. Las bases M4 de riesgo, rendimiento, tamaño y selección siguen completas.",
   "text_link_roadmap": "Ver ROADMAP.md",
   "h3_release_history": "Historial De Versiones",
   "h5_for_more_release_history": "Para más historial de versiones",

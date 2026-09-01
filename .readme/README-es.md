@@ -42,9 +42,9 @@ El README.md actual admite los siguientes idiomas:
 
 ******
 
-El plugin Pinyin4j (Pinyin4j Plugin) aporta a AutoJs6 una conversión ligera de chino a pinyin Hanyu. Una vez instalado, los scripts pueden usar el objeto global `pinyin4j` para convertir texto chino a pinyin carácter por carácter, con mayúsculas o minúsculas, formato de tono, representación de `ü` y separador de sílabas configurables; también se incluye un método utilitario que convierte texto con tonos numéricos en marcas de tono.
+El plugin Pinyin4j aporta a AutoJs6 una romanización ligera carácter por carácter. Los scripts pueden producir una cadena Hanyu Pinyin formateada, consultar todas las pronunciaciones del diccionario como matriz alineada por puntos de código Unicode en Hanyu, Tongyong, Wade-Giles, MPS2, Yale o Gwoyeu Romatzyh, y convertir tonos numéricos en marcas de tono.
 
-El plugin es un APK que se instala por separado y se ejecuta en su propio proceso; AutoJs6 lo descubre automáticamente mediante el mecanismo de plugins y se comunica con él por AIDL. La conversión proviene de la clásica biblioteca Java [pinyin4j](https://github.com/belerweb/pinyin4j) (`com.belerweb:pinyin4j:2.5.1`), el release medido ocupa solo 349 KiB y toda la conversión ocurre localmente en el dispositivo, sin red. Desde AutoJs6 v6.8.0, el módulo `pinyin4j` del host lo implementa este plugin.
+El plugin es un APK que se instala por separado y se ejecuta en su propio proceso; AutoJs6 lo descubre automáticamente mediante el mecanismo de plugins y se comunica con él por AIDL. La conversión proviene de la clásica biblioteca Java [pinyin4j](https://github.com/belerweb/pinyin4j) (`com.belerweb:pinyin4j:2.5.1`), el release medido ocupa solo 376 KiB y toda la conversión ocurre localmente en el dispositivo, sin red. Desde AutoJs6 v6.8.0, el módulo `pinyin4j` del host lo implementa este plugin.
 
 Este plugin y [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin) son plugins hermanos: este ofrece una transcripción carácter por carácter simple y fiable con un tamaño mínimo, mientras que el plugin Pinyin incluye diccionarios completos y segmentación Jieba, con desambiguación de caracteres polifónicos y modo de apellidos para escenarios que priorizan la precisión. Ambos pueden instalarse a la vez; vea `Comparación De Plugins Hermanos` más abajo.
 
@@ -55,10 +55,11 @@ Este plugin y [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin)
 ******
 
 - Listo para usar: AutoJs6 lo descubre automáticamente tras la instalación, sin reiniciar el host; los scripts usan directamente el objeto global `pinyin4j`.
-- Extremadamente ligero: el release medido ocupa solo 349 KiB, JVM puro sin bibliotecas nativas, compatible con todas las arquitecturas de CPU.
+- Extremadamente ligero: el release medido ocupa solo 376 KiB, JVM puro sin bibliotecas nativas, compatible con todas las arquitecturas de CPU.
 - Tres formatos de tono: sin tono, tonos numéricos (`han4`) y marcas de tono (`hàn`), a elección.
 - Salida flexible: mayúsculas o minúsculas configurables, tres representaciones de `ü` (`lv` / `lu:` / `lü`) y un separador de sílabas arbitrario.
 - Utilidad de tonos: `pinyin4j.as(text)` convierte en un solo paso texto con tonos numéricos a la forma con marcas de tono.
+- Todas las lecturas y seis sistemas: `pinyin4j.readings(text, options)` devuelve una fila ordenada de candidatos por punto de código Unicode y admite Hanyu, Tongyong, Wade-Giles, MPS2, Yale y Gwoyeu Romatzyh.
 - Valores tolerantes: las opciones no distinguen mayúsculas de minúsculas y aceptan varios alias cortos (como `tone: "MARK"`); los valores no válidos producen mensajes de error localizados.
 - Totalmente sin conexión: la conversión usa datos incluidos en el paquete y ocurre localmente en el dispositivo, sin ninguna petición de red.
 - Multilingüe: metadatos del plugin, instrucciones, README y registro de cambios disponibles en 10 idiomas.
@@ -104,6 +105,16 @@ Utilidad de tonos: convertir texto con tonos numéricos en marcas de tono:
 console.log(pinyin4j.as("han4 yu3 pin1 yin1"));                   // "hàn yǔ pīn yīn"
 ```
 
+Todas las lecturas candidatas y otros sistemas de romanización:
+
+```javascript
+console.log(pinyin4j.readings("重A𠀀"));
+// [["zhong4", "chong2"], ["A"], ["𠀀"]]
+
+console.log(pinyin4j.readings("间", { system: "WADE_GILES" }));
+// [["chien1", "chien4"]]
+```
+
 ******
 
 ### Opciones
@@ -134,9 +145,12 @@ pinyin4j(text, options?)      -> string
 pinyin4j.of(text, options?)   -> string
 pinyin4j.of(text, separator)  -> string
 pinyin4j.as(text)             -> string
+pinyin4j.readings(text, options?) -> string[][]
 ```
 
 - `of` recorre puntos de código Unicode y consulta directamente el diccionario fijado de pinyin4j 2.5.1: convierte los 20,378 caracteres BMP con entrada (incluido `〇`) y conserva intactos los puntos sin entrada o de planos suplementarios. Sigue eligiendo solo la primera pronunciación, sin desambiguación contextual.
+- `readings` devuelve un `string[][]` ordenado con una fila por punto de código Unicode. Hanyu usa por defecto minúsculas y tonos numéricos, y admite las opciones case/tone/v existentes; `romanization` (o `system`) selecciona Hanyu, Tongyong, Wade-Giles, MPS2, Yale o Gwoyeu Romatzyh. Los demás sistemas rechazan opciones de formato exclusivas de Hanyu y los separadores no se aplican a matrices.
+- AutoJs6 negocia `pinyin4j.readings.version = 1`: los plugins antiguos producen de forma segura filas Hanyu de un solo candidato, mientras que los demás sistemas requieren el plugin nuevo. Node.js puede llamar al mismo provider de forma asíncrona mediante `autojs6:bridge.callAutoJs` con la capacidad explícita `pinyin4j`.
 - El segundo argumento de `of` puede ser un objeto de opciones o directamente una cadena usada como separador.
 - `as` convierte solo sílabas completas reconocidas con dígitos de tono de `0` a `4`, conserva mayúsculas y minúsculas, y acepta `v`, `u:` o `ü`; las sílabas no válidas, el dígito `5` y los fragmentos pegados a letras o cifras quedan sin cambios. Este método corresponde a `asTone` en la interfaz AIDL del plugin.
 - Los valores de las opciones no distinguen mayúsculas de minúsculas y aceptan varios alias cortos (vea `Opciones` más arriba); los valores no válidos lanzan una excepción con un mensaje localizado.
@@ -176,7 +190,7 @@ Es lo esperado. El plugin no tiene interfaz propia ni crea icono de lanzador; tr
 
 #### ¿Las pronunciaciones de los polifónicos no son las esperadas (por ejemplo, "重庆" no se lee chongqing)?
 
-Este plugin convierte carácter por carácter y toma siempre la primera pronunciación del diccionario, sin desambiguar por el contexto de la frase; es el compromiso inherente al enfoque ligero. Para desambiguación de polifónicos, diccionarios de frases o lecturas de apellidos, use el plugin hermano [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin).
+`pinyin4j.of` sigue tomando la primera pronunciación de cada carácter. Use `pinyin4j.readings` para obtener todos los candidatos del diccionario, pero no utiliza el contexto de la frase para elegir entre ellos. Para desambiguación contextual, diccionarios de frases o lecturas de apellidos, use el plugin hermano [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin).
 
 #### ¿Por qué no funciona `pinyin4j.asTone(text)` de documentos o scripts antiguos?
 
@@ -188,7 +202,7 @@ No. Los datos de conversión van incluidos en el paquete y la conversión ocurre
 
 #### ¿Cómo elijo entre este plugin y el plugin hermano Pinyin?
 
-Elija este plugin cuando solo necesite una transcripción ligera carácter por carácter y le importe el tamaño del paquete; elija [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin) cuando necesite polifónicos, segmentación, frases o lecturas de apellidos. No entran en conflicto y pueden instalarse juntos; vea `Comparación De Plugins Hermanos` más abajo.
+Elija este plugin cuando baste una transcripción ligera carácter por carácter o la lista completa de candidatos y le importe el tamaño del paquete; elija [Pinyin](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin) cuando necesite desambiguación contextual de polifónicos, segmentación, diccionarios de frases o lecturas de apellidos. No entran en conflicto y pueden instalarse juntos; vea `Comparación De Plugins Hermanos` más abajo.
 
 ******
 
@@ -217,12 +231,12 @@ AutoJs6 ofrece dos plugins de pinyin oficiales con enfoques distintos; pueden in
 |---|---|---|
 | Implementación subyacente | Biblioteca Java clásica `pinyin4j` | Diccionarios incluidos + segmentación Jieba |
 | Objeto global | `pinyin4j` | `pinyin` |
-| Polifónicos | No admitido, siempre la primera pronunciación | Admitido, puede devolver todos los candidatos |
+| Polifónicos | Todos los candidatos mediante `readings`, sin desambiguación contextual | Admitido, puede devolver todos los candidatos |
 | Segmentación y frases | No admitida, conversión carácter por carácter | Admitida (diccionario de frases + Jieba) |
 | Modo de apellidos | No admitido | Admitido |
-| Forma de salida | Cadena con separador configurable | Arreglo 2D de candidatos (combinable con `compact()`) o cadena compacta |
-| Estilos y formatos | 3 formatos de tono + mayúsculas o minúsculas + representaciones de `ü` | 6 estilos de pinyin |
-| Tamaño del paquete | 349 KiB ([medición release](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/performance/apk-size-baseline-2026-09-01.md)) | 5.95 MiB ([release full medida](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/size/packaging-strategy-2026-09-01.md), diccionarios incluidos) |
+| Forma de salida | Cadena formateada o matriz de candidatos alineada por Unicode | Arreglo 2D de candidatos (combinable con `compact()`) o cadena compacta |
+| Estilos y formatos | 6 sistemas; Hanyu ofrece 3 tonos + mayúsculas/minúsculas + formas de `ü` | 6 estilos de pinyin |
+| Tamaño del paquete | 376 KiB ([medición release](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/performance/apk-size-baseline-2026-09-01.md)) | 5.95 MiB ([release full medida](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/size/packaging-strategy-2026-09-01.md), diccionarios incluidos) |
 | Perfil de rendimiento | Ruta ligera por carácter; [mediciones JVM/Android](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/performance/conversion-baseline-2026-09-01.md) | [Medición del segmentador](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin/blob/master/docs/benchmarks/segmenter-reuse-2026-09-01.md); diccionario, segmentación y polifónicos más pesados, variables según el modo |
 | Ideal para | Prioriza tamaño y simplicidad: transcripción rápida carácter por carácter | Prioriza la precisión: polifónicos, frases, nombres de persona |
 
@@ -245,13 +259,13 @@ discovery action: org.autojs.plugin.PINYIN4J
 discovery category: pinyin4j
 wake action: org.autojs.plugin.action.WAKE
 binder interface: IPinyin4jPlugin
-binder methods: getInfo / of / asTone
+binder methods: getInfo / of / asTone / readings
 minimum host build: 3923
 native library: none (pure JVM, all ABIs)
 library: com.belerweb:pinyin4j:2.5.1
 ```
 
-`Pinyin4jPluginService` responde a la acción `org.autojs.plugin.PINYIN4J` (categoría `pinyin4j`) y expone 3 métodos a través de la interfaz AIDL `IPinyin4jPlugin`; las opciones de `of` se pasan mediante un `Bundle` (claves: `caseType` / `toneType` / `vCharType` / `separator`), y los valores no válidos lanzan una `IllegalArgumentException` con un mensaje localizado. Tanto el servicio como `WakeActivity` están protegidos por el permiso `org.autojs.permission.PLUGIN`, por lo que las aplicaciones de terceros no pueden invocarlos directamente.
+`Pinyin4jPluginService` responde a `org.autojs.plugin.PINYIN4J` (categoría `pinyin4j`) y expone 4 métodos mediante `IPinyin4jPlugin`. `readings` se añade al final para conservar el orden de transacciones, devuelve una matriz JSON estrictamente acotada y se anuncia con la capacidad entera `pinyin4j.readings.version = 1`; los hosts antiguos siguen usando `of` y `asTone`. Las opciones inválidas lanzan `IllegalArgumentException`. El servicio y `WakeActivity` están protegidos por `org.autojs.permission.PLUGIN`.
 
 ******
 
@@ -259,7 +273,7 @@ library: com.belerweb:pinyin4j:2.5.1
 
 ******
 
-ROADMAP.md registra la evidencia por hitos. M3 ya cuenta en el plugin con cobertura Unicode, límites de tonos y el núcleo de pronunciaciones múltiples para seis sistemas junto con un contrato propuesto, pero la API pública aún espera la coordinación AIDL del host. Las bases M4 de riesgo de dependencias, rendimiento, tamaño y selección están completas. Los elementos sin marcar no son capacidades actuales.
+ROADMAP.md registra la evidencia por hitos. M3 se completó en v1.3.0: límites Unicode y de tonos, matrices de todas las lecturas, seis sistemas, negociación AIDL aditiva, rutas Rhino y Node.js y fallback Hanyu para plugins antiguos están implementados y probados. Las bases M4 de riesgo, rendimiento, tamaño y selección siguen completas.
 
 - [Ver ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/ROADMAP.md)
 
@@ -268,6 +282,16 @@ ROADMAP.md registra la evidencia por hitos. M3 ya cuenta en el plugin con cobert
 ### Historial De Versiones
 
 ******
+
+#### v1.3.0
+
+_2026/09/01_
+
+- `Pista` `pinyin4j.readings()` y el provider de Node.js requieren un host AutoJs6 actualizado con el contrato readings v1; los hosts antiguos pueden seguir usando `of` y `as`
+- `Función` `pinyin4j.readings(text, options)` devuelve todas las pronunciaciones ordenadas del diccionario en una fila por punto de código Unicode, conservando entradas sin mapeo como candidato único
+- `Función` `romanization` / `system` expone Hanyu, Tongyong, Wade-Giles, MPS2, Yale y Gwoyeu Romatzyh; Hanyu admite tonos numéricos, marcados u omitidos, mayúsculas/minúsculas y formas de `ü`
+- `Mejora` Se añadió al final la transacción Binder `readings` y la capacidad entera `pinyin4j.readings.version = 1`; los hosts nuevos solo la llaman tras negociar y recurren con seguridad a un candidato Hanyu por punto para plugins antiguos
+- `Mejora` Se añadieron límites estrictos de fuente, matriz y JSON UTF-8 junto con cobertura Binder en Android 9/12/13/15; la misma capacidad se ofrece a Node.js mediante la capacidad explícita `pinyin4j` del host
 
 #### v1.2.0
 
@@ -291,17 +315,6 @@ _2026/09/01_
 - `Mejora` Se añadieron flujos de GitHub Actions que rechazan diferencias en documentos generados, ejecutan pruebas unitarias, compilan el APK debug y las pruebas instrumentation, y suben el APK resultante
 - `Mejora` Se añadió `.python/prepare_release.py` para compilar y verificar un APK universal firmado, validar la versión, calcular CRC32 y SHA-256, y generar de forma atómica `SHA256SUMS.txt` y `RELEASE_NOTES.md` en inglés
 - `Mejora` Unificar el diseño del README y la gestión de versiones de la plataforma Gradle
-
-#### v1.0.1
-
-_2026/08/31_
-
-- `Pista` Esta versión solo mejora la documentación y las herramientas asociadas; el comportamiento de conversión a pinyin y todas las API de script permanecen sin cambios
-- `Corrección` Se corrigió el uso erróneo `pinyin4j.asTone(text)` presente en documentos antiguos: el host en realidad expone `pinyin4j.as(text)` (el método AIDL subyacente sigue llamándose `asTone`)
-- `Mejora` Se reelaboró el README en 10 idiomas: se añadieron secciones de uso, inicio rápido, tabla de referencia de opciones, API de script, autocomprobación, preguntas frecuentes, permisos y seguridad, comparación de plugins hermanos e interfaz del plugin
-- `Mejora` Se actualizó el generador de docs a la implementación unificada compartida entre plugins hermanos: detección de desviaciones con `--check`, validación de claves y formas entre idiomas, rechazo de símbolos de ancho completo y comprobaciones de alineación de versiones
-- `Mejora` Se incorporaron las instrucciones del centro de plugins (`plugin_instruction.md`) a la misma cadena de generación JSON multilingüe, eliminando el mantenimiento de fuentes duplicadas
-- `Mejora` Se añadió la hoja de ruta ROADMAP.md y se establecieron referencias cruzadas bidireccionales y una comparación con el plugin hermano Pinyin
 
 ##### Para más historial de versiones
 
@@ -329,7 +342,7 @@ Compilar un APK release (un único paquete universal; se firma automáticamente 
 
 Para crear un archivo de publicación verificado, ejecute `py .python/prepare_release.py`. El script comprueba los documentos generados, compila y verifica el APK universal firmado, valida los metadatos de versión, calcula CRC32 y SHA-256, y escribe atómicamente el APK, `SHA256SUMS.txt` y el archivo inglés `RELEASE_NOTES.md` en `app/releases/v<versión>`.
 
-Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 36, versión actual 1.2.0.
+Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 36, versión actual 1.3.0.
 
 ******
 

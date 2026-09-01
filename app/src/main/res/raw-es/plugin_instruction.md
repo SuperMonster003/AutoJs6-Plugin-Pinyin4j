@@ -1,4 +1,4 @@
-El plugin Pinyin4j (Pinyin4j Plugin) aporta a AutoJs6 una conversión ligera de chino a pinyin Hanyu. Una vez instalado, los scripts pueden usar el objeto global `pinyin4j` para convertir texto chino a pinyin carácter por carácter, con mayúsculas o minúsculas, formato de tono, representación de `ü` y separador de sílabas configurables; también se incluye un método utilitario que convierte texto con tonos numéricos en marcas de tono.
+El plugin Pinyin4j aporta a AutoJs6 una romanización ligera carácter por carácter. Los scripts pueden producir una cadena Hanyu Pinyin formateada, consultar todas las pronunciaciones del diccionario como matriz alineada por puntos de código Unicode en Hanyu, Tongyong, Wade-Giles, MPS2, Yale o Gwoyeu Romatzyh, y convertir tonos numéricos en marcas de tono.
 
 ### Inicio Rápido
 
@@ -8,6 +8,7 @@ Conversión básica: por defecto produce pinyin en minúsculas y sin tonos; el s
 console.log(pinyin4j.of("汉语拼音"));                             // "hanyupinyin"
 console.log(pinyin4j.of("汉语拼音", " "));                        // "han yu pin yin"
 console.log(pinyin4j.of("汉语拼音", { tone: "MARK", sep: " " })); // "hàn yǔ pīn yīn"
+console.log(JSON.stringify(pinyin4j.readings("重A𠀀")));             // [["zhong4","chong2"],["A"],["𠀀"]]
 console.log(pinyin4j.as("han4 yu3 pin1 yin1"));                   // "hàn yǔ pīn yīn"
 ```
 
