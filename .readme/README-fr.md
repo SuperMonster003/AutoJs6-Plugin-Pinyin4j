@@ -285,13 +285,14 @@ ROADMAP.md suit les preuves par jalon. M3 est terminé dans v1.3.0: limites Unic
 
 #### v1.3.0
 
-_2026/09/01_
+_2026/09/11_
 
 - `Info` `pinyin4j.readings()` et le provider Node.js exigent un hôte AutoJs6 mis à jour avec le contrat readings v1; les anciens hôtes peuvent continuer à utiliser `of` et `as`
 - `Nouveauté` `pinyin4j.readings(text, options)` renvoie toutes les prononciations ordonnées du dictionnaire, une ligne par point de code Unicode, et conserve une entrée non mappée comme candidat unique
 - `Nouveauté` `romanization` / `system` expose Hanyu, Tongyong, Wade-Giles, MPS2, Yale et Gwoyeu Romatzyh; Hanyu prend en charge les tons numériques, marqués ou omis, la casse et les formes de `ü`
 - `Amélioration` Ajout en fin de contrat de la transaction Binder `readings` et de la capacité entière `pinyin4j.readings.version = 1`; les nouveaux hôtes ne l'appellent qu'après négociation et se replient sans risque sur un candidat Hanyu par point pour les anciens plugins
 - `Amélioration` Ajout de limites strictes pour la source, la matrice et le JSON UTF-8, avec couverture Binder Android 9/12/13/15; la même capacité est ouverte à Node.js via la capacité explicite `pinyin4j` de l'hôte
+- `Amélioration` La vérification de compilation rejette les dépendances natives involontaires et produit un rapport JSON
 
 #### v1.2.0
 
@@ -384,3 +385,6 @@ Le code du projet est sous licence [Mozilla Public License 2.0](https://github.c
 - Plugin frère Pinyin: https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin
 - Projet pinyin4j: https://github.com/belerweb/pinyin4j
 - Coordonnées Maven pinyin4j: https://mvnrepository.com/artifact/com.belerweb/pinyin4j
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/16kb.md)

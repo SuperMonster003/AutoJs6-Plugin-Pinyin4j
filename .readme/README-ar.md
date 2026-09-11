@@ -285,13 +285,14 @@ library: com.belerweb:pinyin4j:2.5.1
 
 #### v1.3.0
 
-_2026/09/01_
+_2026/09/11_
 
 - `تلميح` تتطلب `pinyin4j.readings()` وprovider الخاص بـ Node.js مضيف AutoJs6 محدثا بعقد readings v1; يمكن للمضيفات القديمة متابعة استخدام `of` و`as`
 - `ميزة` تعيد `pinyin4j.readings(text, options)` كل قراءات القاموس المرتبة في صف لكل نقطة Unicode, مع حفظ الإدخال غير المدرج كمرشح واحد
 - `ميزة` يتيح `romanization` / `system` أنظمة Hanyu وTongyong وWade-Giles وMPS2 وYale وGwoyeu Romatzyh; يدعم Hanyu النغمات الرقمية أو المعلمة أو المحذوفة وحالة الأحرف وأشكال `ü`
 - `تحسين` أضيفت transaction المسماة `readings` وcapability الصحيحة `pinyin4j.readings.version = 1` في نهاية Binder; لا تستدعيها المضيفات الجديدة إلا بعد التفاوض وتتراجع بأمان إلى مرشح Hanyu واحد لكل نقطة مع الإضافات القديمة
 - `تحسين` أضيفت حدود صارمة للمصدر والمصفوفة وJSON بترميز UTF-8 مع تغطية Binder على Android 9/12/13/15; تتاح القدرة نفسها لـ Node.js عبر capability المضيف الصريحة `pinyin4j`
+- `تحسين` التحقق أثناء البناء لمنع إدخال تبعيات أصلية غير مقصودة, مع تقرير JSON
 
 #### v1.2.0
 
@@ -384,3 +385,6 @@ app/src/main/res/raw-*/plugin_instruction.md
 - المكون الشقيق Pinyin: https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin
 - مشروع pinyin4j: https://github.com/belerweb/pinyin4j
 - إحداثيات Maven لمكتبة pinyin4j: https://mvnrepository.com/artifact/com.belerweb/pinyin4j
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/16kb.md)

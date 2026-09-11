@@ -6,7 +6,7 @@
   "changelog_label_dependency": "依賴",
   "$data": {
     "v1.3.0": {
-      "released_date": "2026/09/01",
+      "released_date": "2026/09/11",
       "hint": [
         "`pinyin4j.readings()` 與 Node.js provider 需要包含 readings v1 契約的新版 AutoJs6 宿主; 舊版宿主仍可繼續使用 `of` 與 `as`"
       ],
@@ -16,7 +16,8 @@
       ],
       "improvement": [
         "在 Binder 末尾追加 `readings` transaction 與整數 capability `pinyin4j.readings.version = 1`; 新宿主僅在協商後調用, 對舊插件按碼點安全回退為 Hanyu 單候選",
-        "增加嚴格的源文本, 矩陣與 UTF-8 JSON 上限及 Android 9/12/13/15 Binder 覆蓋; 同一插件能力透過宿主明確 `pinyin4j` capability 向 Node.js 開放"
+        "增加嚴格的源文本, 矩陣與 UTF-8 JSON 上限及 Android 9/12/13/15 Binder 覆蓋; 同一插件能力透過宿主明確 `pinyin4j` capability 向 Node.js 開放",
+        "建置階段阻止意外引入原生相依套件, 並輸出 JSON 校驗報告"
       ]
     },
     "v1.2.0": {

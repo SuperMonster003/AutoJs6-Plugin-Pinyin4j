@@ -285,13 +285,14 @@ ROADMAP.md хранит проверяемые свидетельства по �
 
 #### v1.3.0
 
-_2026/09/01_
+_2026/09/11_
 
 - `Подсказка` `pinyin4j.readings()` и provider Node.js требуют обновленный хост AutoJs6 с контрактом readings v1; старые хосты могут продолжать использовать `of` и `as`
 - `Функция` `pinyin4j.readings(text, options)` возвращает все упорядоченные словарные чтения по одной строке на кодовую точку Unicode, сохраняя немаппированный ввод как единственный вариант
 - `Функция` `romanization` / `system` открывает Hanyu, Tongyong, Wade-Giles, MPS2, Yale и Gwoyeu Romatzyh; Hanyu поддерживает цифровые, отмеченные или опущенные тоны, регистр и формы `ü`
 - `Улучшение` В конец Binder добавлены transaction `readings` и целочисленная capability `pinyin4j.readings.version = 1`; новые хосты вызывают ее только после согласования, а для старых плагинов безопасно возвращают один вариант Hanyu на точку
 - `Улучшение` Добавлены строгие пределы источника, матрицы и UTF-8 JSON и Binder-проверка на Android 9/12/13/15; та же возможность открыта Node.js через явную capability хоста `pinyin4j`
+- `Улучшение` Проверка сборки отклоняет непреднамеренные нативные зависимости и создает отчет JSON
 
 #### v1.2.0
 
@@ -384,3 +385,6 @@ app/src/main/res/raw-*/plugin_instruction.md
 - Родственный плагин Pinyin: https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin
 - Проект pinyin4j: https://github.com/belerweb/pinyin4j
 - Координаты Maven pinyin4j: https://mvnrepository.com/artifact/com.belerweb/pinyin4j
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/16kb.md)

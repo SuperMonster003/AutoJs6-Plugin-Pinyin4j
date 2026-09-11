@@ -6,13 +6,14 @@
 
 # v1.3.0
 
-###### 2026/09/01
+###### 2026/09/11
 
 * `Pista` `pinyin4j.readings()` y el provider de Node.js requieren un host AutoJs6 actualizado con el contrato readings v1; los hosts antiguos pueden seguir usando `of` y `as`
 * `Función` `pinyin4j.readings(text, options)` devuelve todas las pronunciaciones ordenadas del diccionario en una fila por punto de código Unicode, conservando entradas sin mapeo como candidato único
 * `Función` `romanization` / `system` expone Hanyu, Tongyong, Wade-Giles, MPS2, Yale y Gwoyeu Romatzyh; Hanyu admite tonos numéricos, marcados u omitidos, mayúsculas/minúsculas y formas de `ü`
 * `Mejora` Se añadió al final la transacción Binder `readings` y la capacidad entera `pinyin4j.readings.version = 1`; los hosts nuevos solo la llaman tras negociar y recurren con seguridad a un candidato Hanyu por punto para plugins antiguos
 * `Mejora` Se añadieron límites estrictos de fuente, matriz y JSON UTF-8 junto con cobertura Binder en Android 9/12/13/15; la misma capacidad se ofrece a Node.js mediante la capacidad explícita `pinyin4j` del host
+* `Mejora` La verificación de compilación rechaza dependencias nativas accidentales y genera un informe JSON
 
 # v1.2.0
 

@@ -298,3 +298,6 @@ app/src/main/res/raw-*/plugin_instruction.md
 - {{ text_link_pinyin_plugin }}: {{ pinyin_repo_url }}
 - {{ text_link_pinyin4j_official }}: {{ pinyin4j_official_url }}
 - {{ text_link_pinyin4j_maven }}: {{ pinyin4j_maven_url }}
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-Pinyin4j/blob/master/docs/16kb.md)
