@@ -49,3 +49,9 @@ desktop.ini
 app/build/
 build-logic/build/
 build-logic/*/build/
+*.keystore
+*.pre-platform-versions.bak
+
+# Python validation caches
+__pycache__/
+*.py[cod]

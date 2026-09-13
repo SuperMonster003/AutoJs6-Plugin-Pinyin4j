@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="plugin_description">Pinyin4j plugin for Chinese to Hanyu Pinyin conversion</string>
     <string name="error_invalid_case_type">Invalid Pinyin4j case type: %1$s</string>
     <string name="error_invalid_tone_type">Invalid Pinyin4j tone type: %1$s</string>
     <string name="error_invalid_v_char_type">Invalid Pinyin4j v char type: %1$s</string>
+    <string name="plugin_description">Pinyin4j plugin for Chinese to Hanyu Pinyin conversion</string>
 </resources>

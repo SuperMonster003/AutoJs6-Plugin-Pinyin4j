@@ -6,22 +6,23 @@
 
 # v1.3.0
 
-###### 2026/09/11
+###### 2026/09/13
 
-* `Info` `pinyin4j.readings()` et le provider Node.js exigent un hôte AutoJs6 mis à jour avec le contrat readings v1; les anciens hôtes peuvent continuer à utiliser `of` et `as`
-* `Nouveauté` `pinyin4j.readings(text, options)` renvoie toutes les prononciations ordonnées du dictionnaire, une ligne par point de code Unicode, et conserve une entrée non mappée comme candidat unique
-* `Nouveauté` `romanization` / `system` expose Hanyu, Tongyong, Wade-Giles, MPS2, Yale et Gwoyeu Romatzyh; Hanyu prend en charge les tons numériques, marqués ou omis, la casse et les formes de `ü`
+* `Note` `pinyin4j.readings()` et le provider Node.js exigent un hôte AutoJs6 mis à jour avec le contrat readings v1; les anciens hôtes peuvent continuer à utiliser `of` et `as`
+* `Fonctionnalité` `pinyin4j.readings(text, options)` renvoie toutes les prononciations ordonnées du dictionnaire, une ligne par point de code Unicode, et conserve une entrée non mappée comme candidat unique
+* `Fonctionnalité` `romanization` / `system` expose Hanyu, Tongyong, Wade-Giles, MPS2, Yale et Gwoyeu Romatzyh; Hanyu prend en charge les tons numériques, marqués ou omis, la casse et les formes de `ü`
 * `Amélioration` Ajout en fin de contrat de la transaction Binder `readings` et de la capacité entière `pinyin4j.readings.version = 1`; les nouveaux hôtes ne l'appellent qu'après négociation et se replient sans risque sur un candidat Hanyu par point pour les anciens plugins
 * `Amélioration` Ajout de limites strictes pour la source, la matrice et le JSON UTF-8, avec couverture Binder Android 9/12/13/15; la même capacité est ouverte à Node.js via la capacité explicite `pinyin4j` de l'hôte
 * `Amélioration` La vérification de compilation rejette les dépendances natives involontaires et produit un rapport JSON
+* `Amélioration` Ressources traduites cohérentes, activation explicite du plugin et validation des paquets de publication
 
 # v1.2.0
 
 ###### 2026/09/01
 
-* `Info` Les prononciations multiples et les six systèmes de romanisation existent actuellement seulement comme noyau testé côté plugin et proposition de contrat; `pinyin4j.readings()` ne sera pas une API de script publique avant la mise à niveau de l'AIDL et des routes hôte AutoJs6
-* `Correction` `of` ne supprime plus les trous du dictionnaire et ne scinde plus les caractères des plans supplémentaires: il parcourt les points de code Unicode, convertit chaque entrée réelle dont `〇`, conserve toute entrée non mappée intacte et aligne les séparateurs sur les points de code
-* `Correction` `pinyin4j.as(text)` ne convertit désormais que les syllabes numériques complètes et valides, conserve les fragments invalides ou intégrés à des caractères alphanumériques, gère la casse et `v` / `u:` / `ü`, et traite correctement les graphies `ue` simples comme `jue4` -> `juè`
+* `Note` Les prononciations multiples et les six systèmes de romanisation existent actuellement seulement comme noyau testé côté plugin et proposition de contrat; `pinyin4j.readings()` ne sera pas une API de script publique avant la mise à niveau de l'AIDL et des routes hôte AutoJs6
+* `Correctif` `of` ne supprime plus les trous du dictionnaire et ne scinde plus les caractères des plans supplémentaires: il parcourt les points de code Unicode, convertit chaque entrée réelle dont `〇`, conserve toute entrée non mappée intacte et aligne les séparateurs sur les points de code
+* `Correctif` `pinyin4j.as(text)` ne convertit désormais que les syllabes numériques complètes et valides, conserve les fragments invalides ou intégrés à des caractères alphanumériques, gère la casse et `v` / `u:` / `ü`, et traite correctement les graphies `ue` simples comme `jue4` -> `juè`
 * `Amélioration` Couverture réelle du dictionnaire figée par un test BMP exhaustif: 20 378 mappages, dont 20 377 dans U+4E00-U+9FA5 et le dernier pour `〇`; les 525 trous de l'ancienne plage et une empreinte SHA-256 du corpus sont aussi contrôlés
 * `Amélioration` Ajout d'un noyau testé de toutes les prononciations candidates pour Hanyu, Tongyong, Wade-Giles, MPS2, Yale et Gwoyeu Romatzyh, ainsi que d'une proposition documentée pour un AIDL JSON additif, la négociation de capacité et le repli vers l'ancienne implémentation
 * `Amélioration` Ajout d'un registre des risques de pinyin4j 2.5.1 avec empreintes binaires et sources, constats sur l'amont et les métadonnées de licence, limites connues et barrières de mise à niveau ou de fork
@@ -31,8 +32,8 @@
 
 ###### 2026/09/01
 
-* `Correction` Suppression du séparateur final produit avec les séparateurs non blancs et conservation exacte des caractères non chinois, y compris les espaces en début et fin de texte
-* `Correction` Normalisation des voyelles de troisième ton avec brève héritées de pinyin4j 2.5.1 vers les formes standard avec caron (par exemple `yŭ` vers `yǔ`), en minuscules comme en majuscules
+* `Correctif` Suppression du séparateur final produit avec les séparateurs non blancs et conservation exacte des caractères non chinois, y compris les espaces en début et fin de texte
+* `Correctif` Normalisation des voyelles de troisième ton avec brève héritées de pinyin4j 2.5.1 vers les formes standard avec caron (par exemple `yŭ` vers `yǔ`), en minuscules comme en majuscules
 * `Amélioration` Ajout de tests unitaires JVM pour les noms et alias d'options, les valeurs abrégées, les combinaisons de sortie, les valeurs par défaut, les erreurs, la conversion des tons et les métadonnées d'exécution, ainsi que de tests Android instrumentation pour la découverte réelle du service et les allers-retours Binder
 * `Amélioration` Ajout de workflows GitHub Actions qui refusent toute dérive des documents générés, exécutent les tests unitaires, construisent l'APK debug, compilent les tests instrumentation et téléversent l'APK produit
 * `Amélioration` Ajout de `.python/prepare_release.py` pour construire et vérifier un APK universal signé, valider sa version, calculer CRC32 et SHA-256, puis générer atomiquement `SHA256SUMS.txt` et le fichier anglais `RELEASE_NOTES.md`
@@ -42,8 +43,8 @@
 
 ###### 2026/08/31
 
-* `Info` Cette version n'améliore que la documentation et l'outillage associé; le comportement de conversion en pinyin et toutes les API de script restent inchangés
-* `Correction` Correction de l'usage erroné `pinyin4j.asTone(text)` présent dans les anciennes docs: l'hôte expose en réalité `pinyin4j.as(text)` (la méthode AIDL sous-jacente s'appelle toujours `asTone`)
+* `Note` Cette version n'améliore que la documentation et l'outillage associé; le comportement de conversion en pinyin et toutes les API de script restent inchangés
+* `Correctif` Correction de l'usage erroné `pinyin4j.asTone(text)` présent dans les anciennes docs: l'hôte expose en réalité `pinyin4j.as(text)` (la méthode AIDL sous-jacente s'appelle toujours `asTone`)
 * `Amélioration` Refonte du README en 10 langues: ajout des sections utilisation, démarrage rapide, tableau de référence des options, API de script, auto-vérification, FAQ, permissions et sécurité, comparaison des plugins frères et interface du plugin
 * `Amélioration` Mise à niveau du générateur de docs vers l'implémentation unifiée partagée entre plugins frères: détection de dérive `--check`, validation des clés et des formes entre langues, rejet des symboles pleine largeur et contrôles d'alignement des versions
 * `Amélioration` Intégration des instructions du centre de plugins (`plugin_instruction.md`) dans la même chaîne de génération JSON multilingue, éliminant la double maintenance des sources
@@ -53,9 +54,9 @@
 
 ###### 2026/07/15
 
-* `Nouveauté` Service du plugin Pinyin4j: ID de plugin `pinyin4j`, découvert et appelé automatiquement par AutoJs6 via `org.autojs.plugin.PINYIN4J`, encapsulant la bibliothèque `com.belerweb:pinyin4j:2.5.1`
-* `Nouveauté` API de conversion: `pinyin4j.of(text, options)` convertit le texte chinois en pinyin Hanyu caractère par caractère; une chaîne passée en second argument sert directement de séparateur
-* `Nouveauté` API de restauration des tons: `pinyin4j.as(text)` restaure le pinyin à tons numériques (comme `han4`) en pinyin à marques de ton (comme `hàn`), via la méthode AIDL `asTone`
-* `Nouveauté` Options flexibles: alias comme `case` / `tone` / `v` / `sep` et raccourcis de valeurs comme `MARK` / `NUMBER` / `NO`, avec erreurs localisées en cas de valeur invalide
-* `Nouveauté` Ressources multilingues: métadonnées du plugin et instructions disponibles en 10 langues
-* `Nouveauté` README et CHANGELOG générés en Markdown multilingue depuis les sources JSON via `.python/generate_markdown.py`
+* `Fonctionnalité` Service du plugin Pinyin4j: ID de plugin `pinyin4j`, découvert et appelé automatiquement par AutoJs6 via `org.autojs.plugin.PINYIN4J`, encapsulant la bibliothèque `com.belerweb:pinyin4j:2.5.1`
+* `Fonctionnalité` API de conversion: `pinyin4j.of(text, options)` convertit le texte chinois en pinyin Hanyu caractère par caractère; une chaîne passée en second argument sert directement de séparateur
+* `Fonctionnalité` API de restauration des tons: `pinyin4j.as(text)` restaure le pinyin à tons numériques (comme `han4`) en pinyin à marques de ton (comme `hàn`), via la méthode AIDL `asTone`
+* `Fonctionnalité` Options flexibles: alias comme `case` / `tone` / `v` / `sep` et raccourcis de valeurs comme `MARK` / `NUMBER` / `NO`, avec erreurs localisées en cas de valeur invalide
+* `Fonctionnalité` Ressources multilingues: métadonnées du plugin et instructions disponibles en 10 langues
+* `Fonctionnalité` README et CHANGELOG générés en Markdown multilingue depuis les sources JSON via `.python/generate_markdown.py`

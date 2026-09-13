@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="plugin_description">中国語を漢語ピンインに変換する Pinyin4j プラグイン</string>
     <string name="error_invalid_case_type">無効な Pinyin4j 大文字小文字タイプ: %1$s</string>
     <string name="error_invalid_tone_type">無効な Pinyin4j 声調タイプ: %1$s</string>
     <string name="error_invalid_v_char_type">無効な Pinyin4j v 文字タイプ: %1$s</string>
+    <string name="plugin_description">中国語を漢語ピンインに変換する Pinyin4j プラグイン</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="plugin_description">用於中文轉漢語拼音的 Pinyin4j 插件</string>
     <string name="error_invalid_case_type">無效的 Pinyin4j 大小寫類型: %1$s</string>
     <string name="error_invalid_tone_type">無效的 Pinyin4j 聲調類型: %1$s</string>
     <string name="error_invalid_v_char_type">無效的 Pinyin4j v 字符類型: %1$s</string>
+    <string name="plugin_description">用於中文轉漢語拼音的 Pinyin4j 插件</string>
 </resources>

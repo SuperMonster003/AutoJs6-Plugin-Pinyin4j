@@ -6,56 +6,57 @@
 
 # v1.3.0
 
-###### 2026/09/11
+###### 2026/09/13
 
 * `Hint` `pinyin4j.readings()` and the Node.js provider require an updated AutoJs6 host containing the readings v1 contract; older hosts can continue using `of` and `as`
-* `Added` `pinyin4j.readings(text, options)` returns every ordered dictionary pronunciation in one row per Unicode code point, with unmapped input preserved as a single candidate
-* `Added` `romanization` / `system` exposes Hanyu, Tongyong, Wade-Giles, MPS2, Yale and Gwoyeu Romatzyh; Hanyu supports numeric, marked or omitted tones, letter case and `ü` forms
-* `Improved` Appended the Binder `readings` transaction and integer capability `pinyin4j.readings.version = 1`; new hosts call it only after negotiation and safely fall back to one Hanyu candidate per code point for old plugins
-* `Improved` Added strict source, matrix and UTF-8 JSON limits plus Android 9/12/13/15 Binder coverage; the same plugin capability is available to Node.js through the host's explicit `pinyin4j` capability
-* `Improved` Build verification rejects accidental native dependencies and produces a JSON report
+* `Feature` `pinyin4j.readings(text, options)` returns every ordered dictionary pronunciation in one row per Unicode code point, with unmapped input preserved as a single candidate
+* `Feature` `romanization` / `system` exposes Hanyu, Tongyong, Wade-Giles, MPS2, Yale and Gwoyeu Romatzyh; Hanyu supports numeric, marked or omitted tones, letter case and `ü` forms
+* `Improvement` Appended the Binder `readings` transaction and integer capability `pinyin4j.readings.version = 1`; new hosts call it only after negotiation and safely fall back to one Hanyu candidate per code point for old plugins
+* `Improvement` Added strict source, matrix and UTF-8 JSON limits plus Android 9/12/13/15 Binder coverage; the same plugin capability is available to Node.js through the host's explicit `pinyin4j` capability
+* `Improvement` Build verification rejects accidental native dependencies and produces a JSON report
+* `Improvement` Consistent localized resources, explicit plugin activation and validated release preparation
 
 # v1.2.0
 
 ###### 2026/09/01
 
 * `Hint` Multi-pronunciation and six-system romanization currently exist only as a tested plugin-side core and contract proposal; `pinyin4j.readings()` is not a public script API until the AutoJs6 AIDL and host routes are upgraded
-* `Fixed` `of` no longer drops dictionary holes or splits supplementary-plane characters: it now iterates Unicode code points, converts every actual mapping including `〇`, preserves all unmapped input intact, and aligns separators with code points
-* `Fixed` `pinyin4j.as(text)` now converts only complete valid numbered syllables, preserves invalid or alphanumeric-embedded fragments, handles letter case and `v` / `u:` / `ü`, and correctly treats plain `ue` spellings such as `jue4` -> `juè`
-* `Improved` Pinned actual dictionary coverage with an exhaustive BMP test: 20,378 mappings, of which 20,377 are in U+4E00-U+9FA5 and the other is `〇`; the 525 holes in the old range and a corpus SHA-256 fingerprint are also regression-checked
-* `Improved` Added a tested all-candidate core for Hanyu, Tongyong, Wade-Giles, MPS2, Yale, and Gwoyeu Romatzyh, plus a documented append-only JSON AIDL, capability-negotiation, and old-implementation fallback proposal
-* `Improved` Added a pinyin4j 2.5.1 risk register with binary and source hashes, upstream and license-metadata findings, known boundaries, and upgrade or fork gates
-* `Improved` Added reproducible JVM and Android Service/AIDL entry-point performance baselines, a release APK ZIP/resource size analyzer, and a sister-plugin selection comparison grounded in measurements
+* `Fix` `of` no longer drops dictionary holes or splits supplementary-plane characters: it now iterates Unicode code points, converts every actual mapping including `〇`, preserves all unmapped input intact, and aligns separators with code points
+* `Fix` `pinyin4j.as(text)` now converts only complete valid numbered syllables, preserves invalid or alphanumeric-embedded fragments, handles letter case and `v` / `u:` / `ü`, and correctly treats plain `ue` spellings such as `jue4` -> `juè`
+* `Improvement` Pinned actual dictionary coverage with an exhaustive BMP test: 20,378 mappings, of which 20,377 are in U+4E00-U+9FA5 and the other is `〇`; the 525 holes in the old range and a corpus SHA-256 fingerprint are also regression-checked
+* `Improvement` Added a tested all-candidate core for Hanyu, Tongyong, Wade-Giles, MPS2, Yale, and Gwoyeu Romatzyh, plus a documented append-only JSON AIDL, capability-negotiation, and old-implementation fallback proposal
+* `Improvement` Added a pinyin4j 2.5.1 risk register with binary and source hashes, upstream and license-metadata findings, known boundaries, and upgrade or fork gates
+* `Improvement` Added reproducible JVM and Android Service/AIDL entry-point performance baselines, a release APK ZIP/resource size analyzer, and a sister-plugin selection comparison grounded in measurements
 
 # v1.1.0
 
 ###### 2026/09/01
 
-* `Fixed` Removed the trailing separator produced for non-whitespace separators and now preserve non-Chinese characters, including leading and trailing whitespace, exactly
-* `Fixed` Normalized pinyin4j 2.5.1's legacy breve third-tone vowels to standard caron forms (for example `yŭ` to `yǔ`), consistently in lowercase and uppercase
-* `Improved` Added JVM unit tests for option names and aliases, value shortcuts, output combinations, defaults, errors, tone conversion and runtime metadata, plus Android instrumentation coverage for real service discovery and Binder round trips
-* `Improved` Added GitHub Actions workflows that reject generated-document drift, run unit tests, build the debug APK, compile instrumentation tests and upload the APK artifact
-* `Improved` Added `.python/prepare_release.py` to build and verify a signed universal APK, validate its version, calculate CRC32 and SHA-256, and atomically generate `SHA256SUMS.txt` and English `RELEASE_NOTES.md`
-* `Improved` Standardize the README layout and Gradle platform version management
+* `Fix` Removed the trailing separator produced for non-whitespace separators and now preserve non-Chinese characters, including leading and trailing whitespace, exactly
+* `Fix` Normalized pinyin4j 2.5.1's legacy breve third-tone vowels to standard caron forms (for example `yŭ` to `yǔ`), consistently in lowercase and uppercase
+* `Improvement` Added JVM unit tests for option names and aliases, value shortcuts, output combinations, defaults, errors, tone conversion and runtime metadata, plus Android instrumentation coverage for real service discovery and Binder round trips
+* `Improvement` Added GitHub Actions workflows that reject generated-document drift, run unit tests, build the debug APK, compile instrumentation tests and upload the APK artifact
+* `Improvement` Added `.python/prepare_release.py` to build and verify a signed universal APK, validate its version, calculate CRC32 and SHA-256, and atomically generate `SHA256SUMS.txt` and English `RELEASE_NOTES.md`
+* `Improvement` Standardize the README layout and Gradle platform version management
 
 # v1.0.1
 
 ###### 2026/08/31
 
 * `Hint` This release only improves documentation and supporting tooling; Pinyin conversion behavior and every script API remain unchanged
-* `Fixed` Corrected the wrong `pinyin4j.asTone(text)` usage found in earlier docs: the host actually exposes `pinyin4j.as(text)` (the underlying AIDL method is still named `asTone`)
-* `Improved` Reworked the README in 10 languages: added sections for usage, quick start, option reference table, script API, self check, FAQ, permissions and security, sibling plugin comparison and plugin interface
-* `Improved` Upgraded the docs generator to the unified implementation shared across sibling plugins: `--check` drift detection, cross-language key and shape validation, fullwidth symbol rejection and version alignment checks
-* `Improved` Brought the Plugin Center instructions (`plugin_instruction.md`) into the same multilingual JSON generation pipeline, eliminating double-source maintenance
-* `Improved` Added the ROADMAP.md development roadmap and established bidirectional cross-references and a comparison with the sibling plugin Pinyin
+* `Fix` Corrected the wrong `pinyin4j.asTone(text)` usage found in earlier docs: the host actually exposes `pinyin4j.as(text)` (the underlying AIDL method is still named `asTone`)
+* `Improvement` Reworked the README in 10 languages: added sections for usage, quick start, option reference table, script API, self check, FAQ, permissions and security, sibling plugin comparison and plugin interface
+* `Improvement` Upgraded the docs generator to the unified implementation shared across sibling plugins: `--check` drift detection, cross-language key and shape validation, fullwidth symbol rejection and version alignment checks
+* `Improvement` Brought the Plugin Center instructions (`plugin_instruction.md`) into the same multilingual JSON generation pipeline, eliminating double-source maintenance
+* `Improvement` Added the ROADMAP.md development roadmap and established bidirectional cross-references and a comparison with the sibling plugin Pinyin
 
 # v1.0.0
 
 ###### 2026/07/15
 
-* `Added` Pinyin4j plugin service: plugin ID `pinyin4j`, automatically discovered and invoked by AutoJs6 via `org.autojs.plugin.PINYIN4J`, wrapping the `com.belerweb:pinyin4j:2.5.1` library
-* `Added` Conversion API: `pinyin4j.of(text, options)` converts Chinese text to Hanyu Pinyin character by character; passing a string as the second argument uses it directly as the separator
-* `Added` Tone restoring API: `pinyin4j.as(text)` restores number-toned Pinyin (such as `han4`) to mark-toned Pinyin (such as `hàn`), backed by the AIDL method `asTone`
-* `Added` Flexible options: aliases such as `case` / `tone` / `v` / `sep` and value shortcuts such as `MARK` / `NUMBER` / `NO`, with localized errors thrown on invalid values
-* `Added` Multilingual resources: plugin info and instructions available in 10 languages
-* `Added` README and CHANGELOG generated as multilingual Markdown from JSON sources via `.python/generate_markdown.py`
+* `Feature` Pinyin4j plugin service: plugin ID `pinyin4j`, automatically discovered and invoked by AutoJs6 via `org.autojs.plugin.PINYIN4J`, wrapping the `com.belerweb:pinyin4j:2.5.1` library
+* `Feature` Conversion API: `pinyin4j.of(text, options)` converts Chinese text to Hanyu Pinyin character by character; passing a string as the second argument uses it directly as the separator
+* `Feature` Tone restoring API: `pinyin4j.as(text)` restores number-toned Pinyin (such as `han4`) to mark-toned Pinyin (such as `hàn`), backed by the AIDL method `asTone`
+* `Feature` Flexible options: aliases such as `case` / `tone` / `v` / `sep` and value shortcuts such as `MARK` / `NUMBER` / `NO`, with localized errors thrown on invalid values
+* `Feature` Multilingual resources: plugin info and instructions available in 10 languages
+* `Feature` README and CHANGELOG generated as multilingual Markdown from JSON sources via `.python/generate_markdown.py`

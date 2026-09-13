@@ -15,7 +15,7 @@ class Pinyin4jPluginService : Service() {
         override fun getInfo() = pluginInfo(
             name = getString(R.string.app_name),
             description = getString(R.string.plugin_description),
-        )
+        ).apply { supportedAbis = emptyArray() }
 
         override fun of(text: String?, options: Bundle?): String {
             return try {

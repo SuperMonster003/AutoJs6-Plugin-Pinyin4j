@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="plugin_description">Plugin Pinyin4j para convertir chino a pinyin Hanyu</string>
     <string name="error_invalid_case_type">Tipo de mayusculas/minusculas de Pinyin4j no valido: %1$s</string>
     <string name="error_invalid_tone_type">Tipo de tono de Pinyin4j no valido: %1$s</string>
     <string name="error_invalid_v_char_type">Tipo de caracter v de Pinyin4j no valido: %1$s</string>
+    <string name="plugin_description">Plugin Pinyin4j para convertir chino a pinyin Hanyu</string>
 </resources>

@@ -1,12 +1,12 @@
 {
   "changelog_label_hint": "Hint",
-  "changelog_label_feature": "Added",
-  "changelog_label_fix": "Fixed",
-  "changelog_label_improvement": "Improved",
+  "changelog_label_feature": "Feature",
+  "changelog_label_fix": "Fix",
+  "changelog_label_improvement": "Improvement",
   "changelog_label_dependency": "Dependency",
   "$data": {
     "v1.3.0": {
-      "released_date": "2026/09/11",
+      "released_date": "2026/09/13",
       "hint": [
         "`pinyin4j.readings()` and the Node.js provider require an updated AutoJs6 host containing the readings v1 contract; older hosts can continue using `of` and `as`"
       ],
@@ -17,7 +17,8 @@
       "improvement": [
         "Appended the Binder `readings` transaction and integer capability `pinyin4j.readings.version = 1`; new hosts call it only after negotiation and safely fall back to one Hanyu candidate per code point for old plugins",
         "Added strict source, matrix and UTF-8 JSON limits plus Android 9/12/13/15 Binder coverage; the same plugin capability is available to Node.js through the host's explicit `pinyin4j` capability",
-        "Build verification rejects accidental native dependencies and produces a JSON report"
+        "Build verification rejects accidental native dependencies and produces a JSON report",
+        "Consistent localized resources, explicit plugin activation and validated release preparation"
       ]
     },
     "v1.2.0": {
