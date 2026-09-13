@@ -4,9 +4,16 @@
 
 ******
 
-# v1.3.0
+# v1.3.1
 
 ###### 2026/09/13
+
+* `Correctif` Conserver la date de version du plugin en anglais quelle que soit la langue de la machine de compilation
+* `Amélioration` Ressources traduites cohérentes, activation explicite du plugin et validation des paquets de publication
+
+# v1.3.0
+
+###### 2026/09/11
 
 * `Note` `pinyin4j.readings()` et le provider Node.js exigent un hôte AutoJs6 mis à jour avec le contrat readings v1; les anciens hôtes peuvent continuer à utiliser `of` et `as`
 * `Fonctionnalité` `pinyin4j.readings(text, options)` renvoie toutes les prononciations ordonnées du dictionnaire, une ligne par point de code Unicode, et conserve une entrée non mappée comme candidat unique
@@ -14,7 +21,6 @@
 * `Amélioration` Ajout en fin de contrat de la transaction Binder `readings` et de la capacité entière `pinyin4j.readings.version = 1`; les nouveaux hôtes ne l'appellent qu'après négociation et se replient sans risque sur un candidat Hanyu par point pour les anciens plugins
 * `Amélioration` Ajout de limites strictes pour la source, la matrice et le JSON UTF-8, avec couverture Binder Android 9/12/13/15; la même capacité est ouverte à Node.js via la capacité explicite `pinyin4j` de l'hôte
 * `Amélioration` La vérification de compilation rejette les dépendances natives involontaires et produit un rapport JSON
-* `Amélioration` Ressources traduites cohérentes, activation explicite du plugin et validation des paquets de publication
 
 # v1.2.0
 

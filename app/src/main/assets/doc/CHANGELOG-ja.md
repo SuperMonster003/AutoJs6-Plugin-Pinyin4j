@@ -4,9 +4,16 @@
 
 ******
 
-# v1.3.0
+# v1.3.1
 
 ###### 2026/09/13
+
+* `修正` ビルド環境の言語にかかわらずプラグインのバージョン日付を英語で表示
+* `改善` 多言語リソースの統一, プラグイン有効化の明確化, リリース成果物の検証
+
+# v1.3.0
+
+###### 2026/09/11
 
 * `ヒント` `pinyin4j.readings()` と Node.js provider には readings v1 契約を含む更新済み AutoJs6 ホストが必要です; 旧ホストは引き続き `of` と `as` を利用できます
 * `機能` `pinyin4j.readings(text, options)` は Unicode code point ごとに全辞書読みを順序付きで返し, 未収録入力は単一候補として保持
@@ -14,7 +21,6 @@
 * `改善` Binder 末尾に `readings` transaction と整数 capability `pinyin4j.readings.version = 1` を追加; 新ホストは交渉後のみ呼び出し, 旧プラグインには code point ごとの Hanyu 単一候補へ安全にフォールバック
 * `改善` 入力, 行列, UTF-8 JSON の厳格な上限と Android 9/12/13/15 Binder 検証を追加; 同じ能力をホストの明示的 `pinyin4j` capability から Node.js に公開
 * `改善` 意図しないネイティブ依存関係をビルド時に拒否し, JSON レポートを生成
-* `改善` 多言語リソースの統一, プラグイン有効化の明確化, リリース成果物の検証
 
 # v1.2.0
 

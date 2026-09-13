@@ -283,9 +283,16 @@ ROADMAP.md 以證據清單記錄里程碑. M3 已在 v1.3.0 完成: Unicode 與�
 
 ******
 
-#### v1.3.0
+#### v1.3.1
 
 _2026/09/13_
+
+- `修復` 外掛版本日期固定使用英文, 不隨建置機器的語言變化
+- `優化` 統一多語言資源, 明確插件啟用契約並驗證發佈產物
+
+#### v1.3.0
+
+_2026/09/11_
 
 - `提示` `pinyin4j.readings()` 與 Node.js provider 需要包含 readings v1 契約的新版 AutoJs6 宿主; 舊版宿主仍可繼續使用 `of` 與 `as`
 - `新增` `pinyin4j.readings(text, options)` 按 Unicode 碼點逐行返回全部有序詞典讀音, 無映射輸入原樣保留為單候選
@@ -293,7 +300,6 @@ _2026/09/13_
 - `優化` 在 Binder 末尾追加 `readings` transaction 與整數 capability `pinyin4j.readings.version = 1`; 新宿主僅在協商後調用, 對舊插件按碼點安全回退為 Hanyu 單候選
 - `優化` 增加嚴格的源文本, 矩陣與 UTF-8 JSON 上限及 Android 9/12/13/15 Binder 覆蓋; 同一插件能力透過宿主明確 `pinyin4j` capability 向 Node.js 開放
 - `優化` 建置階段阻止意外引入原生相依套件, 並輸出 JSON 校驗報告
-- `優化` 統一多語言資源, 明確插件啟用契約並驗證發佈產物
 
 #### v1.2.0
 
@@ -306,17 +312,6 @@ _2026/09/01_
 - `優化` 新增經過測試的全部候選讀音核心, 覆蓋 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 與 Gwoyeu Romatzyh, 並記錄追加式 JSON AIDL, 能力協商和舊實現回退方案
 - `優化` 新增 pinyin4j 2.5.1 風險清單, 記錄二進制與源碼哈希, 上游和許可證元數據問題, 已知邊界及升級或分叉門禁
 - `優化` 新增可復測的 JVM 與 Android Service/AIDL 入口性能基線, release APK ZIP/資源體積分析器, 並用實測數據更新姊妹插件選型對比
-
-#### v1.1.0
-
-_2026/09/01_
-
-- `修復` 移除非空白分隔符導致的輸出末尾殘留, 並精確保留包括首尾空白在內的非漢字字符
-- `修復` 將 pinyin4j 2.5.1 使用 breve 的舊式第三聲元音統一為標準 caron 形式 (如 `yŭ` 轉為 `yǔ`), 同時覆蓋大小寫
-- `優化` 新增 JVM 單元測試, 覆蓋選項標準名與別名, 取值簡寫, 輸出組合, 默認值, 異常, 聲調轉換及運行時元數據; 新增 Android instrumentation 測試驗證真實服務發現與 Binder 往返
-- `優化` 新增 GitHub Actions 工作流, 自動攔截生成文檔漂移, 運行單元測試, 構建 debug APK, 編譯 instrumentation 測試並上傳 APK 產物
-- `優化` 新增 `.python/prepare_release.py`, 一鍵構建並驗證簽名 universal APK, 校驗版本, 計算 CRC32 與 SHA-256, 原子生成 `SHA256SUMS.txt` 和英文 `RELEASE_NOTES.md`
-- `優化` 統一 README 版式與 Gradle 平台版本管理方式
 
 ##### 更多發行歷史可參閱
 
@@ -344,7 +339,7 @@ _2026/09/01_
 
 生成已驗證的發布歸檔可運行 `py .python/prepare_release.py`. 腳本會檢查生成文檔, 構建並驗證簽名 universal APK, 校驗版本元數據, 計算 CRC32 與 SHA-256, 並將 APK, `SHA256SUMS.txt` 及英文 `RELEASE_NOTES.md` 原子寫入 `app/releases/v<版本號>`.
 
-構建參數集中於 `version.properties`: 最低 SDK 24 (Android 7.0), 目標 SDK 36, 目前版本 1.3.0.
+構建參數集中於 `version.properties`: 最低 SDK 24 (Android 7.0), 目標 SDK 36, 目前版本 1.3.1.
 
 ******
 

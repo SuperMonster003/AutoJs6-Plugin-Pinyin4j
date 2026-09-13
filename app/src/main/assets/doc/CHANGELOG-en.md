@@ -4,9 +4,16 @@
 
 ******
 
-# v1.3.0
+# v1.3.1
 
 ###### 2026/09/13
+
+* `Fix` Keep the plugin version date in English regardless of the build machine locale
+* `Improvement` Consistent localized resources, explicit plugin activation and validated release preparation
+
+# v1.3.0
+
+###### 2026/09/11
 
 * `Hint` `pinyin4j.readings()` and the Node.js provider require an updated AutoJs6 host containing the readings v1 contract; older hosts can continue using `of` and `as`
 * `Feature` `pinyin4j.readings(text, options)` returns every ordered dictionary pronunciation in one row per Unicode code point, with unmapped input preserved as a single candidate
@@ -14,7 +21,6 @@
 * `Improvement` Appended the Binder `readings` transaction and integer capability `pinyin4j.readings.version = 1`; new hosts call it only after negotiation and safely fall back to one Hanyu candidate per code point for old plugins
 * `Improvement` Added strict source, matrix and UTF-8 JSON limits plus Android 9/12/13/15 Binder coverage; the same plugin capability is available to Node.js through the host's explicit `pinyin4j` capability
 * `Improvement` Build verification rejects accidental native dependencies and produces a JSON report
-* `Improvement` Consistent localized resources, explicit plugin activation and validated release preparation
 
 # v1.2.0
 
