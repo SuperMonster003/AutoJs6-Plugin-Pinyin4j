@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="plugin_description">Плагин Pinyin4j для преобразования китайского текста в пиньинь Hanyu</string>
     <string name="error_invalid_case_type">Недопустимый тип регистра Pinyin4j: %1$s</string>
     <string name="error_invalid_tone_type">Недопустимый тип тона Pinyin4j: %1$s</string>
     <string name="error_invalid_v_char_type">Недопустимый тип символа v Pinyin4j: %1$s</string>
+    <string name="plugin_description">Плагин Pinyin4j для преобразования китайского текста в пиньинь Hanyu</string>
 </resources>

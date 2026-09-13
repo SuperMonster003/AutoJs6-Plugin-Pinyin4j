@@ -6,14 +6,15 @@
 
 # v1.3.0
 
-###### 2026/09/11
+###### 2026/09/13
 
 * `ヒント` `pinyin4j.readings()` と Node.js provider には readings v1 契約を含む更新済み AutoJs6 ホストが必要です; 旧ホストは引き続き `of` と `as` を利用できます
-* `追加` `pinyin4j.readings(text, options)` は Unicode code point ごとに全辞書読みを順序付きで返し, 未収録入力は単一候補として保持
-* `追加` `romanization` / `system` で Hanyu, Tongyong, Wade-Giles, MPS2, Yale, Gwoyeu Romatzyh を公開; Hanyu は数字/記号/無声調, 大文字小文字, `ü` 形式に対応
+* `機能` `pinyin4j.readings(text, options)` は Unicode code point ごとに全辞書読みを順序付きで返し, 未収録入力は単一候補として保持
+* `機能` `romanization` / `system` で Hanyu, Tongyong, Wade-Giles, MPS2, Yale, Gwoyeu Romatzyh を公開; Hanyu は数字/記号/無声調, 大文字小文字, `ü` 形式に対応
 * `改善` Binder 末尾に `readings` transaction と整数 capability `pinyin4j.readings.version = 1` を追加; 新ホストは交渉後のみ呼び出し, 旧プラグインには code point ごとの Hanyu 単一候補へ安全にフォールバック
 * `改善` 入力, 行列, UTF-8 JSON の厳格な上限と Android 9/12/13/15 Binder 検証を追加; 同じ能力をホストの明示的 `pinyin4j` capability から Node.js に公開
 * `改善` 意図しないネイティブ依存関係をビルド時に拒否し, JSON レポートを生成
+* `改善` 多言語リソースの統一, プラグイン有効化の明確化, リリース成果物の検証
 
 # v1.2.0
 
@@ -53,9 +54,9 @@
 
 ###### 2026/07/15
 
-* `追加` Pinyin4j プラグインサービス: プラグイン ID は `pinyin4j` で, AutoJs6 が `org.autojs.plugin.PINYIN4J` により自動検出して呼び出し, `com.belerweb:pinyin4j:2.5.1` ライブラリをラップ
-* `追加` ピンイン変換 API: `pinyin4j.of(text, options)` が中国語を 1 文字ずつ漢語ピンインに変換し, 第 2 引数に文字列を渡すとそのまま区切り文字として使用
-* `追加` 声調復元 API: `pinyin4j.as(text)` が数字声調ピンイン (例: `han4`) を声調記号ピンイン (例: `hàn`) に復元し, AIDL インターフェースメソッド `asTone` に対応
-* `追加` 柔軟なオプション体系: `case` / `tone` / `v` / `sep` などのエイリアスと `MARK` / `NUMBER` / `NO` などの値の短縮形に対応し, 不正な値にはローカライズされたエラーメッセージをスロー
-* `追加` 多言語リソース: プラグイン情報と使用説明が 10 言語をカバー
-* `追加` README と CHANGELOG は JSON ソースファイルと `.python/generate_markdown.py` から多言語 Markdown として生成
+* `機能` Pinyin4j プラグインサービス: プラグイン ID は `pinyin4j` で, AutoJs6 が `org.autojs.plugin.PINYIN4J` により自動検出して呼び出し, `com.belerweb:pinyin4j:2.5.1` ライブラリをラップ
+* `機能` ピンイン変換 API: `pinyin4j.of(text, options)` が中国語を 1 文字ずつ漢語ピンインに変換し, 第 2 引数に文字列を渡すとそのまま区切り文字として使用
+* `機能` 声調復元 API: `pinyin4j.as(text)` が数字声調ピンイン (例: `han4`) を声調記号ピンイン (例: `hàn`) に復元し, AIDL インターフェースメソッド `asTone` に対応
+* `機能` 柔軟なオプション体系: `case` / `tone` / `v` / `sep` などのエイリアスと `MARK` / `NUMBER` / `NO` などの値の短縮形に対応し, 不正な値にはローカライズされたエラーメッセージをスロー
+* `機能` 多言語リソース: プラグイン情報と使用説明が 10 言語をカバー
+* `機能` README と CHANGELOG は JSON ソースファイルと `.python/generate_markdown.py` から多言語 Markdown として生成

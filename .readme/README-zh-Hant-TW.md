@@ -285,14 +285,15 @@ ROADMAP.md 以證據清單記錄里程碑. M3 已在 v1.3.0 完成: Unicode 與�
 
 #### v1.3.0
 
-_2026/09/11_
+_2026/09/13_
 
 - `提示` `pinyin4j.readings()` 與 Node.js provider 需要包含 readings v1 契約的新版 AutoJs6 主機; 舊版主機仍可繼續使用 `of` 與 `as`
 - `新增` `pinyin4j.readings(text, options)` 按 Unicode 碼點逐列回傳全部有序字典讀音, 無映射輸入原樣保留為單候選
 - `新增` `romanization` / `system` 開放 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 與 Gwoyeu Romatzyh; Hanyu 支援數字/符號/無聲調, 大小寫與 `ü` 形式
-- `最佳化` 在 Binder 末尾追加 `readings` transaction 與整數 capability `pinyin4j.readings.version = 1`; 新主機僅在協商後呼叫, 對舊外掛按碼點安全回退為 Hanyu 單候選
-- `最佳化` 增加嚴格的來源文字, 矩陣與 UTF-8 JSON 上限及 Android 9/12/13/15 Binder 覆蓋; 相同外掛能力透過主機明確 `pinyin4j` capability 向 Node.js 開放
-- `最佳化` 建置階段阻止意外引入原生相依套件, 並輸出 JSON 校驗報告
+- `優化` 在 Binder 末尾追加 `readings` transaction 與整數 capability `pinyin4j.readings.version = 1`; 新主機僅在協商後呼叫, 對舊外掛按碼點安全回退為 Hanyu 單候選
+- `優化` 增加嚴格的來源文字, 矩陣與 UTF-8 JSON 上限及 Android 9/12/13/15 Binder 覆蓋; 相同外掛能力透過主機明確 `pinyin4j` capability 向 Node.js 開放
+- `優化` 建置階段阻止意外引入原生相依套件, 並輸出 JSON 校驗報告
+- `優化` 統一多語言資源, 明確外掛啟用契約並驗證發行產物
 
 #### v1.2.0
 
@@ -301,10 +302,10 @@ _2026/09/01_
 - `提示` 多讀音與六種羅馬化體系目前僅作為經過測試的外掛端核心和契約方案; 在 AutoJs6 AIDL 與宿主路由升級前, `pinyin4j.readings()` 不是公開腳本 API
 - `修復` `of` 不再遺失字典空洞字元或拆分補充平面字元: 現按 Unicode code point 走訪, 轉換包括 `〇` 在內的全部實際詞條, 完整保留無詞條輸入並讓分隔符號與 code point 對齊
 - `修復` `pinyin4j.as(text)` 現只轉換完整有效的數字聲調音節, 保留無效或嵌入英數字的片段, 支援大小寫及 `v` / `u:` / `ü`, 並正確處理 `jue4` -> `juè` 一類普通 `ue` 拼寫
-- `最佳化` 以窮舉 BMP 測試固定字典真實涵蓋範圍: 共 20,378 個映射, 其中 20,377 個位於 U+4E00-U+9FA5, 另一個為 `〇`; 舊範圍內 525 個空洞和語料 SHA-256 指紋也納入回歸
-- `最佳化` 新增經過測試的全部候選讀音核心, 涵蓋 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 與 Gwoyeu Romatzyh, 並記錄追加式 JSON AIDL, 能力協商和舊實作回退方案
-- `最佳化` 新增 pinyin4j 2.5.1 風險清單, 記錄二進位與原始碼雜湊, 上游和授權中繼資料問題, 已知邊界及升級或分支門禁
-- `最佳化` 新增可重測的 JVM 與 Android Service/AIDL 入口效能基線, release APK ZIP/資源體積分析器, 並用實測資料更新姊妹外掛選型對比
+- `優化` 以窮舉 BMP 測試固定字典真實涵蓋範圍: 共 20,378 個映射, 其中 20,377 個位於 U+4E00-U+9FA5, 另一個為 `〇`; 舊範圍內 525 個空洞和語料 SHA-256 指紋也納入回歸
+- `優化` 新增經過測試的全部候選讀音核心, 涵蓋 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 與 Gwoyeu Romatzyh, 並記錄追加式 JSON AIDL, 能力協商和舊實作回退方案
+- `優化` 新增 pinyin4j 2.5.1 風險清單, 記錄二進位與原始碼雜湊, 上游和授權中繼資料問題, 已知邊界及升級或分支門禁
+- `優化` 新增可重測的 JVM 與 Android Service/AIDL 入口效能基線, release APK ZIP/資源體積分析器, 並用實測資料更新姊妹外掛選型對比
 
 #### v1.1.0
 
@@ -312,10 +313,10 @@ _2026/09/01_
 
 - `修復` 移除非空白分隔符號造成的輸出結尾殘留, 並精確保留包含開頭與結尾空白在內的非中文字元
 - `修復` 將 pinyin4j 2.5.1 使用 breve 的舊式第三聲母音統一為標準 caron 形式 (如 `yŭ` 轉為 `yǔ`), 並同時涵蓋大小寫
-- `最佳化` 新增 JVM 單元測試, 涵蓋選項標準名稱與別名, 值縮寫, 輸出組合, 預設值, 例外, 聲調轉換及執行階段中繼資料; 新增 Android instrumentation 測試驗證實際服務探索與 Binder 往返
-- `最佳化` 新增 GitHub Actions 工作流程, 自動攔截產生文件漂移, 執行單元測試, 建置 debug APK, 編譯 instrumentation 測試並上傳 APK 成品
-- `最佳化` 新增 `.python/prepare_release.py`, 一鍵建置並驗證已簽署 universal APK, 驗證版本, 計算 CRC32 與 SHA-256, 以原子方式產生 `SHA256SUMS.txt` 和英文 `RELEASE_NOTES.md`
-- `最佳化` 統一 README 版式與 Gradle 平台版本管理方式
+- `優化` 新增 JVM 單元測試, 涵蓋選項標準名稱與別名, 值縮寫, 輸出組合, 預設值, 例外, 聲調轉換及執行階段中繼資料; 新增 Android instrumentation 測試驗證實際服務探索與 Binder 往返
+- `優化` 新增 GitHub Actions 工作流程, 自動攔截產生文件漂移, 執行單元測試, 建置 debug APK, 編譯 instrumentation 測試並上傳 APK 成品
+- `優化` 新增 `.python/prepare_release.py`, 一鍵建置並驗證已簽署 universal APK, 驗證版本, 計算 CRC32 與 SHA-256, 以原子方式產生 `SHA256SUMS.txt` 和英文 `RELEASE_NOTES.md`
+- `優化` 統一 README 版式與 Gradle 平台版本管理方式
 
 ##### 更多發行歷史可參閱
 

@@ -6,14 +6,15 @@
 
 # v1.3.0
 
-###### 2026/09/11
+###### 2026/09/13
 
 * `힌트` `pinyin4j.readings()` 와 Node.js provider 는 readings v1 계약이 포함된 최신 AutoJs6 호스트가 필요합니다; 이전 호스트는 계속 `of` 와 `as` 를 사용할 수 있습니다
-* `추가` `pinyin4j.readings(text, options)` 는 Unicode code point 마다 모든 사전 발음을 정렬해 반환하고 미수록 입력은 단일 후보로 보존
-* `추가` `romanization` / `system` 으로 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 및 Gwoyeu Romatzyh 를 공개; Hanyu 는 숫자/기호/무성조, 대소문자 및 `ü` 형식을 지원
+* `기능` `pinyin4j.readings(text, options)` 는 Unicode code point 마다 모든 사전 발음을 정렬해 반환하고 미수록 입력은 단일 후보로 보존
+* `기능` `romanization` / `system` 으로 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 및 Gwoyeu Romatzyh 를 공개; Hanyu 는 숫자/기호/무성조, 대소문자 및 `ü` 형식을 지원
 * `개선` Binder 끝에 `readings` transaction 과 정수 capability `pinyin4j.readings.version = 1` 을 추가; 새 호스트는 협상 후에만 호출하고 이전 플러그인은 code point 별 Hanyu 단일 후보로 안전하게 대체
 * `개선` 소스, 행렬 및 UTF-8 JSON 의 엄격한 한도와 Android 9/12/13/15 Binder 검증을 추가; 같은 능력을 호스트의 명시적 `pinyin4j` capability 를 통해 Node.js 에 제공
 * `개선` 빌드 시 의도하지 않은 네이티브 의존성을 거부하고 JSON 보고서 생성
+* `개선` 다국어 리소스 통일, 명시적인 플러그인 활성화 및 릴리스 산출물 검증
 
 # v1.2.0
 
@@ -53,9 +54,9 @@
 
 ###### 2026/07/15
 
-* `추가` Pinyin4j 플러그인 서비스: 플러그인 ID 는 `pinyin4j` 이며, AutoJs6 이 `org.autojs.plugin.PINYIN4J` 를 통해 자동으로 발견하고 호출하며, `com.belerweb:pinyin4j:2.5.1` 라이브러리를 래핑
-* `추가` 병음 변환 API: `pinyin4j.of(text, options)` 가 중국어를 글자 단위로 한어 병음으로 변환하며, 두 번째 인수로 문자열을 전달하면 바로 구분자로 사용
-* `추가` 성조 복원 API: `pinyin4j.as(text)` 가 숫자 성조 병음 (예: `han4`) 을 기호 성조 병음 (예: `hàn`) 으로 복원하며, AIDL 인터페이스 메서드 `asTone` 에 대응
-* `추가` 유연한 옵션 체계: `case` / `tone` / `v` / `sep` 등의 별칭과 `MARK` / `NUMBER` / `NO` 등의 값 축약을 지원하며, 잘못된 값에는 현지화된 오류 메시지를 발생
-* `추가` 다국어 리소스: 플러그인 정보와 사용 설명이 10 개 언어를 지원
-* `추가` README 와 CHANGELOG 는 JSON 소스 파일과 `.python/generate_markdown.py` 로 다국어 Markdown 을 생성
+* `기능` Pinyin4j 플러그인 서비스: 플러그인 ID 는 `pinyin4j` 이며, AutoJs6 이 `org.autojs.plugin.PINYIN4J` 를 통해 자동으로 발견하고 호출하며, `com.belerweb:pinyin4j:2.5.1` 라이브러리를 래핑
+* `기능` 병음 변환 API: `pinyin4j.of(text, options)` 가 중국어를 글자 단위로 한어 병음으로 변환하며, 두 번째 인수로 문자열을 전달하면 바로 구분자로 사용
+* `기능` 성조 복원 API: `pinyin4j.as(text)` 가 숫자 성조 병음 (예: `han4`) 을 기호 성조 병음 (예: `hàn`) 으로 복원하며, AIDL 인터페이스 메서드 `asTone` 에 대응
+* `기능` 유연한 옵션 체계: `case` / `tone` / `v` / `sep` 등의 별칭과 `MARK` / `NUMBER` / `NO` 등의 값 축약을 지원하며, 잘못된 값에는 현지화된 오류 메시지를 발생
+* `기능` 다국어 리소스: 플러그인 정보와 사용 설명이 10 개 언어를 지원
+* `기능` README 와 CHANGELOG 는 JSON 소스 파일과 `.python/generate_markdown.py` 로 다국어 Markdown 을 생성

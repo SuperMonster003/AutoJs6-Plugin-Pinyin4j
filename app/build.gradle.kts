@@ -114,3 +114,5 @@ tasks {
 
 // Reject accidental native dependencies on every ABI.
 nativeAlignment { expectNoNativeLibraries.set(true) }
+
+apply(from = rootProject.file("gradle/release-archive.gradle"))
