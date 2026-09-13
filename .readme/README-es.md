@@ -283,9 +283,16 @@ ROADMAP.md registra la evidencia por hitos. M3 se completó en v1.3.0: límites 
 
 ******
 
-#### v1.3.0
+#### v1.3.1
 
 _2026/09/13_
+
+- `Corrección` Mantener la fecha de versión del complemento en inglés sin depender del idioma del equipo de compilación
+- `Mejora` Recursos traducidos coherentes, activación explícita del complemento y validación de los paquetes de publicación
+
+#### v1.3.0
+
+_2026/09/11_
 
 - `Aviso` `pinyin4j.readings()` y el provider de Node.js requieren un host AutoJs6 actualizado con el contrato readings v1; los hosts antiguos pueden seguir usando `of` y `as`
 - `Función` `pinyin4j.readings(text, options)` devuelve todas las pronunciaciones ordenadas del diccionario en una fila por punto de código Unicode, conservando entradas sin mapeo como candidato único
@@ -293,7 +300,6 @@ _2026/09/13_
 - `Mejora` Se añadió al final la transacción Binder `readings` y la capacidad entera `pinyin4j.readings.version = 1`; los hosts nuevos solo la llaman tras negociar y recurren con seguridad a un candidato Hanyu por punto para plugins antiguos
 - `Mejora` Se añadieron límites estrictos de fuente, matriz y JSON UTF-8 junto con cobertura Binder en Android 9/12/13/15; la misma capacidad se ofrece a Node.js mediante la capacidad explícita `pinyin4j` del host
 - `Mejora` La verificación de compilación rechaza dependencias nativas accidentales y genera un informe JSON
-- `Mejora` Recursos traducidos coherentes, activación explícita del complemento y validación de los paquetes de publicación
 
 #### v1.2.0
 
@@ -306,17 +312,6 @@ _2026/09/01_
 - `Mejora` Se añadió un núcleo probado con todos los candidatos para Hanyu, Tongyong, Wade-Giles, MPS2, Yale y Gwoyeu Romatzyh, más una propuesta documentada de AIDL JSON aditivo, negociación de capacidad y retorno a la implementación anterior
 - `Mejora` Se añadió un registro de riesgos de pinyin4j 2.5.1 con hashes del binario y las fuentes, hallazgos sobre el upstream y los metadatos de licencia, límites conocidos y puertas para actualizar o crear un fork
 - `Mejora` Se añadieron bases reproducibles de rendimiento JVM y del punto de entrada Android Service/AIDL, un analizador ZIP/de recursos del release APK y una comparación para elegir plugin basada en mediciones
-
-#### v1.1.0
-
-_2026/09/01_
-
-- `Corrección` Se eliminó el separador final producido por separadores que no son espacios y ahora se conservan exactamente los caracteres no chinos, incluidos los espacios iniciales y finales
-- `Corrección` Se normalizaron las vocales de tercer tono con breve heredadas de pinyin4j 2.5.1 a las formas estándar con caron (por ejemplo, `yŭ` a `yǔ`), tanto en minúsculas como en mayúsculas
-- `Mejora` Se añadieron pruebas unitarias JVM para nombres y alias de opciones, abreviaturas de valores, combinaciones de salida, valores predeterminados, errores, conversión de tonos y metadatos de ejecución, además de pruebas Android instrumentation para el descubrimiento real del servicio y recorridos Binder
-- `Mejora` Se añadieron flujos de GitHub Actions que rechazan diferencias en documentos generados, ejecutan pruebas unitarias, compilan el APK debug y las pruebas instrumentation, y suben el APK resultante
-- `Mejora` Se añadió `.python/prepare_release.py` para compilar y verificar un APK universal firmado, validar la versión, calcular CRC32 y SHA-256, y generar de forma atómica `SHA256SUMS.txt` y `RELEASE_NOTES.md` en inglés
-- `Mejora` Unificar el diseño del README y la gestión de versiones de la plataforma Gradle
 
 ##### Para más historial de versiones
 
@@ -344,7 +339,7 @@ Compilar un APK release (un único paquete universal; se firma automáticamente 
 
 Para crear un archivo de publicación verificado, ejecute `py .python/prepare_release.py`. El script comprueba los documentos generados, compila y verifica el APK universal firmado, valida los metadatos de versión, calcula CRC32 y SHA-256, y escribe atómicamente el APK, `SHA256SUMS.txt` y el archivo inglés `RELEASE_NOTES.md` en `app/releases/v<versión>`.
 
-Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 36, versión actual 1.3.0.
+Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 36, versión actual 1.3.1.
 
 ******
 

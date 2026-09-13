@@ -283,9 +283,16 @@ ROADMAP.md 以证据清单记录里程碑. M3 已在 v1.3.0 完成: Unicode 与�
 
 ******
 
-#### v1.3.0
+#### v1.3.1
 
 _2026/09/13_
+
+- `修复` 插件版本日期固定使用英文, 不随构建机器的语言变化
+- `优化` 统一多语言资源, 明确插件激活契约并校验发布产物
+
+#### v1.3.0
+
+_2026/09/11_
 
 - `提示` `pinyin4j.readings()` 与 Node.js provider 需要包含 readings v1 契约的新版 AutoJs6 宿主; 旧版宿主仍可继续使用 `of` 与 `as`
 - `新增` `pinyin4j.readings(text, options)` 按 Unicode 码点逐行返回全部有序词典读音, 无映射输入原样保留为单候选
@@ -293,7 +300,6 @@ _2026/09/13_
 - `优化` 在 Binder 末尾追加 `readings` transaction 与整数 capability `pinyin4j.readings.version = 1`; 新宿主仅在协商后调用, 对旧插件按码点安全回退为 Hanyu 单候选
 - `优化` 增加严格的源文本, 矩阵与 UTF-8 JSON 上限及 Android 9/12/13/15 Binder 覆盖; 同一插件能力通过宿主显式 `pinyin4j` capability 向 Node.js 开放
 - `优化` 构建阶段阻止意外引入原生依赖, 并输出 JSON 校验报告
-- `优化` 统一多语言资源, 明确插件激活契约并校验发布产物
 
 #### v1.2.0
 
@@ -306,17 +312,6 @@ _2026/09/01_
 - `优化` 新增经过测试的全部候选读音核心, 覆盖 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 与 Gwoyeu Romatzyh, 并记录追加式 JSON AIDL, 能力协商和旧实现回退方案
 - `优化` 新增 pinyin4j 2.5.1 风险清单, 记录二进制与源码哈希, 上游和许可证元数据问题, 已知边界及升级或分叉门禁
 - `优化` 新增可复测的 JVM 与 Android Service/AIDL 入口性能基线, release APK ZIP/资源体积分析器, 并用实测数据更新姊妹插件选型对比
-
-#### v1.1.0
-
-_2026/09/01_
-
-- `修复` 移除非空白分隔符导致的输出末尾残留, 并精确保留包括首尾空白在内的非汉字字符
-- `修复` 将 pinyin4j 2.5.1 使用 breve 的旧式第三声元音统一为标准 caron 形式 (如 `yŭ` 转为 `yǔ`), 同时覆盖大小写
-- `优化` 新增 JVM 单元测试, 覆盖选项标准名与别名, 取值简写, 输出组合, 默认值, 异常, 声调转换及运行时元数据; 新增 Android instrumentation 测试验证真实服务发现与 Binder 往返
-- `优化` 新增 GitHub Actions 工作流, 自动拦截生成文档漂移, 运行单元测试, 构建 debug APK, 编译 instrumentation 测试并上传 APK 产物
-- `优化` 新增 `.python/prepare_release.py`, 一键构建并验证签名 universal APK, 校验版本, 计算 CRC32 与 SHA-256, 原子生成 `SHA256SUMS.txt` 和英文 `RELEASE_NOTES.md`
-- `优化` 统一 README 版式与 Gradle 平台版本管理方式
 
 ##### 更多发行历史可参阅
 
@@ -344,7 +339,7 @@ _2026/09/01_
 
 生成已验证的发布归档可运行 `py .python/prepare_release.py`. 脚本会检查生成文档, 构建并验证签名 universal APK, 校验版本元数据, 计算 CRC32 与 SHA-256, 并将 APK, `SHA256SUMS.txt` 及英文 `RELEASE_NOTES.md` 原子写入 `app/releases/v<版本号>`.
 
-构建参数集中于 `version.properties`: 最低 SDK 24 (Android 7.0), 目标 SDK 36, 当前版本 1.3.0.
+构建参数集中于 `version.properties`: 最低 SDK 24 (Android 7.0), 目标 SDK 36, 当前版本 1.3.1.
 
 ******
 

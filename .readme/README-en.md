@@ -283,9 +283,16 @@ ROADMAP.md tracks evidence by milestone. M3 is complete in v1.3.0: Unicode and t
 
 ******
 
-#### v1.3.0
+#### v1.3.1
 
 _2026/09/13_
+
+- `Fix` Keep the plugin version date in English regardless of the build machine locale
+- `Improvement` Consistent localized resources, explicit plugin activation and validated release preparation
+
+#### v1.3.0
+
+_2026/09/11_
 
 - `Hint` `pinyin4j.readings()` and the Node.js provider require an updated AutoJs6 host containing the readings v1 contract; older hosts can continue using `of` and `as`
 - `Feature` `pinyin4j.readings(text, options)` returns every ordered dictionary pronunciation in one row per Unicode code point, with unmapped input preserved as a single candidate
@@ -293,7 +300,6 @@ _2026/09/13_
 - `Improvement` Appended the Binder `readings` transaction and integer capability `pinyin4j.readings.version = 1`; new hosts call it only after negotiation and safely fall back to one Hanyu candidate per code point for old plugins
 - `Improvement` Added strict source, matrix and UTF-8 JSON limits plus Android 9/12/13/15 Binder coverage; the same plugin capability is available to Node.js through the host's explicit `pinyin4j` capability
 - `Improvement` Build verification rejects accidental native dependencies and produces a JSON report
-- `Improvement` Consistent localized resources, explicit plugin activation and validated release preparation
 
 #### v1.2.0
 
@@ -306,17 +312,6 @@ _2026/09/01_
 - `Improvement` Added a tested all-candidate core for Hanyu, Tongyong, Wade-Giles, MPS2, Yale, and Gwoyeu Romatzyh, plus a documented append-only JSON AIDL, capability-negotiation, and old-implementation fallback proposal
 - `Improvement` Added a pinyin4j 2.5.1 risk register with binary and source hashes, upstream and license-metadata findings, known boundaries, and upgrade or fork gates
 - `Improvement` Added reproducible JVM and Android Service/AIDL entry-point performance baselines, a release APK ZIP/resource size analyzer, and a sister-plugin selection comparison grounded in measurements
-
-#### v1.1.0
-
-_2026/09/01_
-
-- `Fix` Removed the trailing separator produced for non-whitespace separators and now preserve non-Chinese characters, including leading and trailing whitespace, exactly
-- `Fix` Normalized pinyin4j 2.5.1's legacy breve third-tone vowels to standard caron forms (for example `yŭ` to `yǔ`), consistently in lowercase and uppercase
-- `Improvement` Added JVM unit tests for option names and aliases, value shortcuts, output combinations, defaults, errors, tone conversion and runtime metadata, plus Android instrumentation coverage for real service discovery and Binder round trips
-- `Improvement` Added GitHub Actions workflows that reject generated-document drift, run unit tests, build the debug APK, compile instrumentation tests and upload the APK artifact
-- `Improvement` Added `.python/prepare_release.py` to build and verify a signed universal APK, validate its version, calculate CRC32 and SHA-256, and atomically generate `SHA256SUMS.txt` and English `RELEASE_NOTES.md`
-- `Improvement` Standardize the README layout and Gradle platform version management
 
 ##### For more release history, refer to
 
@@ -344,7 +339,7 @@ Build a release APK (single universal package; signed automatically once signing
 
 For a verified release archive, run `py .python/prepare_release.py`. It checks generated docs, builds and verifies the signed universal APK, validates version metadata, calculates CRC32 and SHA-256, and atomically writes the APK, `SHA256SUMS.txt` and English `RELEASE_NOTES.md` under `app/releases/v<version>`.
 
-Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 36, current version 1.3.0.
+Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 36, current version 1.3.1.
 
 ******
 

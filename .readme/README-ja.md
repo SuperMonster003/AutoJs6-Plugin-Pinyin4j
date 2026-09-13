@@ -283,9 +283,16 @@ ROADMAP.md はマイルストーンごとの証拠を管理します. M3 は v1.
 
 ******
 
-#### v1.3.0
+#### v1.3.1
 
 _2026/09/13_
+
+- `修正` ビルド環境の言語にかかわらずプラグインのバージョン日付を英語で表示
+- `改善` 多言語リソースの統一, プラグイン有効化の明確化, リリース成果物の検証
+
+#### v1.3.0
+
+_2026/09/11_
 
 - `ヒント` `pinyin4j.readings()` と Node.js provider には readings v1 契約を含む更新済み AutoJs6 ホストが必要です; 旧ホストは引き続き `of` と `as` を利用できます
 - `機能` `pinyin4j.readings(text, options)` は Unicode code point ごとに全辞書読みを順序付きで返し, 未収録入力は単一候補として保持
@@ -293,7 +300,6 @@ _2026/09/13_
 - `改善` Binder 末尾に `readings` transaction と整数 capability `pinyin4j.readings.version = 1` を追加; 新ホストは交渉後のみ呼び出し, 旧プラグインには code point ごとの Hanyu 単一候補へ安全にフォールバック
 - `改善` 入力, 行列, UTF-8 JSON の厳格な上限と Android 9/12/13/15 Binder 検証を追加; 同じ能力をホストの明示的 `pinyin4j` capability から Node.js に公開
 - `改善` 意図しないネイティブ依存関係をビルド時に拒否し, JSON レポートを生成
-- `改善` 多言語リソースの統一, プラグイン有効化の明確化, リリース成果物の検証
 
 #### v1.2.0
 
@@ -306,17 +312,6 @@ _2026/09/01_
 - `改善` Hanyu, Tongyong, Wade-Giles, MPS2, Yale, Gwoyeu Romatzyh の全候補を扱うテスト済みコアと, 追加式 JSON AIDL, 能力交渉, 旧実装フォールバックの契約案を追加しました
 - `改善` pinyin4j 2.5.1 のバイナリ/ソースハッシュ, 上流とライセンスメタデータの調査結果, 既知の境界, 更新または fork のゲートを含むリスク台帳を追加しました
 - `改善` 再現可能な JVM と Android Service/AIDL 入口の性能基準, release APK の ZIP/リソースサイズ分析器, 実測に基づく姉妹プラグイン選択比較を追加しました
-
-#### v1.1.0
-
-_2026/09/01_
-
-- `修正` 空白以外の区切り文字が出力末尾に残る問題を修正し, 先頭と末尾の空白を含む非漢字を正確に保持
-- `修正` pinyin4j 2.5.1 が第三声母音に用いる旧来の breve を標準の caron 形式へ統一 (例: `yŭ` から `yǔ`), 大文字と小文字の両方に対応
-- `改善` オプションの正式名と別名, 値の短縮形, 出力組み合わせ, 既定値, 例外, 声調変換, ランタイムメタデータを対象とする JVM 単体テストと, 実サービス検出および Binder 往復を検証する Android instrumentation テストを追加
-- `改善` 生成文書のずれを拒否し, 単体テスト, debug APK ビルド, instrumentation テストのコンパイル, APK 成果物のアップロードを行う GitHub Actions ワークフローを追加
-- `改善` 署名済み universal APK のビルドと検証, バージョン確認, CRC32 と SHA-256 の計算, `SHA256SUMS.txt` と英語版 `RELEASE_NOTES.md` のアトミック生成を一括実行する `.python/prepare_release.py` を追加
-- `改善` README のレイアウトと Gradle プラットフォームのバージョン管理方式を統一
 
 ##### その他のリリース履歴は以下を参照
 
@@ -344,7 +339,7 @@ release APK をビルド (単一の汎用パッケージ; バージョン管理�
 
 検証済みリリースアーカイブを生成するには `py .python/prepare_release.py` を実行します. 生成文書の検査, 署名済み universal APK のビルドと検証, バージョンメタデータの確認, CRC32 と SHA-256 の計算を行い, APK, `SHA256SUMS.txt`, 英語版 `RELEASE_NOTES.md` を `app/releases/v<バージョン>` にアトミックに書き込みます.
 
-ビルドパラメータは `version.properties` に集約されています: 最小 SDK 24 (Android 7.0), ターゲット SDK 36, 現在のバージョン 1.3.0.
+ビルドパラメータは `version.properties` に集約されています: 最小 SDK 24 (Android 7.0), ターゲット SDK 36, 現在のバージョン 1.3.1.
 
 ******
 
