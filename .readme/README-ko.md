@@ -283,6 +283,12 @@ ROADMAP.md 는 마일스톤별 증거를 기록합니다. M3 는 v1.3.0 에서 �
 
 ******
 
+#### v1.3.2
+
+_2026/09/15_
+
+- `개선` compileSdk 와 targetSdk 를 37 (Android 17) 로 올리며, 플러그인 동작은 새 대상 버전의 영향을 받지 않음
+
 #### v1.3.1
 
 _2026/09/13_
@@ -300,18 +306,6 @@ _2026/09/11_
 - `개선` Binder 끝에 `readings` transaction 과 정수 capability `pinyin4j.readings.version = 1` 을 추가; 새 호스트는 협상 후에만 호출하고 이전 플러그인은 code point 별 Hanyu 단일 후보로 안전하게 대체
 - `개선` 소스, 행렬 및 UTF-8 JSON 의 엄격한 한도와 Android 9/12/13/15 Binder 검증을 추가; 같은 능력을 호스트의 명시적 `pinyin4j` capability 를 통해 Node.js 에 제공
 - `개선` 빌드 시 의도하지 않은 네이티브 의존성을 거부하고 JSON 보고서 생성
-
-#### v1.2.0
-
-_2026/09/01_
-
-- `힌트` 다중 발음과 6개 로마자 표기 체계는 현재 테스트된 플러그인 코어와 계약 제안으로만 존재합니다. AutoJs6 AIDL 과 호스트 경로가 업그레이드되기 전까지 `pinyin4j.readings()` 는 공개 스크립트 API 가 아닙니다
-- `수정` `of` 가 사전의 빈 문자나 보충 평면 문자를 누락 또는 분할하지 않도록 수정했습니다. Unicode code point 단위로 순회하고, `〇` 를 포함한 실제 매핑을 모두 변환하며, 미수록 입력을 온전히 보존하고 구분자를 code point 에 맞춥니다
-- `수정` `pinyin4j.as(text)` 는 완전하고 유효한 숫자 성조 음절만 변환하며, 잘못됐거나 영숫자 안에 붙은 조각을 보존합니다. 대소문자와 `v` / `u:` / `ü` 를 처리하고 `jue4` -> `juè` 같은 일반 `ue` 표기도 올바르게 변환합니다
-- `개선` BMP 전체 순회 테스트로 사전의 실제 범위를 고정했습니다. 매핑은 20,378개이며 20,377개가 U+4E00-U+9FA5, 나머지는 `〇` 입니다. 이전 범위 안의 525개 빈 항목과 말뭉치 SHA-256 도 회귀 검사합니다
-- `개선` Hanyu, Tongyong, Wade-Giles, MPS2, Yale, Gwoyeu Romatzyh 의 모든 후보를 처리하는 테스트된 코어와 추가형 JSON AIDL, 기능 협상, 구 구현 폴백 계약 제안을 추가했습니다
-- `개선` pinyin4j 2.5.1 바이너리/소스 해시, 업스트림과 라이선스 메타데이터 조사, 알려진 경계, 업그레이드 또는 fork 게이트를 담은 위험 목록을 추가했습니다
-- `개선` 재현 가능한 JVM 및 Android Service/AIDL 진입점 성능 기준, release APK ZIP/리소스 크기 분석기, 실측 기반 자매 플러그인 선택 비교를 추가했습니다
 
 ##### 더 많은 릴리스 기록은 다음을 참고
 
@@ -339,7 +333,7 @@ release APK 빌드 (단일 범용 패키지; 버전 관리에서 제외된 `sign
 
 검증된 릴리스 보관 파일을 만들려면 `py .python/prepare_release.py` 를 실행합니다. 생성 문서 검사, 서명된 universal APK 빌드와 검증, 버전 메타데이터 확인, CRC32 와 SHA-256 계산을 수행하고 APK, `SHA256SUMS.txt`, 영문 `RELEASE_NOTES.md` 를 `app/releases/v<버전>` 에 원자적으로 기록합니다.
 
-빌드 매개변수는 `version.properties` 에 집중되어 있습니다: 최소 SDK 24 (Android 7.0), 대상 SDK 36, 현재 버전 1.3.1.
+빌드 매개변수는 `version.properties` 에 집중되어 있습니다: 최소 SDK 24 (Android 7.0), 대상 SDK 37, 현재 버전 1.3.2.
 
 ******
 

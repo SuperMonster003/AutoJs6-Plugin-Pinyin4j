@@ -283,6 +283,12 @@ ROADMAP.md 以證據清單記錄里程碑. M3 已在 v1.3.0 完成: Unicode 與�
 
 ******
 
+#### v1.3.2
+
+_2026/09/15_
+
+- `優化` 將 compileSdk 與 targetSdk 提升到 37 (Android 17), 外掛程式行為不受新目標版本影響
+
 #### v1.3.1
 
 _2026/09/13_
@@ -300,18 +306,6 @@ _2026/09/11_
 - `優化` 在 Binder 末尾追加 `readings` transaction 與整數 capability `pinyin4j.readings.version = 1`; 新主機僅在協商後呼叫, 對舊外掛按碼點安全回退為 Hanyu 單候選
 - `優化` 增加嚴格的來源文字, 矩陣與 UTF-8 JSON 上限及 Android 9/12/13/15 Binder 覆蓋; 相同外掛能力透過主機明確 `pinyin4j` capability 向 Node.js 開放
 - `優化` 建置階段阻止意外引入原生相依套件, 並輸出 JSON 校驗報告
-
-#### v1.2.0
-
-_2026/09/01_
-
-- `提示` 多讀音與六種羅馬化體系目前僅作為經過測試的外掛端核心和契約方案; 在 AutoJs6 AIDL 與宿主路由升級前, `pinyin4j.readings()` 不是公開腳本 API
-- `修復` `of` 不再遺失字典空洞字元或拆分補充平面字元: 現按 Unicode code point 走訪, 轉換包括 `〇` 在內的全部實際詞條, 完整保留無詞條輸入並讓分隔符號與 code point 對齊
-- `修復` `pinyin4j.as(text)` 現只轉換完整有效的數字聲調音節, 保留無效或嵌入英數字的片段, 支援大小寫及 `v` / `u:` / `ü`, 並正確處理 `jue4` -> `juè` 一類普通 `ue` 拼寫
-- `優化` 以窮舉 BMP 測試固定字典真實涵蓋範圍: 共 20,378 個映射, 其中 20,377 個位於 U+4E00-U+9FA5, 另一個為 `〇`; 舊範圍內 525 個空洞和語料 SHA-256 指紋也納入回歸
-- `優化` 新增經過測試的全部候選讀音核心, 涵蓋 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 與 Gwoyeu Romatzyh, 並記錄追加式 JSON AIDL, 能力協商和舊實作回退方案
-- `優化` 新增 pinyin4j 2.5.1 風險清單, 記錄二進位與原始碼雜湊, 上游和授權中繼資料問題, 已知邊界及升級或分支門禁
-- `優化` 新增可重測的 JVM 與 Android Service/AIDL 入口效能基線, release APK ZIP/資源體積分析器, 並用實測資料更新姊妹外掛選型對比
 
 ##### 更多發行歷史可參閱
 
@@ -339,7 +333,7 @@ _2026/09/01_
 
 產生已驗證的發佈歸檔可執行 `py .python/prepare_release.py`. 指令碼會檢查產生文件, 建置並驗證已簽署 universal APK, 驗證版本中繼資料, 計算 CRC32 與 SHA-256, 並將 APK, `SHA256SUMS.txt` 及英文 `RELEASE_NOTES.md` 以原子方式寫入 `app/releases/v<版本號>`.
 
-建置參數集中於 `version.properties`: 最低 SDK 24 (Android 7.0), 目標 SDK 36, 目前版本 1.3.1.
+建置參數集中於 `version.properties`: 最低 SDK 24 (Android 7.0), 目標 SDK 37, 目前版本 1.3.2.
 
 ******
 
