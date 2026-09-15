@@ -283,6 +283,12 @@ ROADMAP.md suit les preuves par jalon. M3 est terminé dans v1.3.0: limites Unic
 
 ******
 
+#### v1.3.2
+
+_2026/09/15_
+
+- `Amélioration` compileSdk et targetSdk passent à 37 (Android 17) ; le comportement du plugin ne dépend pas de la nouvelle cible
+
 #### v1.3.1
 
 _2026/09/13_
@@ -300,18 +306,6 @@ _2026/09/11_
 - `Amélioration` Ajout en fin de contrat de la transaction Binder `readings` et de la capacité entière `pinyin4j.readings.version = 1`; les nouveaux hôtes ne l'appellent qu'après négociation et se replient sans risque sur un candidat Hanyu par point pour les anciens plugins
 - `Amélioration` Ajout de limites strictes pour la source, la matrice et le JSON UTF-8, avec couverture Binder Android 9/12/13/15; la même capacité est ouverte à Node.js via la capacité explicite `pinyin4j` de l'hôte
 - `Amélioration` La vérification de compilation rejette les dépendances natives involontaires et produit un rapport JSON
-
-#### v1.2.0
-
-_2026/09/01_
-
-- `Note` Les prononciations multiples et les six systèmes de romanisation existent actuellement seulement comme noyau testé côté plugin et proposition de contrat; `pinyin4j.readings()` ne sera pas une API de script publique avant la mise à niveau de l'AIDL et des routes hôte AutoJs6
-- `Correctif` `of` ne supprime plus les trous du dictionnaire et ne scinde plus les caractères des plans supplémentaires: il parcourt les points de code Unicode, convertit chaque entrée réelle dont `〇`, conserve toute entrée non mappée intacte et aligne les séparateurs sur les points de code
-- `Correctif` `pinyin4j.as(text)` ne convertit désormais que les syllabes numériques complètes et valides, conserve les fragments invalides ou intégrés à des caractères alphanumériques, gère la casse et `v` / `u:` / `ü`, et traite correctement les graphies `ue` simples comme `jue4` -> `juè`
-- `Amélioration` Couverture réelle du dictionnaire figée par un test BMP exhaustif: 20 378 mappages, dont 20 377 dans U+4E00-U+9FA5 et le dernier pour `〇`; les 525 trous de l'ancienne plage et une empreinte SHA-256 du corpus sont aussi contrôlés
-- `Amélioration` Ajout d'un noyau testé de toutes les prononciations candidates pour Hanyu, Tongyong, Wade-Giles, MPS2, Yale et Gwoyeu Romatzyh, ainsi que d'une proposition documentée pour un AIDL JSON additif, la négociation de capacité et le repli vers l'ancienne implémentation
-- `Amélioration` Ajout d'un registre des risques de pinyin4j 2.5.1 avec empreintes binaires et sources, constats sur l'amont et les métadonnées de licence, limites connues et barrières de mise à niveau ou de fork
-- `Amélioration` Ajout de bases reproductibles de performances JVM et du point d'entrée Android Service/AIDL, d'un analyseur ZIP/ressources du release APK et d'une comparaison de sélection des plugins fondée sur des mesures
 
 ##### Pour plus d'historique des versions
 
@@ -339,7 +333,7 @@ Compiler un APK release (paquet universel unique; signé automatiquement une foi
 
 Pour créer une archive de publication vérifiée, exécutez `py .python/prepare_release.py`. Le script contrôle les documents générés, construit et vérifie l'APK universal signé, valide les métadonnées de version, calcule CRC32 et SHA-256, puis écrit atomiquement l'APK, `SHA256SUMS.txt` et le fichier anglais `RELEASE_NOTES.md` dans `app/releases/v<version>`.
 
-Les paramètres de compilation sont centralisés dans `version.properties`: SDK minimal 24 (Android 7.0), SDK cible 36, version actuelle 1.3.1.
+Les paramètres de compilation sont centralisés dans `version.properties`: SDK minimal 24 (Android 7.0), SDK cible 37, version actuelle 1.3.2.
 
 ******
 
