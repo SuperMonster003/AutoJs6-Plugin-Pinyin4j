@@ -285,8 +285,9 @@ ROADMAP.md registra la evidencia por hitos. M3 se completó en v1.3.0: límites 
 
 #### v1.3.2
 
-_2026/09/15_
+_2026/09/19_
 
+- `Corrección` Advertencias de lectura de SDK XML v4 con AGP 9.1 y comprobaciones de alineación nativa de APK activadas por error al ensamblar pruebas unitarias JVM, mediante los plugins de compilación compartidos 1.8.3
 - `Mejora` compileSdk y targetSdk suben a 37 (Android 17); el comportamiento del plugin no depende del nuevo objetivo
 
 #### v1.3.1
