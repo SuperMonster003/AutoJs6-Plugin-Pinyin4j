@@ -287,25 +287,25 @@ ROADMAP.md 以证据清单记录里程碑. M3 已在 v1.3.0 完成: Unicode 与�
 
 _2026/09/19_
 
-- `修复` AGP 9.1 构建时的 SDK XML v4 解析警告及 JVM 单元测试组装任务误触发 APK 原生库对齐检查的问题 (共享构建插件 1.8.3)
-- `优化` 将 compileSdk 与 targetSdk 提升到 37 (Android 17), 插件行为不受新目标版本影响
+- `修复` AGP 9.1 构建时的 SDK XML v4 解析警告, 以及 JVM 单元测试误触发 APK 原生库对齐检查的问题 (共享构建插件 1.8.3)
+- `优化` compileSdk/targetSdk 升级至 37 (Android 17)
 
 #### v1.3.1
 
 _2026/09/13_
 
-- `修复` 插件版本日期固定使用英文, 不随构建机器的语言变化
+- `修复` 插件版本日期受构建环境语言影响, 未统一使用英文格式的问题
 - `优化` 统一多语言资源, 明确插件激活契约并校验发布产物
 
 #### v1.3.0
 
 _2026/09/11_
 
-- `提示` `pinyin4j.readings()` 与 Node.js provider 需要包含 readings v1 契约的新版 AutoJs6 宿主; 旧版宿主仍可继续使用 `of` 与 `as`
+- `提示` `pinyin4j.readings()` 与 Node.js provider 需要包含 readings v1 契约的新版 AutoJs6 宿主; 旧版宿主仍可继续使用 of 与 as
 - `新增` `pinyin4j.readings(text, options)` 按 Unicode 码点逐行返回全部有序词典读音, 无映射输入原样保留为单候选
-- `新增` `romanization` / `system` 开放 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 与 Gwoyeu Romatzyh; Hanyu 支持数字/符号/无声调, 大小写与 `ü` 形式
-- `优化` 在 Binder 末尾追加 `readings` transaction 与整数 capability `pinyin4j.readings.version = 1`; 新宿主仅在协商后调用, 对旧插件按码点安全回退为 Hanyu 单候选
-- `优化` 增加严格的源文本, 矩阵与 UTF-8 JSON 上限及 Android 9/12/13/15 Binder 覆盖; 同一插件能力通过宿主显式 `pinyin4j` capability 向 Node.js 开放
+- `新增` romanization / system 开放 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 与 Gwoyeu Romatzyh; Hanyu 支持数字/符号/无声调, 大小写与 `ü` 形式
+- `优化` readings 接口支持能力协商, 旧版插件回退为逐字 Hanyu 单候选转换
+- `优化` 补充输入及结果大小校验和 Android 设备测试, Node.js 可通过 pinyin4j 能力调用
 - `优化` 构建阶段阻止意外引入原生依赖, 并输出 JSON 校验报告
 
 ##### 更多发行历史可参阅

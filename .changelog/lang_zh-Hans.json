@@ -8,10 +8,10 @@
     "v1.3.2": {
       "released_date": "2026/09/19",
       "improvement": [
-        "将 compileSdk 与 targetSdk 提升到 37 (Android 17), 插件行为不受新目标版本影响"
+        "compileSdk/targetSdk 升级至 37 (Android 17)"
       ],
       "fix": [
-        "AGP 9.1 构建时的 SDK XML v4 解析警告及 JVM 单元测试组装任务误触发 APK 原生库对齐检查的问题 (共享构建插件 1.8.3)"
+        "AGP 9.1 构建时的 SDK XML v4 解析警告, 以及 JVM 单元测试误触发 APK 原生库对齐检查的问题 (共享构建插件 1.8.3)"
       ]
     },
     "v1.3.1": {
@@ -20,50 +20,50 @@
         "统一多语言资源, 明确插件激活契约并校验发布产物"
       ],
       "fix": [
-        "插件版本日期固定使用英文, 不随构建机器的语言变化"
+        "插件版本日期受构建环境语言影响, 未统一使用英文格式的问题"
       ]
     },
     "v1.3.0": {
       "released_date": "2026/09/11",
       "hint": [
-        "`pinyin4j.readings()` 与 Node.js provider 需要包含 readings v1 契约的新版 AutoJs6 宿主; 旧版宿主仍可继续使用 `of` 与 `as`"
+        "`pinyin4j.readings()` 与 Node.js provider 需要包含 readings v1 契约的新版 AutoJs6 宿主; 旧版宿主仍可继续使用 of 与 as"
       ],
       "feature": [
         "`pinyin4j.readings(text, options)` 按 Unicode 码点逐行返回全部有序词典读音, 无映射输入原样保留为单候选",
-        "`romanization` / `system` 开放 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 与 Gwoyeu Romatzyh; Hanyu 支持数字/符号/无声调, 大小写与 `ü` 形式"
+        "romanization / system 开放 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 与 Gwoyeu Romatzyh; Hanyu 支持数字/符号/无声调, 大小写与 `ü` 形式"
       ],
       "improvement": [
-        "在 Binder 末尾追加 `readings` transaction 与整数 capability `pinyin4j.readings.version = 1`; 新宿主仅在协商后调用, 对旧插件按码点安全回退为 Hanyu 单候选",
-        "增加严格的源文本, 矩阵与 UTF-8 JSON 上限及 Android 9/12/13/15 Binder 覆盖; 同一插件能力通过宿主显式 `pinyin4j` capability 向 Node.js 开放",
+        "readings 接口支持能力协商, 旧版插件回退为逐字 Hanyu 单候选转换",
+        "补充输入及结果大小校验和 Android 设备测试, Node.js 可通过 pinyin4j 能力调用",
         "构建阶段阻止意外引入原生依赖, 并输出 JSON 校验报告"
       ]
     },
     "v1.2.0": {
       "released_date": "2026/09/01",
       "hint": [
-        "多读音与六种罗马化体系目前仅作为经过测试的插件侧核心和契约方案; 在 AutoJs6 AIDL 与宿主路由升级前, `pinyin4j.readings()` 不是公开脚本 API"
+        "多读音及六种罗马化方案仅完成插件端实现, 需等待宿主升级后开放 readings 脚本接口"
       ],
       "fix": [
-        "`of` 不再丢失词典空洞字符或拆分补充平面字符: 现按 Unicode code point 遍历, 转换包括 `〇` 在内的全部实际词条, 完整保留无词条输入并让分隔符与 code point 对齐",
-        "`pinyin4j.as(text)` 现只转换完整有效的数字声调音节, 保留无效或嵌入字母数字的片段, 支持大小写及 `v` / `u:` / `ü`, 并正确处理 `jue4` -> `juè` 一类普通 `ue` 拼写"
+        "of 丢失词典未覆盖字符或拆分补充平面字符的问题, 改为按 Unicode 码点转换并保留原文",
+        "as 错误转换无效或嵌入其他文本的声调片段的问题, 补充大小写及 v/u:/ü 支持, 正确处理 jue4 -> juè"
       ],
       "improvement": [
-        "以穷举 BMP 测试固定词典真实覆盖: 共 20,378 个映射, 其中 20,377 个位于 U+4E00-U+9FA5, 另一个为 `〇`; 旧范围内 525 个空洞和语料 SHA-256 指纹也纳入回归",
-        "新增经过测试的全部候选读音核心, 覆盖 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 与 Gwoyeu Romatzyh, 并记录追加式 JSON AIDL, 能力协商和旧实现回退方案",
-        "新增 pinyin4j 2.5.1 风险清单, 记录二进制与源码哈希, 上游和许可证元数据问题, 已知边界及升级或分叉门禁",
-        "新增可复测的 JVM 与 Android Service/AIDL 入口性能基线, release APK ZIP/资源体积分析器, 并用实测数据更新姊妹插件选型对比"
+        "补充词典覆盖检查, 包含 20378 个映射及未收录字符, 防止升级后遗漏",
+        "补充多候选及六种罗马化方案的验证, 完善宿主能力协商和旧版回退方案",
+        "记录 pinyin4j 2.5.1 的来源, 许可证及已知限制, 明确升级检查项",
+        "补充 JVM/Binder 性能及安装包体积分析, 更新插件选型对比"
       ]
     },
     "v1.1.0": {
       "released_date": "2026/09/01",
       "fix": [
-        "移除非空白分隔符导致的输出末尾残留, 并精确保留包括首尾空白在内的非汉字字符",
-        "将 pinyin4j 2.5.1 使用 breve 的旧式第三声元音统一为标准 caron 形式 (如 `yŭ` 转为 `yǔ`), 同时覆盖大小写"
+        "非空白分隔符残留在结果末尾及非汉字空白字符丢失的问题",
+        "部分第三声元音使用短音符的问题, 统一为标准声调符号 (如 yŭ -> yǔ)"
       ],
       "improvement": [
-        "新增 JVM 单元测试, 覆盖选项标准名与别名, 取值简写, 输出组合, 默认值, 异常, 声调转换及运行时元数据; 新增 Android instrumentation 测试验证真实服务发现与 Binder 往返",
-        "新增 GitHub Actions 工作流, 自动拦截生成文档漂移, 运行单元测试, 构建 debug APK, 编译 instrumentation 测试并上传 APK 产物",
-        "新增 `.python/prepare_release.py`, 一键构建并验证签名 universal APK, 校验版本, 计算 CRC32 与 SHA-256, 原子生成 `SHA256SUMS.txt` 和英文 `RELEASE_NOTES.md`",
+        "补充拼音选项, 输出, 声调及错误处理测试, 并验证真实插件发现及 Binder 调用",
+        "GitHub Actions 工作流, 自动拦截生成文档漂移, 运行单元测试, 构建 debug APK, 编译 instrumentation 测试并上传 APK 产物",
+        "发布工具支持签名安装包构建, 版本及摘要校验和发行说明生成",
         "统一 README 版式与 Gradle 平台版本管理方式"
       ]
     },
@@ -73,22 +73,22 @@
         "本版本仅改进文档与配套工程, 拼音转换行为与全部脚本 API 保持不变"
       ],
       "fix": [
-        "修正旧版文档中错误的 `pinyin4j.asTone(text)` 写法: 宿主实际暴露的方法为 `pinyin4j.as(text)` (底层 AIDL 接口方法名仍为 `asTone`)"
+        "文档误写 pinyin4j.asTone 的问题, 脚本接口更正为 pinyin4j.as (底层接口仍为 asTone)"
       ],
       "improvement": [
-        "重构 10 种语言的 README: 新增使用方法, 快速上手, 选项速查表, 脚本 API, 快速自检, 常见问题, 权限与安全, 姊妹插件对比及插件接口等章节",
+        "完善多语言 README, 补充入门, 选项, 接口, 常见问题和插件对比",
         "文档生成脚本升级为同族插件统一实现: 支持 `--check` 漂移检测, 跨语言键位与形状对齐校验, 全角符号拦截以及版本对齐校验",
-        "插件中心使用说明 (`plugin_instruction.md`) 纳入同一套多语言 JSON 生成链路, 消除双源维护",
-        "新增 ROADMAP.md 开发路线图, 并与姊妹插件 Pinyin 建立双向互链与选型对比"
+        "插件中心使用说明 (plugin_instruction.md) 纳入同一套多语言 JSON 生成链路, 消除双源维护",
+        "补充开发路线图及 Pinyin 插件对比"
       ]
     },
     "v1.0.0": {
       "released_date": "2026/07/15",
       "feature": [
-        "Pinyin4j 插件服务: 插件 ID 为 `pinyin4j`, 由 AutoJs6 通过 `org.autojs.plugin.PINYIN4J` 自动发现并调用, 封装 `com.belerweb:pinyin4j:2.5.1` 库",
+        "Pinyin4j 插件服务: 插件 ID 为 pinyin4j, 由 AutoJs6 通过 org.autojs.plugin.PINYIN4J 自动发现并调用, 封装 `com.belerweb:pinyin4j:2.5.1` 库",
         "拼音转换 API: `pinyin4j.of(text, options)` 将中文逐字转换为汉语拼音, 第二参数传入字符串时直接作为分隔符",
-        "声调还原 API: `pinyin4j.as(text)` 将数字声调拼音 (如 `han4`) 还原为符号声调拼音 (如 `hàn`), 对应 AIDL 接口方法 `asTone`",
-        "灵活的选项体系: 支持 `case` / `tone` / `v` / `sep` 等别名与 `MARK` / `NUMBER` / `NO` 等取值简写, 非法取值抛出本地化错误提示",
+        "声调还原 API: `pinyin4j.as(text)` 将数字声调拼音 (如 han4) 还原为符号声调拼音 (如 `hàn`), 对应 AIDL 接口方法 asTone",
+        "灵活的选项体系: 支持 case / tone / v / sep 等别名与 MARK / NUMBER / NO 等取值简写, 非法取值抛出本地化错误提示",
         "多语言资源: 插件信息与使用说明覆盖 10 种语言",
         "README 与 CHANGELOG 由 JSON 源文件与 `.python/generate_markdown.py` 生成多语言 Markdown"
       ]
