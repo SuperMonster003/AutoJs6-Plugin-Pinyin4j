@@ -283,6 +283,12 @@ ROADMAP.md 以證據清單記錄里程碑. M3 已在 v1.3.0 完成: Unicode 與�
 
 ******
 
+#### v1.4.0
+
+_2026/11/03_
+
+- `新增` 腳本可再次直接使用 net.sourceforge.pinyin4j 套件中的 Java 類 (如 net.sourceforge.pinyin4j.PinyinHelper), 寫法與 AutoJs6 6.8.0 之前相同 (需要 AutoJs6 6.8.1 或以上)
+
 #### v1.3.2
 
 _2026/10/05_
@@ -297,17 +303,6 @@ _2026/09/13_
 
 - `修復` 外掛版本日期固定使用英文, 不隨建置機器的語言變化
 - `優化` 統一多語言資源, 明確插件啟用契約並驗證發佈產物
-
-#### v1.3.0
-
-_2026/09/11_
-
-- `提示` `pinyin4j.readings()` 與 Node.js provider 需要包含 readings v1 契約的新版 AutoJs6 宿主; 舊版宿主仍可繼續使用 `of` 與 `as`
-- `新增` `pinyin4j.readings(text, options)` 按 Unicode 碼點逐行返回全部有序詞典讀音, 無映射輸入原樣保留為單候選
-- `新增` `romanization` / `system` 開放 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 與 Gwoyeu Romatzyh; Hanyu 支援數字/符號/無聲調, 大小寫與 `ü` 形式
-- `優化` 在 Binder 末尾追加 `readings` transaction 與整數 capability `pinyin4j.readings.version = 1`; 新宿主僅在協商後調用, 對舊插件按碼點安全回退為 Hanyu 單候選
-- `優化` 增加嚴格的源文本, 矩陣與 UTF-8 JSON 上限及 Android 9/12/13/15 Binder 覆蓋; 同一插件能力透過宿主明確 `pinyin4j` capability 向 Node.js 開放
-- `優化` 建置階段阻止意外引入原生相依套件, 並輸出 JSON 校驗報告
 
 ##### 更多發行歷史可參閱
 
@@ -335,7 +330,7 @@ _2026/09/11_
 
 生成已驗證的發布歸檔可運行 `py .python/prepare_release.py`. 腳本會檢查生成文檔, 構建並驗證簽名 universal APK, 校驗版本元數據, 計算 CRC32 與 SHA-256, 並將 APK, `SHA256SUMS.txt` 及英文 `RELEASE_NOTES.md` 原子寫入 `app/releases/v<版本號>`.
 
-構建參數集中於 `version.properties`: 最低 SDK 24 (Android 7.0), 目標 SDK 37, 目前版本 1.3.2.
+構建參數集中於 `version.properties`: 最低 SDK 24 (Android 7.0), 目標 SDK 37, 目前版本 1.4.0.
 
 ******
 

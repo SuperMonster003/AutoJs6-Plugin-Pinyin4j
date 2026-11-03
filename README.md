@@ -283,6 +283,12 @@ ROADMAP.md 以证据清单记录里程碑. M3 已在 v1.3.0 完成: Unicode 与�
 
 ******
 
+#### v1.4.0
+
+_2026/11/03_
+
+- `新增` 脚本可再次直接使用 net.sourceforge.pinyin4j 包中的 Java 类 (如 net.sourceforge.pinyin4j.PinyinHelper), 写法与 AutoJs6 6.8.0 之前相同 (需要 AutoJs6 6.8.1 及以上)
+
 #### v1.3.2
 
 _2026/10/05_
@@ -297,17 +303,6 @@ _2026/09/13_
 
 - `修复` 插件版本日期受构建环境语言影响, 未统一使用英文格式的问题
 - `优化` 统一多语言资源, 明确插件激活契约并校验发布产物
-
-#### v1.3.0
-
-_2026/09/11_
-
-- `提示` `pinyin4j.readings()` 与 Node.js provider 需要包含 readings v1 契约的新版 AutoJs6 宿主; 旧版宿主仍可继续使用 of 与 as
-- `新增` `pinyin4j.readings(text, options)` 按 Unicode 码点逐行返回全部有序词典读音, 无映射输入原样保留为单候选
-- `新增` romanization / system 开放 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 与 Gwoyeu Romatzyh; Hanyu 支持数字/符号/无声调, 大小写与 `ü` 形式
-- `优化` readings 接口支持能力协商, 旧版插件回退为逐字 Hanyu 单候选转换
-- `优化` 补充输入及结果大小校验和 Android 设备测试, Node.js 可通过 pinyin4j 能力调用
-- `优化` 构建阶段阻止意外引入原生依赖, 并输出 JSON 校验报告
 
 ##### 更多发行历史可参阅
 
@@ -335,7 +330,7 @@ _2026/09/11_
 
 生成已验证的发布归档可运行 `py .python/prepare_release.py`. 脚本会检查生成文档, 构建并验证签名 universal APK, 校验版本元数据, 计算 CRC32 与 SHA-256, 并将 APK, `SHA256SUMS.txt` 及英文 `RELEASE_NOTES.md` 原子写入 `app/releases/v<版本号>`.
 
-构建参数集中于 `version.properties`: 最低 SDK 24 (Android 7.0), 目标 SDK 37, 当前版本 1.3.2.
+构建参数集中于 `version.properties`: 最低 SDK 24 (Android 7.0), 目标 SDK 37, 当前版本 1.4.0.
 
 ******
 

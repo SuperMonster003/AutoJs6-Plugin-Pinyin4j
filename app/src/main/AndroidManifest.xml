@@ -21,6 +21,11 @@
             android:name="org.autojs.plugin.info.AUTHOR"
             android:value="@string/plugin_author" />
 
+        <!-- Java packages AutoJs6 loads from this APK for scripts that name their classes (kept by proguard-rules.pro). -->
+        <meta-data
+            android:name="org.autojs.plugin.javaPackages.EXPORTS"
+            android:value="net.sourceforge.pinyin4j" />
+
         <activity
             android:name=".WakeActivity"
             android:excludeFromRecents="true"

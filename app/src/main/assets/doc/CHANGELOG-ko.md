@@ -4,6 +4,12 @@
 
 ******
 
+# v1.4.0
+
+###### 2026/11/03
+
+* `기능` 스크립트에서 net.sourceforge.pinyin4j 패키지의 Java 클래스 (예: net.sourceforge.pinyin4j.PinyinHelper) 를 AutoJs6 6.8.0 이전과 같은 방식으로 다시 직접 사용 가능 (AutoJs6 6.8.1 이상 필요)
+
 # v1.3.2
 
 ###### 2026/10/05

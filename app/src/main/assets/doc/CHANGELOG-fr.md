@@ -4,6 +4,12 @@
 
 ******
 
+# v1.4.0
+
+###### 2026/11/03
+
+* `Fonctionnalité` Les scripts peuvent de nouveau utiliser directement les classes Java du paquet net.sourceforge.pinyin4j (comme net.sourceforge.pinyin4j.PinyinHelper), avec la même écriture qu'avant AutoJs6 6.8.0 (nécessite AutoJs6 6.8.1 ou ultérieur)
+
 # v1.3.2
 
 ###### 2026/10/05

@@ -4,6 +4,12 @@
 
 ******
 
+# v1.4.0
+
+###### 2026/11/03
+
+* `新增` 指令碼可再次直接使用 net.sourceforge.pinyin4j 套件中的 Java 類別 (如 net.sourceforge.pinyin4j.PinyinHelper), 寫法與 AutoJs6 6.8.0 之前相同 (需要 AutoJs6 6.8.1 或以上版本)
+
 # v1.3.2
 
 ###### 2026/10/05

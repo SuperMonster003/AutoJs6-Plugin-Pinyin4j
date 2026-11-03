@@ -283,6 +283,12 @@ ROADMAP.md registra la evidencia por hitos. M3 se completó en v1.3.0: límites 
 
 ******
 
+#### v1.4.0
+
+_2026/11/03_
+
+- `Función` Los scripts pueden volver a usar directamente las clases Java del paquete net.sourceforge.pinyin4j (como net.sourceforge.pinyin4j.PinyinHelper), con la misma escritura que antes de AutoJs6 6.8.0 (requiere AutoJs6 6.8.1 o posterior)
+
 #### v1.3.2
 
 _2026/10/05_
@@ -297,17 +303,6 @@ _2026/09/13_
 
 - `Corrección` Mantener la fecha de versión del complemento en inglés sin depender del idioma del equipo de compilación
 - `Mejora` Recursos traducidos coherentes, activación explícita del complemento y validación de los paquetes de publicación
-
-#### v1.3.0
-
-_2026/09/11_
-
-- `Aviso` `pinyin4j.readings()` y el provider de Node.js requieren un host AutoJs6 actualizado con el contrato readings v1; los hosts antiguos pueden seguir usando `of` y `as`
-- `Función` `pinyin4j.readings(text, options)` devuelve todas las pronunciaciones ordenadas del diccionario en una fila por punto de código Unicode, conservando entradas sin mapeo como candidato único
-- `Función` `romanization` / `system` expone Hanyu, Tongyong, Wade-Giles, MPS2, Yale y Gwoyeu Romatzyh; Hanyu admite tonos numéricos, marcados u omitidos, mayúsculas/minúsculas y formas de `ü`
-- `Mejora` Se añadió al final la transacción Binder `readings` y la capacidad entera `pinyin4j.readings.version = 1`; los hosts nuevos solo la llaman tras negociar y recurren con seguridad a un candidato Hanyu por punto para plugins antiguos
-- `Mejora` Se añadieron límites estrictos de fuente, matriz y JSON UTF-8 junto con cobertura Binder en Android 9/12/13/15; la misma capacidad se ofrece a Node.js mediante la capacidad explícita `pinyin4j` del host
-- `Mejora` La verificación de compilación rechaza dependencias nativas accidentales y genera un informe JSON
 
 ##### Para más historial de versiones
 
@@ -335,7 +330,7 @@ Compilar un APK release (un único paquete universal; se firma automáticamente 
 
 Para crear un archivo de publicación verificado, ejecute `py .python/prepare_release.py`. El script comprueba los documentos generados, compila y verifica el APK universal firmado, valida los metadatos de versión, calcula CRC32 y SHA-256, y escribe atómicamente el APK, `SHA256SUMS.txt` y el archivo inglés `RELEASE_NOTES.md` en `app/releases/v<versión>`.
 
-Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 37, versión actual 1.3.2.
+Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 37, versión actual 1.4.0.
 
 ******
 

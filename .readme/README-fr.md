@@ -283,6 +283,12 @@ ROADMAP.md suit les preuves par jalon. M3 est terminé dans v1.3.0: limites Unic
 
 ******
 
+#### v1.4.0
+
+_2026/11/03_
+
+- `Fonctionnalité` Les scripts peuvent de nouveau utiliser directement les classes Java du paquet net.sourceforge.pinyin4j (comme net.sourceforge.pinyin4j.PinyinHelper), avec la même écriture qu'avant AutoJs6 6.8.0 (nécessite AutoJs6 6.8.1 ou ultérieur)
+
 #### v1.3.2
 
 _2026/10/05_
@@ -297,17 +303,6 @@ _2026/09/13_
 
 - `Correctif` Conserver la date de version du plugin en anglais quelle que soit la langue de la machine de compilation
 - `Amélioration` Ressources traduites cohérentes, activation explicite du plugin et validation des paquets de publication
-
-#### v1.3.0
-
-_2026/09/11_
-
-- `Note` `pinyin4j.readings()` et le provider Node.js exigent un hôte AutoJs6 mis à jour avec le contrat readings v1; les anciens hôtes peuvent continuer à utiliser `of` et `as`
-- `Fonctionnalité` `pinyin4j.readings(text, options)` renvoie toutes les prononciations ordonnées du dictionnaire, une ligne par point de code Unicode, et conserve une entrée non mappée comme candidat unique
-- `Fonctionnalité` `romanization` / `system` expose Hanyu, Tongyong, Wade-Giles, MPS2, Yale et Gwoyeu Romatzyh; Hanyu prend en charge les tons numériques, marqués ou omis, la casse et les formes de `ü`
-- `Amélioration` Ajout en fin de contrat de la transaction Binder `readings` et de la capacité entière `pinyin4j.readings.version = 1`; les nouveaux hôtes ne l'appellent qu'après négociation et se replient sans risque sur un candidat Hanyu par point pour les anciens plugins
-- `Amélioration` Ajout de limites strictes pour la source, la matrice et le JSON UTF-8, avec couverture Binder Android 9/12/13/15; la même capacité est ouverte à Node.js via la capacité explicite `pinyin4j` de l'hôte
-- `Amélioration` La vérification de compilation rejette les dépendances natives involontaires et produit un rapport JSON
 
 ##### Pour plus d'historique des versions
 
@@ -335,7 +330,7 @@ Compiler un APK release (paquet universel unique; signé automatiquement une foi
 
 Pour créer une archive de publication vérifiée, exécutez `py .python/prepare_release.py`. Le script contrôle les documents générés, construit et vérifie l'APK universal signé, valide les métadonnées de version, calcule CRC32 et SHA-256, puis écrit atomiquement l'APK, `SHA256SUMS.txt` et le fichier anglais `RELEASE_NOTES.md` dans `app/releases/v<version>`.
 
-Les paramètres de compilation sont centralisés dans `version.properties`: SDK minimal 24 (Android 7.0), SDK cible 37, version actuelle 1.3.2.
+Les paramètres de compilation sont centralisés dans `version.properties`: SDK minimal 24 (Android 7.0), SDK cible 37, version actuelle 1.4.0.
 
 ******
 

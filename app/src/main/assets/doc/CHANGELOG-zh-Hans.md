@@ -4,6 +4,12 @@
 
 ******
 
+# v1.4.0
+
+###### 2026/11/03
+
+* `新增` 脚本可再次直接使用 net.sourceforge.pinyin4j 包中的 Java 类 (如 net.sourceforge.pinyin4j.PinyinHelper), 写法与 AutoJs6 6.8.0 之前相同 (需要 AutoJs6 6.8.1 及以上)
+
 # v1.3.2
 
 ###### 2026/10/05

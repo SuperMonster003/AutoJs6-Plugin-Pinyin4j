@@ -283,6 +283,12 @@ ROADMAP.md 는 마일스톤별 증거를 기록합니다. M3 는 v1.3.0 에서 �
 
 ******
 
+#### v1.4.0
+
+_2026/11/03_
+
+- `기능` 스크립트에서 net.sourceforge.pinyin4j 패키지의 Java 클래스 (예: net.sourceforge.pinyin4j.PinyinHelper) 를 AutoJs6 6.8.0 이전과 같은 방식으로 다시 직접 사용 가능 (AutoJs6 6.8.1 이상 필요)
+
 #### v1.3.2
 
 _2026/10/05_
@@ -297,17 +303,6 @@ _2026/09/13_
 
 - `수정` 빌드 환경의 언어와 관계없이 플러그인 버전 날짜를 영어로 유지
 - `개선` 다국어 리소스 통일, 명시적인 플러그인 활성화 및 릴리스 산출물 검증
-
-#### v1.3.0
-
-_2026/09/11_
-
-- `힌트` `pinyin4j.readings()` 와 Node.js provider 는 readings v1 계약이 포함된 최신 AutoJs6 호스트가 필요합니다; 이전 호스트는 계속 `of` 와 `as` 를 사용할 수 있습니다
-- `기능` `pinyin4j.readings(text, options)` 는 Unicode code point 마다 모든 사전 발음을 정렬해 반환하고 미수록 입력은 단일 후보로 보존
-- `기능` `romanization` / `system` 으로 Hanyu, Tongyong, Wade-Giles, MPS2, Yale 및 Gwoyeu Romatzyh 를 공개; Hanyu 는 숫자/기호/무성조, 대소문자 및 `ü` 형식을 지원
-- `개선` Binder 끝에 `readings` transaction 과 정수 capability `pinyin4j.readings.version = 1` 을 추가; 새 호스트는 협상 후에만 호출하고 이전 플러그인은 code point 별 Hanyu 단일 후보로 안전하게 대체
-- `개선` 소스, 행렬 및 UTF-8 JSON 의 엄격한 한도와 Android 9/12/13/15 Binder 검증을 추가; 같은 능력을 호스트의 명시적 `pinyin4j` capability 를 통해 Node.js 에 제공
-- `개선` 빌드 시 의도하지 않은 네이티브 의존성을 거부하고 JSON 보고서 생성
 
 ##### 더 많은 릴리스 기록은 다음을 참고
 
@@ -335,7 +330,7 @@ release APK 빌드 (단일 범용 패키지; 버전 관리에서 제외된 `sign
 
 검증된 릴리스 보관 파일을 만들려면 `py .python/prepare_release.py` 를 실행합니다. 생성 문서 검사, 서명된 universal APK 빌드와 검증, 버전 메타데이터 확인, CRC32 와 SHA-256 계산을 수행하고 APK, `SHA256SUMS.txt`, 영문 `RELEASE_NOTES.md` 를 `app/releases/v<버전>` 에 원자적으로 기록합니다.
 
-빌드 매개변수는 `version.properties` 에 집중되어 있습니다: 최소 SDK 24 (Android 7.0), 대상 SDK 37, 현재 버전 1.3.2.
+빌드 매개변수는 `version.properties` 에 집중되어 있습니다: 최소 SDK 24 (Android 7.0), 대상 SDK 37, 현재 버전 1.4.0.
 
 ******
 

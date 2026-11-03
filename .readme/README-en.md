@@ -283,6 +283,12 @@ ROADMAP.md tracks evidence by milestone. M3 is complete in v1.3.0: Unicode and t
 
 ******
 
+#### v1.4.0
+
+_2026/11/03_
+
+- `Feature` Scripts can use the Java classes of the package net.sourceforge.pinyin4j directly again (such as net.sourceforge.pinyin4j.PinyinHelper), written as before AutoJs6 6.8.0 (requires AutoJs6 6.8.1 or later)
+
 #### v1.3.2
 
 _2026/10/05_
@@ -297,17 +303,6 @@ _2026/09/13_
 
 - `Fix` Keep the plugin version date in English regardless of the build machine locale
 - `Improvement` Consistent localized resources, explicit plugin activation and validated release preparation
-
-#### v1.3.0
-
-_2026/09/11_
-
-- `Hint` `pinyin4j.readings()` and the Node.js provider require an updated AutoJs6 host containing the readings v1 contract; older hosts can continue using `of` and `as`
-- `Feature` `pinyin4j.readings(text, options)` returns every ordered dictionary pronunciation in one row per Unicode code point, with unmapped input preserved as a single candidate
-- `Feature` `romanization` / `system` exposes Hanyu, Tongyong, Wade-Giles, MPS2, Yale and Gwoyeu Romatzyh; Hanyu supports numeric, marked or omitted tones, letter case and `ü` forms
-- `Improvement` Appended the Binder `readings` transaction and integer capability `pinyin4j.readings.version = 1`; new hosts call it only after negotiation and safely fall back to one Hanyu candidate per code point for old plugins
-- `Improvement` Added strict source, matrix and UTF-8 JSON limits plus Android 9/12/13/15 Binder coverage; the same plugin capability is available to Node.js through the host's explicit `pinyin4j` capability
-- `Improvement` Build verification rejects accidental native dependencies and produces a JSON report
 
 ##### For more release history, refer to
 
@@ -335,7 +330,7 @@ Build a release APK (single universal package; signed automatically once signing
 
 For a verified release archive, run `py .python/prepare_release.py`. It checks generated docs, builds and verifies the signed universal APK, validates version metadata, calculates CRC32 and SHA-256, and atomically writes the APK, `SHA256SUMS.txt` and English `RELEASE_NOTES.md` under `app/releases/v<version>`.
 
-Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 37, current version 1.3.2.
+Build parameters are centralized in `version.properties`: minimum SDK 24 (Android 7.0), target SDK 37, current version 1.4.0.
 
 ******
 
