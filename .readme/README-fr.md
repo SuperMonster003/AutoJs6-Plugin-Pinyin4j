@@ -283,6 +283,12 @@ ROADMAP.md suit les preuves par jalon. M3 est terminé dans v1.3.0: limites Unic
 
 ******
 
+#### v1.4.1
+
+_2026/11/17_
+
+- `Amélioration` Fond coloré de l'icône du plugin supprimé, motif "拼" d'origine conservé, sa couleur suit désormais les thèmes clair et sombre
+
 #### v1.4.0
 
 _2026/11/03_
@@ -296,13 +302,6 @@ _2026/10/05_
 - `Correctif` Avertissements de lecture SDK XML v4 avec AGP 9.1 et contrôles d'alignement natif des APK déclenchés par erreur lors de l'assemblage des tests unitaires JVM, avec les plugins de compilation partagés 1.8.3
 - `Amélioration` compileSdk et targetSdk passent à 37 (Android 17) ; le comportement du plugin ne dépend pas de la nouvelle cible
 - `Amélioration` Les icônes des informations d'application Android utilisent les illustrations et les fonds clairs et sombres d'Icon Studio, en conservant les images transparentes du centre de plugins et les choix du lanceur
-
-#### v1.3.1
-
-_2026/09/13_
-
-- `Correctif` Conserver la date de version du plugin en anglais quelle que soit la langue de la machine de compilation
-- `Amélioration` Ressources traduites cohérentes, activation explicite du plugin et validation des paquets de publication
 
 ##### Pour plus d'historique des versions
 
@@ -330,7 +329,7 @@ Compiler un APK release (paquet universel unique; signé automatiquement une foi
 
 Pour créer une archive de publication vérifiée, exécutez `py .python/prepare_release.py`. Le script contrôle les documents générés, construit et vérifie l'APK universal signé, valide les métadonnées de version, calcule CRC32 et SHA-256, puis écrit atomiquement l'APK, `SHA256SUMS.txt` et le fichier anglais `RELEASE_NOTES.md` dans `app/releases/v<version>`.
 
-Les paramètres de compilation sont centralisés dans `version.properties`: SDK minimal 24 (Android 7.0), SDK cible 37, version actuelle 1.4.0.
+Les paramètres de compilation sont centralisés dans `version.properties`: SDK minimal 24 (Android 7.0), SDK cible 37, version actuelle 1.4.1.
 
 ******
 

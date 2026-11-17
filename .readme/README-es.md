@@ -283,6 +283,12 @@ ROADMAP.md registra la evidencia por hitos. M3 se completó en v1.3.0: límites 
 
 ******
 
+#### v1.4.1
+
+_2026/11/17_
+
+- `Mejora` Fondo de color del icono del plugin eliminado, se conserva la figura "拼" original y su color sigue ahora los temas claro y oscuro
+
 #### v1.4.0
 
 _2026/11/03_
@@ -296,13 +302,6 @@ _2026/10/05_
 - `Corrección` Advertencias de lectura de SDK XML v4 con AGP 9.1 y comprobaciones de alineación nativa de APK activadas por error al ensamblar pruebas unitarias JVM, mediante los plugins de compilación compartidos 1.8.3
 - `Mejora` compileSdk y targetSdk suben a 37 (Android 17); el comportamiento del plugin no depende del nuevo objetivo
 - `Mejora` Los iconos de información de la aplicación de Android comparten las imágenes y los fondos claros y oscuros de Icon Studio, conservando las imágenes transparentes del centro de plugins y las opciones del lanzador
-
-#### v1.3.1
-
-_2026/09/13_
-
-- `Corrección` Mantener la fecha de versión del complemento en inglés sin depender del idioma del equipo de compilación
-- `Mejora` Recursos traducidos coherentes, activación explícita del complemento y validación de los paquetes de publicación
 
 ##### Para más historial de versiones
 
@@ -330,7 +329,7 @@ Compilar un APK release (un único paquete universal; se firma automáticamente 
 
 Para crear un archivo de publicación verificado, ejecute `py .python/prepare_release.py`. El script comprueba los documentos generados, compila y verifica el APK universal firmado, valida los metadatos de versión, calcula CRC32 y SHA-256, y escribe atómicamente el APK, `SHA256SUMS.txt` y el archivo inglés `RELEASE_NOTES.md` en `app/releases/v<versión>`.
 
-Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 37, versión actual 1.4.0.
+Los parámetros de compilación están centralizados en `version.properties`: SDK mínimo 24 (Android 7.0), SDK objetivo 37, versión actual 1.4.1.
 
 ******
 

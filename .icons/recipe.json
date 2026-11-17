@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatorVersion": "1.3.0",
+  "generatorVersion": "1.4.0",
   "profile": "catalog",
   "repository": "AutoJs6-Plugin-Pinyin4j",
   "packages": [
@@ -9,8 +9,8 @@
   "launcher": false,
   "params": {
     "sources": {
-      "day": "cedf56894911ce674d12c59e1d19432e43f988f8a2cae659bca1e536b9d08fb4",
-      "night": "ff999a34460a3358d6f282ce94dbaef9f50dac21fa992b524418e86d4f473ed7",
+      "day": "41f296a075c3f941039a63209eb918e48581c2018ddd290e98e382ba6d882e61",
+      "night": "41f296a075c3f941039a63209eb918e48581c2018ddd290e98e382ba6d882e61",
       "alphaMode": "alpha"
     },
     "geometry": {
@@ -20,7 +20,7 @@
       "offsetY": 0.0
     },
     "day": {
-      "mode": "original",
+      "mode": "mask",
       "foreground": "#272727",
       "brightness": 1.0,
       "contrast": 1.0,
@@ -29,7 +29,7 @@
       "invert": false
     },
     "night": {
-      "mode": "original",
+      "mode": "mask",
       "foreground": "#d8d8d8",
       "brightness": 1.0,
       "contrast": 1.0,
@@ -128,6 +128,8 @@
     }
   },
   "assets": [
+    "41f296a075c3f941039a63209eb918e48581c2018ddd290e98e382ba6d882e61",
+    "76586b03106eb31a4bc1d7bcb000dc522e2fed4bbecda02061194460487e2e4a",
     "cedf56894911ce674d12c59e1d19432e43f988f8a2cae659bca1e536b9d08fb4",
     "ff999a34460a3358d6f282ce94dbaef9f50dac21fa992b524418e86d4f473ed7"
   ],
@@ -137,7 +139,12 @@
     "night": "transparent"
   },
   "systemIcon": true,
-  "originalSources": {},
+  "originalSources": {
+    "41f296a075c3f941039a63209eb918e48581c2018ddd290e98e382ba6d882e61": {
+      "asset": "76586b03106eb31a4bc1d7bcb000dc522e2fed4bbecda02061194460487e2e4a",
+      "filename": "pinyin4j-icon.svg"
+    }
+  },
   "systemIconMinSdk": 24,
   "systemIconObsolete": []
 }
