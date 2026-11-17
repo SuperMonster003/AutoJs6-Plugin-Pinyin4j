@@ -285,7 +285,7 @@ ROADMAP.md suit les preuves par jalon. M3 est terminé dans v1.3.0: limites Unic
 
 #### v1.4.1
 
-_2026/11/17_
+_2026/11/18_
 
 - `Amélioration` Fond coloré de l'icône du plugin supprimé, motif "拼" d'origine conservé, sa couleur suit désormais les thèmes clair et sombre
 

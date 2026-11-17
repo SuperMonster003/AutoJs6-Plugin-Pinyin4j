@@ -285,7 +285,7 @@ ROADMAP.md tracks evidence by milestone. M3 is complete in v1.3.0: Unicode and t
 
 #### v1.4.1
 
-_2026/11/17_
+_2026/11/18_
 
 - `Improvement` Removed the colored background of the plugin icon and kept its original "拼" glyph, which now follows the light and dark themes
 
